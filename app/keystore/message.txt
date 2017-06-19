@@ -1,0 +1,15 @@
+password:   wangzhenfei
+
+alias:      board_game.jks
+
+password:   wangzhenfei
+
+
+keytool -list -v -keystore keystoreAbsoluteFilePath
+sign : b690ae76fe5ae8b48556175620334d9b
+
+MD5: B6:90:AE:76:FE:5A:E8:B4:85:56:17:56:20:33:4D:9B
+SHA1: F4:A9:E3:56:C9:34:68:16:E9:FD:EC:96:59:F4:F2:49:87:DE:55:6C
+SHA256: D2:C8:8D:1F:1B:41:36:4D:71:24:EB:A2:7A:02:6A:5B:DC:21:B4:65:D2:D9:50:92:97:92:1C:13:BC:B0:65:F4
+签名算法名称: SHA256withRSA
+版本: 3
