@@ -21,7 +21,7 @@ public class MyApplication extends MultiDexApplication {
         // bug捕获
         intBugly();
     }
-    //家里修改的
+    //家里修改的的
     private void intBugly() {
         /* Bugly SDK初始化
         * 参数1：上下文对象
