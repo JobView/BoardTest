@@ -54,7 +54,7 @@ public class LoggerInterceptor implements Interceptor {
 
             paramsBuilder.append("---------------------request log start---------------------" + "\n");
             paramsBuilder.append("method : " + request.method() + "\n");
-            paramsBuilder.append("url : " + url + "----->>\n");
+            paramsBuilder.append("url : " + url + "\n");
             if (headers != null && headers.size() > 0) {
                 paramsBuilder.append("===========================headers===============================\n\t\t\t");
                     paramsBuilder.append(headers.toString().replaceAll("\\n","\n\t\t\t"));

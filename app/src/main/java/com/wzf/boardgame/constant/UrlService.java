@@ -20,7 +20,7 @@ import rx.Observable;
 public interface UrlService {
     boolean DEBUG = true;
     String BASE_RESOURCE = "http://192.168.2.202:8081/boxingmanager/";
-    String BASE_URL = "http://192.168.2.202:8081/boxingmanager/";
+    String BASE_URL = "http://106.14.215.117/BRPG/";
 
     UrlService SERVICE = OkHttpUtils.getInstance().getUrlService(UrlService.class);
 
@@ -38,6 +38,12 @@ public interface UrlService {
     //登录
     @GET("test/getLogger")
     Observable<BaseResponse<Object>> login(@Query("os") String os);
+
+    //登录
+    @POST("user/register")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> register(@Field("params") String params)
+    ;
 //
 //    //注销
 //    @POST("logout")

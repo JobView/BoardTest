@@ -6,9 +6,12 @@ import android.widget.TextView;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
+import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
 import com.wzf.boardgame.function.map.BaiDuMapManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.utils.AppDeviceInfo;
+import com.wzf.boardgame.utils.JsonUtils;
+import com.wzf.boardgame.utils.MathUtilAndroid;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,7 +42,15 @@ public class MainActivity extends BaseActivity {
                 });
             }
         });
-        UrlService.SERVICE.login("123123132132")
+
+        RegisterRequestDto dto = new RegisterRequestDto();
+        dto.setUserId("123");
+        dto.setNickname("wzf");
+        dto.setSmsCode("1234");
+        dto.setUserPwd("qqqqqq");
+        dto.setUserMobile("18521709590");
+        String src = MathUtilAndroid.encodeAES(JsonUtils.toJson(dto));
+        UrlService.SERVICE.register(src)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new ResponseSubscriber<Object>(this, true) {
