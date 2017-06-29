@@ -1,10 +1,13 @@
 package com.wzf.boardgame.function.http.dto.request;
 
+import com.wzf.boardgame.utils.JsonUtils;
+import com.wzf.boardgame.utils.MathUtilAndroid;
+
 /**
  * Created by wzf on 2017/6/28.
  */
 
-public class RegisterRequestDto {
+public class RegisterRequestDto extends BaseRequestDto{
 
     /**
      * nickname : 昵称
@@ -59,4 +62,6 @@ public class RegisterRequestDto {
     public void setUserMobile(String userMobile) {
         this.userMobile = userMobile;
     }
+
+
 }

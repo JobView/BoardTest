@@ -49,8 +49,7 @@ public class MainActivity extends BaseActivity {
         dto.setSmsCode("1234");
         dto.setUserPwd("qqqqqq");
         dto.setUserMobile("18521709590");
-        String src = MathUtilAndroid.encodeAES(JsonUtils.toJson(dto));
-        UrlService.SERVICE.register(src)
+        UrlService.SERVICE.register(dto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new ResponseSubscriber<Object>(this, true) {
@@ -63,7 +62,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
-                        tv.setText(message);
+                        showToast(message);
                     }
                 });
     }

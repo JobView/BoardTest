@@ -7,40 +7,40 @@ package com.wzf.boardgame.function.http.dto.response;
  */
 
 public class BaseResponse<T> {
-    private int code;
-    private String message;
-    private T data;
+    private int resultCode;
+    private String msg;
+    private T response;
 
-    public int getCode() {
-        return code;
+    public int getResultCode() {
+        return resultCode;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setResultCode(int resultCode) {
+        this.resultCode = resultCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public T getData() {
-        return data;
+    public T getResponse() {
+        return response;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setResponse(T response) {
+        this.response = response;
     }
 
     @Override
     public String toString() {
         return "BaseResponse{" +
-                "code=" + code +
-                ", message='" + message + '\'' +
-                ", data=" + data +
+                "resultCode=" + resultCode +
+                ", msg='" + msg + '\'' +
+                ", response=" + response +
                 '}';
     }
 }

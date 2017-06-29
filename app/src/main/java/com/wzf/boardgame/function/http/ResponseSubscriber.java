@@ -55,7 +55,8 @@ public class ResponseSubscriber<T> extends Subscriber<BaseResponse<T>> {
             dialog.dismiss();
         }
         try {
-            onFailure(NET_OR_SERVER_ERROR, e.toString());
+//            onFailure(NET_OR_SERVER_ERROR, e.toString());
+            onFailure(NET_OR_SERVER_ERROR, "请求出了点小状况哦，请重试");
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -64,15 +65,15 @@ public class ResponseSubscriber<T> extends Subscriber<BaseResponse<T>> {
     @Override
     public final void onNext(BaseResponse<T> t) {
         if (t != null) {
-            if (t.getCode() == 0) {
+            if (t.getResultCode() == 0) {
                 try {
-                    onSuccess(t.getData());
+                    onSuccess(t.getResponse());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    onFailure(t.getCode(), t.getMessage());
+                    onFailure(t.getResultCode(), t.getMsg());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

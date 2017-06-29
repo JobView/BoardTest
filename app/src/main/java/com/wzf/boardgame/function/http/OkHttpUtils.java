@@ -6,6 +6,7 @@ import android.os.Environment;
 import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.Interceptor.AddParamInterceptor;
+import com.wzf.boardgame.function.http.Interceptor.DecodeParamsInterceptor;
 import com.wzf.boardgame.function.http.Interceptor.LoggerInterceptor;
 import com.wzf.boardgame.function.http.Interceptor.OkhttpOffLineCacheInterceptor;
 import com.wzf.boardgame.function.http.Interceptor.OkhttpOnLineCacheInterceptor;
@@ -42,6 +43,7 @@ public class OkHttpUtils {
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .addInterceptor(new AddParamInterceptor())//添加头部headers
                 .addInterceptor(new LoggerInterceptor(null, true))
+                .addInterceptor(new DecodeParamsInterceptor())//解密
                 .addInterceptor(new OkhttpOffLineCacheInterceptor())//离线缓存
                 .addNetworkInterceptor(new OkhttpOnLineCacheInterceptor());//在线缓存
                 retrofitBuilder = new Retrofit.Builder()
