@@ -1,5 +1,6 @@
 package com.wzf.boardgame.function.http.Interceptor;
 
+import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.utils.DebugLog;
 import com.wzf.boardgame.utils.JsonUtils;
@@ -26,8 +27,10 @@ public class DecodeParamsInterceptor implements Interceptor {
         MediaType type = originalResponse.body().contentType();
         String payload = originalResponse.body().string();
         BaseResponse baseResponse = JsonUtils.fromJSON(BaseResponse.class, payload);
-        DebugLog.i("OKHTTP", "----->>>> before decode response params <<<<-----\n");
-        DebugLog.i("OKHTTP", JsonUtils.format(JsonUtils.toJson(baseResponse)) + "\n");
+        if(UrlService.DEBUG){
+            DebugLog.i("OKHTTP", "----->>>> before decode response params <<<<-----\n");
+            DebugLog.i("OKHTTP", JsonUtils.format(JsonUtils.toJson(baseResponse)) + "\n");
+        }
         baseResponse.setResponse(MathUtilAndroid.decodeAES(baseResponse.getResponse().toString()));
         String jsonStr = JsonUtils.toJson(baseResponse);
         ResponseBody responseBody = ResponseBody.create(type, jsonStr);
