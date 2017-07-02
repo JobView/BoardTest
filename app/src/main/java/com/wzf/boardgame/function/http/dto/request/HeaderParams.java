@@ -23,6 +23,7 @@ public class HeaderParams {
     protected Headers.Builder headersBuilder = new Headers.Builder();
     private String userId;
     private String token;
+    private String loginTime;
     private String client = "BRPG";
     private String clicentVersion ;
     private String os = "Android";
@@ -88,6 +89,14 @@ public class HeaderParams {
             openuuid = AppDeviceInfo.getDeviceid();
         }
         return openuuid;
+    }
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
     }
 
     public String getCityName() {
