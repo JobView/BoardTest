@@ -41,7 +41,7 @@ public interface UrlService {
 
     //获取验证码
     @GET("user/smsCode")
-    Observable<BaseResponse<String>> smsCode(@Query("params") String params);
+    Observable<BaseResponse<Object>> smsCode(@Query("params") String params);
 
     //注册
     @POST("user/register")

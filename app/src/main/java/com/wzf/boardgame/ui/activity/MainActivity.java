@@ -32,27 +32,27 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         showToast(AppDeviceInfo.getNetworkType());
 
-        BaiDuMapManager.getInstance().getLocationMessage(new BaiDuMapManager.OnLocationMessageGetListener() {
-            @Override
-            public void onReceiveLocation(final String cityName, double lon, double lat) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showToast(cityName);
-                    }
-                });
-            }
-        });
+//        BaiDuMapManager.getInstance().getLocationMessage(new BaiDuMapManager.OnLocationMessageGetListener() {
+//            @Override
+//            public void onReceiveLocation(final String cityName, double lon, double lat) {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        showToast(cityName);
+//                    }
+//                });
+//            }
+//        });
 
         GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
         reqDto.setUserMobile("18521709590");
         reqDto.setCodeType(GetSmsCodeReqDto.SMS_CODE_REGISTER);
         UrlService.SERVICE.smsCode(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<String>(this, true) {
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new ResponseSubscriber<Object>(this, true) {
                     @Override
-                    public void onSuccess(String loginResponseDto) throws Exception {
+                    public void onSuccess(Object loginResponseDto) throws Exception {
                         super.onSuccess(loginResponseDto);
                         showToast("验证码已发送");
                     }
@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
 //                        super.onSuccess(loginResponseDto);
 //                        tv.setText(loginResponseDto.toString());
 //                    }
-//
+////
 //                    @Override
 //                    public void onFailure(int code, String message) throws Exception {
 //                        super.onFailure(code, message);

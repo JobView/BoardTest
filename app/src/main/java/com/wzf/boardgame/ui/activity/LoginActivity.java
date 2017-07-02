@@ -12,6 +12,7 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.GetSmsCodeReqDto;
 import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
+import com.wzf.boardgame.function.map.BaiDuMapManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.utils.REGX;
 
@@ -41,20 +42,20 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initView();
-        RegisterRequestDto dto = new RegisterRequestDto();
-        dto.setUserId("123");
-        dto.setNickname("wzf");
-        dto.setSmsCode("1234");
-        dto.setUserPwd("qqqqqq");
-        dto.setUserMobile("18521709590");
-        UrlService.SERVICE.register(dto.toEncodeString())
+
+        GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
+        reqDto.setUserMobile("18521709590");
+        reqDto.setCodeType(GetSmsCodeReqDto.SMS_CODE_REGISTER);
+        UrlService.SERVICE.smsCode(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .subscribe(new ResponseSubscriber<Object>(this, true) {
                     @Override
                     public void onSuccess(Object loginResponseDto) throws Exception {
                         super.onSuccess(loginResponseDto);
+                        showToast("验证码已发送");
                     }
+
                     @Override
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);

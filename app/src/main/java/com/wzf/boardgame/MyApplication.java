@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.tencent.bugly.Bugly;
 import com.wzf.boardgame.constant.UrlService;
+import com.wzf.boardgame.function.map.BaiDuMapManager;
 
 /**
  * @Description:
@@ -38,6 +39,7 @@ public class MyApplication extends MultiDexApplication {
         }else {
             Bugly.init(getApplicationContext(), "900010630", false);
         }
+        BaiDuMapManager.getInstance();
 //        String ui = null;
 //        ui.toString();
     }

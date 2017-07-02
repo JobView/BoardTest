@@ -61,7 +61,6 @@ public class RegisterActivity extends BaseActivity {
         tvCenter.setVisibility(View.VISIBLE);
         imLeft.setVisibility(View.VISIBLE);
         etPhone.setFilters(REGX.getFilters(REGX.REGX_MOBILE_INPUT));
-
     }
 
     @OnClick({R.id.im_left, R.id.btn_get_code, R.id.btn_login})
@@ -91,9 +90,9 @@ public class RegisterActivity extends BaseActivity {
         OkHttpUtils.getInstance().getUrlService(UrlService.class).smsCode(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<String>(this, true) {
+                .subscribe(new ResponseSubscriber<Object>(this, true) {
                     @Override
-                    public void onSuccess(String loginResponseDto) throws Exception {
+                    public void onSuccess(Object loginResponseDto) throws Exception {
                         showToast("验证码已发送");
                     }
 

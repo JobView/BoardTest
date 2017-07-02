@@ -27,6 +27,9 @@ public class DecodeParamsInterceptor implements Interceptor {
         MediaType type = originalResponse.body().contentType();
         String payload = originalResponse.body().string();
         BaseResponse baseResponse = JsonUtils.fromJSON(BaseResponse.class, payload);
+        if(baseResponse == null){
+            return originalResponse;
+        }
         if(UrlService.DEBUG){
             DebugLog.d("OKHTTP", "----->>>> before decode response params <<<<-----\n");
             DebugLog.d("OKHTTP", JsonUtils.format(JsonUtils.toJson(baseResponse)) + "\n");
