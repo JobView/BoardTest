@@ -28,8 +28,8 @@ public class DecodeParamsInterceptor implements Interceptor {
         String payload = originalResponse.body().string();
         BaseResponse baseResponse = JsonUtils.fromJSON(BaseResponse.class, payload);
         if(UrlService.DEBUG){
-            DebugLog.i("OKHTTP", "----->>>> before decode response params <<<<-----\n");
-            DebugLog.i("OKHTTP", JsonUtils.format(JsonUtils.toJson(baseResponse)) + "\n");
+            DebugLog.d("OKHTTP", "----->>>> before decode response params <<<<-----\n");
+            DebugLog.d("OKHTTP", JsonUtils.format(JsonUtils.toJson(baseResponse)) + "\n");
         }
         baseResponse.setResponse(MathUtilAndroid.decodeAES(baseResponse.getResponse().toString()));
         String jsonStr = JsonUtils.toJson(baseResponse);

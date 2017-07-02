@@ -133,9 +133,10 @@ public class LoggerInterceptor implements Interceptor {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            paramsBuilder.append("---------------------response log end-----------------------" + "\n");
+//            paramsBuilder.append("——————————————————————————-----response log end--——————————————————————————————————---\n");
             //打印参数
             DebugLog.i("OKHTTP", paramsBuilder.toString());
+            DebugLog.w("OKHTTP", "——————————————————————————-----response log end--——————————————————————————————————---\n");
         }
 
         return response;

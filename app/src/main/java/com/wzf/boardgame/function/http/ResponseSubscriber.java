@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Looper;
 
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
+import com.wzf.boardgame.utils.DebugLog;
 
 import java.lang.ref.WeakReference;
 
@@ -57,6 +58,7 @@ public class ResponseSubscriber<T> extends Subscriber<BaseResponse<T>> {
         }
         try {
 //            onFailure(NET_OR_SERVER_ERROR, e.toString());
+            DebugLog.e("OKHTTP",e.toString());
             onFailure(NET_OR_SERVER_ERROR, "请求出了点小状况哦，请稍后重试");
         } catch (Exception e1) {
             e1.printStackTrace();

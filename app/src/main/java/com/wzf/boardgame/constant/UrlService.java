@@ -39,11 +39,16 @@ public interface UrlService {
     @GET("test/getLogger")
     Observable<BaseResponse<Object>> login(@Query("os") String os);
 
-    //登录
+    //获取验证码
+    @POST("user/smsCode")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> smsCode(@Field("params") String params);
+
+    //注册
     @POST("user/register")
     @FormUrlEncoded
-    Observable<BaseResponse<Object>> register(@Field("params") String params)
-    ;
+    Observable<BaseResponse<Object>> register(@Field("params") String params);
+
 //
 //    //注销
 //    @POST("logout")

@@ -13,8 +13,8 @@ import com.wzf.boardgame.utils.MathUtilAndroid;
 public class BaseRequestDto {
     public String toEncodeString(){
         String json = JsonUtils.toJson(this);
-        DebugLog.i("OKHTTP", " ----->>>> before encode params <<<<-----\n");
-        DebugLog.i("OKHTTP", JsonUtils.format(json) + "\n");
+        DebugLog.w("OKHTTP", " ——————————————————————————----->>>> before encode params <<<<--——————————————————————————————————---\n");
+        DebugLog.d("OKHTTP", JsonUtils.format(json) + "\n");
         return MathUtilAndroid.encodeAES(json);
     }
 }
