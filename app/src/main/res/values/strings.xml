@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BoardGame</string>
+    <string name="forgetPsw"><b>忘记密码</b></string>
 </resources>

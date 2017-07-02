@@ -7,9 +7,12 @@ import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.GetSmsCodeReqDto;
+import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
 import com.wzf.boardgame.function.map.BaiDuMapManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.utils.AppDeviceInfo;
+import com.wzf.boardgame.utils.JsonUtils;
+import com.wzf.boardgame.utils.MathUtilAndroid;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,28 +30,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
-        reqDto.setUserMobile("18521709590");
-        reqDto.setCodeType(GetSmsCodeReqDto.SMS_CODE_REGISTER);
-        UrlService.SERVICE.smsCode(reqDto.toEncodeString())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<Object>(this, true) {
-                    @Override
-                    public void onSuccess(Object loginResponseDto) throws Exception {
-                        super.onSuccess(loginResponseDto);
-                        showToast("验证码已发送");
-                    }
-
-                    @Override
-                    public void onFailure(int code, String message) throws Exception {
-                        super.onFailure(code, message);
-                        showToast(message);
-                    }
-                });
-
-
         showToast(AppDeviceInfo.getNetworkType());
 
         BaiDuMapManager.getInstance().getLocationMessage(new BaiDuMapManager.OnLocationMessageGetListener() {
@@ -63,7 +44,25 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
+        reqDto.setUserMobile("18521709590");
+        reqDto.setCodeType(GetSmsCodeReqDto.SMS_CODE_REGISTER);
+        UrlService.SERVICE.smsCode(reqDto.toEncodeString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new ResponseSubscriber<String>(this, true) {
+                    @Override
+                    public void onSuccess(String loginResponseDto) throws Exception {
+                        super.onSuccess(loginResponseDto);
+                        showToast("验证码已发送");
+                    }
 
+                    @Override
+                    public void onFailure(int code, String message) throws Exception {
+                        super.onFailure(code, message);
+                        showToast(message);
+                    }
+                });
 
 //        RegisterRequestDto dto = new RegisterRequestDto();
 //        dto.setUserId("123");

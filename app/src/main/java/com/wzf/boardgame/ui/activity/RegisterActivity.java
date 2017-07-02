@@ -91,9 +91,9 @@ public class RegisterActivity extends BaseActivity {
         OkHttpUtils.getInstance().getUrlService(UrlService.class).smsCode(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<Object>(this, true) {
+                .subscribe(new ResponseSubscriber<String>(this, true) {
                     @Override
-                    public void onSuccess(Object loginResponseDto) throws Exception {
+                    public void onSuccess(String loginResponseDto) throws Exception {
                         showToast("验证码已发送");
                     }
 

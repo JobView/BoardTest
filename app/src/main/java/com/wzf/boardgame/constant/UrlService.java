@@ -40,9 +40,8 @@ public interface UrlService {
     Observable<BaseResponse<Object>> login(@Query("os") String os);
 
     //获取验证码
-    @POST("user/smsCode")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> smsCode(@Field("params") String params);
+    @GET("user/smsCode")
+    Observable<BaseResponse<String>> smsCode(@Query("params") String params);
 
     //注册
     @POST("user/register")
