@@ -3,6 +3,7 @@ package com.wzf.boardgame.ui.activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,8 +13,10 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.GetSmsCodeReqDto;
 import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
+import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.map.BaiDuMapManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
+import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.REGX;
 
 import butterknife.Bind;
@@ -43,25 +46,6 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
 
-        GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
-        reqDto.setUserMobile("18521709590");
-        reqDto.setCodeType(GetSmsCodeReqDto.SMS_CODE_REGISTER);
-        UrlService.SERVICE.smsCode(reqDto.toEncodeString())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new ResponseSubscriber<Object>(this, true) {
-                    @Override
-                    public void onSuccess(Object loginResponseDto) throws Exception {
-                        super.onSuccess(loginResponseDto);
-                        showToast("验证码已发送");
-                    }
-
-                    @Override
-                    public void onFailure(int code, String message) throws Exception {
-                        super.onFailure(code, message);
-                        showToast(message);
-                    }
-                });
     }
 
     private void initView() {
@@ -69,6 +53,10 @@ public class LoginActivity extends BaseActivity {
         tvCenter.setVisibility(View.VISIBLE);
         etPhone.setFilters(REGX.getFilters(REGX.REGX_MOBILE_INPUT));
         forgetPsd.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //中划线
+        etPhone.setText(UserInfo.getInstance().getPhone());
+        etPhone.setSelection(UserInfo.getInstance().getPhone().length());
+        etPsw.setText(UserInfo.getInstance().getPsw());
+        etPsw.setSelection(UserInfo.getInstance().getPsw().length());
     }
 
     @OnClick({R.id.forget_psd, R.id.to_register, R.id.btn_login})
@@ -80,7 +68,44 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.btn_login:
+                login();
                 break;
         }
+    }
+
+    private void login() {
+        final String phone = etPhone.getText().toString();
+        if(TextUtils.isEmpty(phone) || phone.length() != 11){
+            showToast("手机号码不正确");
+            return;
+        }
+        final String pwd = etPsw.getText().toString();
+        if(TextUtils.isEmpty(pwd) || pwd.length() < 6 || pwd.length() > 20){
+            showToast("密码应该是6-20位");
+            return;
+        }
+        RegisterRequestDto dto = new RegisterRequestDto();
+        dto.setUserPwd(pwd);
+        dto.setUserMobile(phone);
+        UrlService.SERVICE.login(dto.toEncodeString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new ResponseSubscriber<LoginResDto>(this, true) {
+                    @Override
+                    public void onSuccess(LoginResDto loginResponseDto) throws Exception {
+                        super.onSuccess(loginResponseDto);
+                        UserInfo.getInstance().setUser(loginResponseDto);
+                        UserInfo.getInstance().setPhone(phone);
+                        UserInfo.getInstance().setPsw(pwd);
+                        showToast("登录成功");
+                        startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                        finish();
+                    }
+                    @Override
+                    public void onFailure(int code, String message) throws Exception {
+                        super.onFailure(code, message);
+                        showToast(message);
+                    }
+                });
     }
 }

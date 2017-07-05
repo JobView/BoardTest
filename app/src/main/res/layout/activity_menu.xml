@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/fm_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="bottom">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgUnderLine2" />
+
+        <com.wzf.boardgame.ui.views.NestRadioGroup
+            android:id="@+id/main_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/radio_community"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableTop="@drawable/selector_im_community"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="社区"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/selector_im_board_game"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="桌游"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+
+                <com.wzf.boardgame.ui.views.RedPoint
+                    android:id="@+id/redpoint_game"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/selector_im_me"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="个人"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+
+                <com.wzf.boardgame.ui.views.RedPoint
+                    android:id="@+id/redpoint_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </com.wzf.boardgame.ui.views.NestRadioGroup>
+    </RelativeLayout>
+</RelativeLayout>
+

@@ -46,6 +46,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
+        <activity android:name=".ui.activity.MenuActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
         <!--这GlideModel可以在AndroidManifest.xml文件中注册，以便Glide能够找到你的Module-->
         <meta-data
             android:name="com.wzf.boardgame.function.imageloader.GlideModelConfig"

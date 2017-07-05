@@ -39,6 +39,18 @@ public class AppDeviceInfo {
     private static String phoneType;
 
     /**
+     * 主动回到Home，后台运行
+     * @param context
+     */
+    public static void goHome(Context context) {
+        Intent mHomeIntent = new Intent(Intent.ACTION_MAIN);
+        mHomeIntent.addCategory(Intent.CATEGORY_HOME);
+        mHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        context.startActivity(mHomeIntent);
+    }
+
+    /**
      * 设备唯一识别码
      *
      * @return

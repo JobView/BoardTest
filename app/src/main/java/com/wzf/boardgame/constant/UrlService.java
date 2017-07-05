@@ -2,6 +2,8 @@ package com.wzf.boardgame.constant;
 
 import com.wzf.boardgame.function.http.OkHttpUtils;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
+import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
+import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -35,9 +37,6 @@ public interface UrlService {
     //3.表单的方式传递键值对@FormUrlEncoded
     //os,deviceModel,deviceId,ip,mobile,pass
 
-    //登录
-    @GET("test/getLogger")
-    Observable<BaseResponse<Object>> login(@Query("os") String os);
 
     //获取验证码
     @POST("user/getSmsCode")
@@ -48,6 +47,17 @@ public interface UrlService {
     @POST("user/register")
     @FormUrlEncoded
     Observable<BaseResponse<Object>> register(@Field("params") String params);
+
+    //登录
+    @POST("user/login")
+    @FormUrlEncoded
+    Observable<BaseResponse<LoginResDto>> login(@Field("params") String params);
+
+    //获取/搜索社区列表接口
+    @POST("community/getPostList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> communityList(@Field("params") String params);
+
 
 //
 //    //注销

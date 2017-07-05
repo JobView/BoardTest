@@ -14,6 +14,7 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.OkHttpUtils;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.GetSmsCodeReqDto;
+import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.utils.DebugLog;
 import com.wzf.boardgame.utils.REGX;
@@ -73,16 +74,18 @@ public class RegisterActivity extends BaseActivity {
                 getSmsCode();
                 break;
             case R.id.btn_login:
+                register();
                 break;
         }
     }
 
     private void getSmsCode() {
         String phone = etPhone.getText().toString().trim();
-        if(TextUtils.isEmpty(phone)){
-            showToast("请输入手机号码");
+        if(TextUtils.isEmpty(phone) || phone.length() != 11){
+            showToast("手机号码不正确");
             return;
         }
+
 
         GetSmsCodeReqDto reqDto = new GetSmsCodeReqDto();
         reqDto.setUserMobile(phone);
@@ -104,4 +107,56 @@ public class RegisterActivity extends BaseActivity {
                 });
 
     }
+
+    private void register() {
+        String phone = etPhone.getText().toString();
+        if(TextUtils.isEmpty(phone) || phone.length() != 11){
+            showToast("手机号码不正确");
+            return;
+        }
+        String smsCode = etSmsCode.getText().toString();
+        if(TextUtils.isEmpty(smsCode)){
+            showToast("验证码不能为空");
+            return;
+        }
+        String nickName = etNickname.getText().toString();
+        if(TextUtils.isEmpty(nickName)){
+            showToast("昵称不能为空");
+            return;
+        }
+        if(nickName.length() > 15){
+            showToast("昵称不能超过15个字符");
+            return;
+        }
+        String pwd = etPsw.getText().toString();
+        if(TextUtils.isEmpty(pwd) || pwd.length() < 6 || pwd.length() > 20){
+            showToast("密码应该是6-20位");
+            return;
+        }
+        String inviteCode = etInviteCode.getText().toString();
+        RegisterRequestDto dto = new RegisterRequestDto();
+        dto.setNickname(nickName);
+        dto.setSmsCode(smsCode);
+        dto.setUserPwd(pwd);
+        dto.setUserMobile(phone);
+        dto.setUserId(inviteCode);
+        UrlService.SERVICE.register(dto.toEncodeString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new ResponseSubscriber<Object>(this, true) {
+                    @Override
+                    public void onSuccess(Object loginResponseDto) throws Exception {
+                        super.onSuccess(loginResponseDto);
+                        showToast("注册成功");
+                        finish();
+                    }
+//
+                    @Override
+                    public void onFailure(int code, String message) throws Exception {
+                        super.onFailure(code, message);
+                        showToast(message);
+                    }
+                });
+    }
+
 }

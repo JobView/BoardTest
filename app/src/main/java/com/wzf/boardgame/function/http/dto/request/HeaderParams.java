@@ -30,9 +30,6 @@ public class HeaderParams {
     private String osVersion;
     private String networkType;
     private String openuuid;
-    private String cityName;
-    private String lon;
-    private String lat;
 
     private HeaderParams(){}
 
@@ -120,9 +117,6 @@ public class HeaderParams {
         headersBuilder.set("osVersion", getOsVersion());
         headersBuilder.set("networkType", getNetworkType());
         headersBuilder.set("openuuid", getOpenuuid());
-        headersBuilder.set("cityName", getValueEncoded(getCityName()));
-        headersBuilder.set("lon", getLon());
-        headersBuilder.set("lat", getLat());
         return headersBuilder.build();
     }
 

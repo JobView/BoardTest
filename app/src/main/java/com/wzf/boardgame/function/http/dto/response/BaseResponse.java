@@ -1,5 +1,7 @@
 package com.wzf.boardgame.function.http.dto.response;
 
+import android.text.TextUtils;
+
 /**
  * @Description:
  * @author: wangzhenfei
@@ -20,7 +22,7 @@ public class BaseResponse<T> {
     }
 
     public String getMsg() {
-        return msg;
+        return TextUtils.isEmpty(msg) ? "" : msg;
     }
 
     public void setMsg(String msg) {

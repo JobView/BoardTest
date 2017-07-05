@@ -2,6 +2,9 @@ package com.wzf.boardgame.ui.model;
 
 
 
+import com.wzf.boardgame.function.http.dto.request.BaseRequestDto;
+import com.wzf.boardgame.function.http.dto.request.HeaderParams;
+import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.utils.PreferencesHelper;
 
 import rx.schedulers.Schedulers;
@@ -151,22 +154,10 @@ public class UserInfo {
         return userInfo;
     }
 
-
-//    public void setLoginUserInfo(LoginResponseDto logInDto) {
-//        if (logInDto != null) {
-//            setPsw(logInDto.getPassWord());
-//            setPhone(logInDto.getPhone());
-//
-//            UpLoadManager.getInstance().startHistoryTask();
-//            loginHuanxin();
-//            updateLbs();
-////            JPushInterface.setAlias(OrderSystemApplication.getAppInstance(), getUid(), new TagAliasCallback() {
-////                @Override
-////                public void gotResult(int i, String s, Set<String> set) {
-////                    DebugLog.toast("设置别名："+ i + s);
-////                }
-////            });  // 别名推送
-//        }
-//    }
+    public void setUser(LoginResDto dto){
+        setUid(dto.getUserId());
+        setToken(dto.getToken());
+        HeaderParams.getInstance().setLoginTime(dto.getLoginTime());
+    }
 
 }
