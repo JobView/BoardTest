@@ -3,7 +3,9 @@ package com.wzf.boardgame.constant;
 import com.wzf.boardgame.function.http.OkHttpUtils;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
+import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
+import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -53,10 +55,19 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<LoginResDto>> login(@Field("params") String params);
 
+    //获取首页的banner
+    @POST("community/getHomeCarousel")
+    @FormUrlEncoded
+    Observable<BaseResponse<MainBannerResDto>> getBanner(@Field("params") String params);
     //获取/搜索社区列表接口
     @POST("community/getPostList")
     @FormUrlEncoded
     Observable<BaseResponse<CommunityListResDto>> communityList(@Field("params") String params);
+
+    //获取瀑布流信息
+    @POST("boardGame/getWaterfallList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameListResDto>> getWaterfallList(@Field("params") String params);
 
 
 //

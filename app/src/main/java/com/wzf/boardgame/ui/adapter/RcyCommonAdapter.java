@@ -3,6 +3,7 @@ package com.wzf.boardgame.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
     protected boolean loadMore;
     protected boolean loadFinish; // 加载完成
     private String footerText;
+    private RecyclerView.LayoutManager layoutManager;
 
     /**
      * @param context
@@ -54,7 +56,7 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
      * @param recyclerView recycleView
      */
     private void setSpanCount(RecyclerView recyclerView) {
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -164,6 +166,10 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
     @Override
     final public void onBindViewHolder(RcyViewHolder holder, int position) {
         if (getItemViewType(position) == R.layout.item_list_footer) {
+            if(layoutManager instanceof StaggeredGridLayoutManager){
+                StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+                p.setFullSpan(true);
+            }
             checkLoadStatus(holder);
         } else {
             convert(holder, mDatas.get(position));

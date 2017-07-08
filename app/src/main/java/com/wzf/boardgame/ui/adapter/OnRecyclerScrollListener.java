@@ -3,6 +3,7 @@ package com.wzf.boardgame.ui.adapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
  * Created by zhenfei.wang on 2016/7/12.
@@ -13,11 +14,18 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
     private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout refreshLayout;
     private LinearLayoutManager layoutManager;
+    private StaggeredGridLayoutManager sLayoutManager;
 
     public OnRecyclerScrollListener(RecyclerView.Adapter mAdapter, SwipeRefreshLayout refreshLayout, LinearLayoutManager layoutManager) {
         this.mAdapter = mAdapter;
         this.refreshLayout = refreshLayout;
         this.layoutManager = layoutManager;
+    }
+
+    public OnRecyclerScrollListener(RecyclerView.Adapter mAdapter, SwipeRefreshLayout refreshLayout, StaggeredGridLayoutManager sLayoutManager) {
+        this.mAdapter = mAdapter;
+        this.refreshLayout = refreshLayout;
+        this.sLayoutManager = sLayoutManager;
     }
 
     @Override
@@ -29,11 +37,37 @@ public abstract class OnRecyclerScrollListener extends RecyclerView.OnScrollList
                 loadMore();
             }
         }
+        if(sLayoutManager != null){
+            sLayoutManager.invalidateSpanAssignments();
+        }
+
     }
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+        if(layoutManager != null){
+            lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+        }
+        if(sLayoutManager != null){
+            int[] lastPositions = sLayoutManager.findLastVisibleItemPositions(new int[sLayoutManager.getSpanCount()]);
+            lastVisibleItem = getMaxPosition(lastPositions);
+        }
+
+    }
+
+    /**
+     * 获得最大的位置
+     *
+     * @param positions
+     * @return
+     */
+    private int getMaxPosition(int[] positions) {
+        int size = positions.length;
+        int maxPosition = Integer.MIN_VALUE;
+        for (int i = 0; i < size; i++) {
+            maxPosition = Math.max(maxPosition, positions[i]);
+        }
+        return maxPosition;
     }
 
     public abstract void loadMore();

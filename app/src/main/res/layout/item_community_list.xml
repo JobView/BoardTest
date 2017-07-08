@@ -64,11 +64,15 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tv_nickname"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:textSize="15sp"
@@ -76,7 +80,16 @@
             android:textColor="#5C5D5E"
             android:layout_toRightOf="@id/im_avatar"
             />
-
+            <ImageView
+                android:id="@+id/im_v"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/user_icon_accreditation_nor"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

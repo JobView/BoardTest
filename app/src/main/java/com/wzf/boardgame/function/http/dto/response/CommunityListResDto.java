@@ -63,21 +63,26 @@ public class CommunityListResDto {
     }
 
     public static class PostListBean {
+
         /**
-         * replyCount : 0
+         * replyCount : 1
+         * nickname : 吾声科技
          * readCount : 0
          * isImg : 0
-         * userId : 100000
+         * authLevel : 0
+         * userId : 100003
          * topSort : 0
-         * postTitle : aa bb cc dd abc
-         * postId : PI_1498831041599_0000100001
+         * postTitle : 讨论【狼人杀】
+         * postId : PI_1499269000009_0000100001
          * isFine : 0
-         * postTime : 2017-06-30 21:57
+         * postTime : 2017-07-06 22:07
          */
 
         private int replyCount;
+        private String nickname;
         private int readCount;
         private int isImg;
+        private int authLevel;
         private String userId;
         private int topSort;
         private String postTitle;
@@ -85,12 +90,37 @@ public class CommunityListResDto {
         private int isFine;
         private String postTime;
 
+        private boolean isAds;
+
+        public PostListBean() {
+        }
+
+        public PostListBean(boolean isAds) {
+            this.isAds = isAds;
+        }
+
+        public boolean isAds() {
+            return isAds;
+        }
+
+        public void setAds(boolean ads) {
+            isAds = ads;
+        }
+
         public int getReplyCount() {
             return replyCount;
         }
 
         public void setReplyCount(int replyCount) {
             this.replyCount = replyCount;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
         }
 
         public int getReadCount() {
@@ -107,6 +137,14 @@ public class CommunityListResDto {
 
         public void setIsImg(int isImg) {
             this.isImg = isImg;
+        }
+
+        public int getAuthLevel() {
+            return authLevel;
+        }
+
+        public void setAuthLevel(int authLevel) {
+            this.authLevel = authLevel;
         }
 
         public String getUserId() {
