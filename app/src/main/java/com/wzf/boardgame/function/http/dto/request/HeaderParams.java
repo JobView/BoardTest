@@ -60,7 +60,7 @@ public class HeaderParams {
         if(TextUtils.isEmpty(clicentVersion)){
             clicentVersion = AppDeviceInfo.getAppVersionName(MyApplication.getAppInstance());
         }
-        return clicentVersion;
+        return clicentVersion == null ? "" : clicentVersion;
     }
 
     public String getOs() {
@@ -71,25 +71,25 @@ public class HeaderParams {
         if(TextUtils.isEmpty(osVersion)){
             osVersion = AppDeviceInfo.getSystemVersion();
         }
-        return osVersion;
+        return osVersion == null ? "" : osVersion;
     }
 
     public String getNetworkType() {
         if(TextUtils.isEmpty(networkType)){
             networkType = AppDeviceInfo.getNetworkType();
         }
-        return networkType;
+        return networkType == null ? "" : networkType;
     }
 
     public String getOpenuuid() {
         if(TextUtils.isEmpty(openuuid)){
             openuuid = AppDeviceInfo.getDeviceid();
         }
-        return openuuid;
+        return openuuid == null ? "" : openuuid;
     }
 
     public String getLoginTime() {
-        return loginTime;
+        return loginTime == null ? "" : loginTime;
     }
 
     public void setLoginTime(String loginTime) {
@@ -117,6 +117,7 @@ public class HeaderParams {
         headersBuilder.set("osVersion", getOsVersion());
         headersBuilder.set("networkType", getNetworkType());
         headersBuilder.set("openuuid", getOpenuuid());
+        headersBuilder.set("loginTime", getLoginTime());
         return headersBuilder.build();
     }
 

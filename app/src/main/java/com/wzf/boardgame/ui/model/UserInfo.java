@@ -5,6 +5,7 @@ package com.wzf.boardgame.ui.model;
 import com.wzf.boardgame.function.http.dto.request.BaseRequestDto;
 import com.wzf.boardgame.function.http.dto.request.HeaderParams;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
+import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 import com.wzf.boardgame.utils.PreferencesHelper;
 
 import rx.schedulers.Schedulers;
@@ -27,11 +28,13 @@ public class UserInfo {
     private String avatarUrl = "avatarUrl";
     private String personaSign = "personaSign";
     private String birthday = "birthday";
+    private String regTime = "regTime";
     private String sex = "sex"; // 性别，1：男，2：女
     private String followCount = "followCount";
     private String fansCount = "fansCount";
     private String postCount = "postCount";
     private String replyCount = "replyCount";//是否登陆 TOURIST游客， USER用户
+    public boolean hasUpdate = false;
 
     private UserInfo() {
         mHelper = new PreferencesHelper(PreferencesHelper.TB_USER);
@@ -66,7 +69,16 @@ public class UserInfo {
     }
 
     public void setBirthday(String birthday) {
+        hasUpdate = true;
         mHelper.setValue(this.birthday, birthday);
+    }
+
+    public String getRegTime() {
+        return mHelper.getValue(regTime) == null ? "" : mHelper.getValue(regTime);
+    }
+
+    public void setRegTime(String regTime) {
+        mHelper.setValue(this.regTime, regTime);
     }
 
     public String getPsw() {
@@ -84,6 +96,7 @@ public class UserInfo {
     }
 
     public void setNickname(String nickname) {
+        hasUpdate = true;
         mHelper.setValue(this.nickname, nickname);
     }
 
@@ -92,6 +105,7 @@ public class UserInfo {
     }
 
     public void setAvatarUrl(String avatarUrl) {
+        hasUpdate = true;
         mHelper.setValue(this.avatarUrl, avatarUrl);
     }
 
@@ -100,6 +114,7 @@ public class UserInfo {
     }
 
     public void setPersonaSign(String personaSign) {
+        hasUpdate = true;
         mHelper.setValue(this.personaSign, personaSign);
     }
 
@@ -108,6 +123,7 @@ public class UserInfo {
     }
 
     public void setSex(String sex) {
+        hasUpdate = true;
         mHelper.setValue(this.sex, sex);
     }
 
@@ -116,6 +132,7 @@ public class UserInfo {
     }
 
     public void setFollowCount(String followCount) {
+        hasUpdate = true;
         mHelper.setValue(this.followCount, followCount);
     }
 
@@ -124,6 +141,7 @@ public class UserInfo {
     }
 
     public void setFansCount(String fansCount) {
+        hasUpdate = true;
         mHelper.setValue(this.fansCount, fansCount);
     }
 
@@ -132,6 +150,7 @@ public class UserInfo {
     }
 
     public void setPostCount(String postCount) {
+        hasUpdate = true;
         mHelper.setValue(this.postCount, postCount);
     }
 
@@ -140,6 +159,7 @@ public class UserInfo {
     }
 
     public void setReplyCount(String replyCount) {
+        hasUpdate = true;
         mHelper.setValue(this.replyCount, replyCount);
     }
 
@@ -154,10 +174,24 @@ public class UserInfo {
         return userInfo;
     }
 
-    public void setUser(LoginResDto dto){
+    public void setLogUser(LoginResDto dto){
         setUid(dto.getUserId());
         setToken(dto.getToken());
         HeaderParams.getInstance().setLoginTime(dto.getLoginTime());
+    }
+
+    public void setUserInfo(UserInfoResDto dto){
+        hasUpdate = true;
+        setAvatarUrl(dto.getAvatarUrl());
+        setNickname(dto.getNickname());
+        setPersonaSign(dto.getPersonaSign());
+        setSex(dto.getSex() + "");
+        setBirthday(dto.getBirthday());
+        setFollowCount(dto.getFollowCount() + "");
+        setFansCount(dto.getFansCount() + "");
+        setPostCount(dto.getPostCount() + "");
+        setReplyCount(dto.getReplyCount() + "");
+        setRegTime(dto.getRegTime());
     }
 
 }

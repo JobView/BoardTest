@@ -6,6 +6,7 @@ import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
+import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -68,6 +69,11 @@ public interface UrlService {
     @POST("boardGame/getWaterfallList")
     @FormUrlEncoded
     Observable<BaseResponse<GameListResDto>> getWaterfallList(@Field("params") String params);
+
+    //获取用户信息
+    @POST("user/getUserInformation")
+    @FormUrlEncoded
+    Observable<BaseResponse<UserInfoResDto>> getUserInformation(@Field("params") String params);
 
 
 //

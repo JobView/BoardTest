@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
-import com.wzf.boardgame.function.http.dto.request.GetSmsCodeReqDto;
 import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
-import com.wzf.boardgame.function.map.BaiDuMapManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.REGX;
@@ -94,7 +92,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(LoginResDto loginResponseDto) throws Exception {
                         super.onSuccess(loginResponseDto);
-                        UserInfo.getInstance().setUser(loginResponseDto);
+                        UserInfo.getInstance().setLogUser(loginResponseDto);
                         UserInfo.getInstance().setPhone(phone);
                         UserInfo.getInstance().setPsw(pwd);
                         showToast("登录成功");
