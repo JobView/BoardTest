@@ -40,4 +40,30 @@ public class StringUtils {
         }
         return path;
     }
+
+    /**
+     * 拼接字符串
+     *
+     * @param strs
+     * @return
+     */
+    public static String concat(Object... strs) {
+        StringBuffer result = new StringBuffer();
+        if (strs != null) {
+            for (Object str : strs) {
+                if (str != null)
+                    result.append(str);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 增加0
+     * @param num
+     * @return
+     */
+    public static String addZero(int num) {
+        return (num < 10 ? "0" : "")  + num;
+    }
 }

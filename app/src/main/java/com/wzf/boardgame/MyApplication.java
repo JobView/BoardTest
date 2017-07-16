@@ -39,7 +39,7 @@ public class MyApplication extends MultiDexApplication {
         }else {
             Bugly.init(getApplicationContext(), "900010630", false);
         }
-        BaiDuMapManager.getInstance();
+        BaiDuMapManager.getInstance().getLocationMessage(null);
 //        String ui = null;
 //        ui.toString();
     }

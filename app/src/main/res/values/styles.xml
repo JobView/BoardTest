@@ -16,4 +16,10 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
     </style>
 
+    <style name="InputTextTheme" parent="android:Theme.Holo.Light.NoActionBar">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 </resources>

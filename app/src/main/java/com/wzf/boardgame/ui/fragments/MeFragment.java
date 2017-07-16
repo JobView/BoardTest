@@ -1,5 +1,6 @@
 package com.wzf.boardgame.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.UserInfoReqDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.MeInfoEditActivity;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.AppDeviceInfo;
@@ -145,6 +147,7 @@ public class MeFragment extends BaseFragment {
             case R.id.ll_message:
                 break;
             case R.id.ll_user_info:
+                startActivity(new Intent(bActivity, MeInfoEditActivity.class));
                 break;
             case R.id.ll_store:
                 break;
