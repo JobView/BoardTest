@@ -1,5 +1,6 @@
 package com.wzf.boardgame.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -64,6 +65,8 @@ public class EditPostActivity extends BaseActivity {
     EditText etTitle;
     @Bind(R.id.et_new_content)
     EditText etNewContent;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,15 +182,29 @@ public class EditPostActivity extends BaseActivity {
     }
 
     private void uploadPicture(final String path) {
+        if(progressDialog == null){
+            progressDialog = new ProgressDialog(EditPostActivity.this);
+            progressDialog.setTitle("图片上传中...");
+            progressDialog.show();
+        }
         UpLoadQiNiuManager.getInstance().uploadFile(new File(path), new UpLoadQiNiuManager.QiNiuUpLoadListener() {
             @Override
             public void progress(double percent) {
-                showDialog("图片上传中：" + percent + "%");
+                if(progressDialog == null){
+                    progressDialog = new ProgressDialog(EditPostActivity.this);
+                }
+                progressDialog.setTitle("图片上传中：" + percent + "%");
+                if(!progressDialog.isShowing()){
+                    progressDialog.show();
+                }
+
             }
 
             @Override
             public void complete(boolean success, String result) {
-                dissMissDialog();
+                if(progressDialog != null && progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 ChangeUserInfoReqDto reqDto = new ChangeUserInfoReqDto();
                 insertPicture(path, result);
             }
