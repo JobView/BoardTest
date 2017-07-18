@@ -96,13 +96,15 @@ public class EditPostActivity extends BaseActivity {
         imagePicker.setCrop(true);                            //是否需要剪切
         imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //矩形剪切
         // 宽高默认280
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.getScreenWidth(MyApplication.getAppInstance()), getResources().getDisplayMetrics());
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.dpToPix(400, MyApplication.getAppInstance()), getResources().getDisplayMetrics());
+//        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.getScreenWidth(MyApplication.getAppInstance()), getResources().getDisplayMetrics());
+        int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
+//        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.dpToPix((int)(width * 1.0 * 2 / 3), MyApplication.getAppInstance()), getResources().getDisplayMetrics());
+        int height = (int)(width * 1.0 * 2 / 3);
         imagePicker.setFocusWidth(width);
-        imagePicker.setFocusHeight(width);
+        imagePicker.setFocusHeight(height);
         // 图片保存的宽高800
         imagePicker.setOutPutX(width);
-        imagePicker.setOutPutY(width);
+        imagePicker.setOutPutY(height);
         imagePicker.setImageLoader(new ImagePickerImageLoader()); //图片加载器
         imagePicker.setMultiMode(false);                          //单选
     }
