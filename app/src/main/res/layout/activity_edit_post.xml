@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--顶部栏-->
+    <include
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_top"/>
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/top"
+        android:background="@null"
+        android:hint="请输入主题"
+        android:paddingLeft="8dp"
+        android:textSize="16sp"
+        android:maxLength="50"
+        android:lineSpacingExtra="2sp"
+        android:textColor="@color/black"/>
+    <View
+        android:id="@+id/under1"
+        android:layout_width="match_parent"
+        android:layout_below="@id/et_title"
+        android:layout_height="1dp"
+        android:background="@color/bgUnderLine2" />
+    <EditText
+        android:id="@+id/et_new_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/under1"
+        android:padding="8dp"
+        android:gravity="start"
+        android:textSize="16sp"
+        android:background="@null"
+        android:layout_marginBottom="50dp"
+        android:hint="请在此输入发帖内容"
+        android:lineSpacingExtra="2sp"
+        android:textColor="@color/black"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgUnderLine2" />
+        <ImageView
+            android:id="@+id/im_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:src="@mipmap/image_loading"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgUnderLine2"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</RelativeLayout>

@@ -6,6 +6,7 @@ import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
+import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.QiNiuTokenResDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 
@@ -85,6 +86,16 @@ public interface UrlService {
     @POST("system/getQiniuToken")
     @FormUrlEncoded
     Observable<BaseResponse<QiNiuTokenResDto>> getQiniuToken(@Field("params") String params);
+
+    //发帖接口
+    @POST("community/sendPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> sendPost(@Field("params") String params);
+
+    //获取帖子详情接口
+    @POST("community/getPostInformation")
+    @FormUrlEncoded
+    Observable<BaseResponse<PostDetailResDto>> getPostInformation(@Field("params") String params);
 
 
 //

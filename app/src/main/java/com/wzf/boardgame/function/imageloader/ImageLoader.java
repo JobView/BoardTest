@@ -1,10 +1,13 @@
 package com.wzf.boardgame.function.imageloader;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.utils.StringUtils;
@@ -69,6 +72,40 @@ public class ImageLoader {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                            .centerCrop()
                 .into(imageView);
+    }
+
+    public void urlToBitmap(String url,int w, int h,  final ImageLoaderToBitmapListener listener){
+        Glide.with(MyApplication.getAppInstance()).
+                load(url)
+                .asBitmap()
+                .override(w, h)
+                .centerCrop()
+                .into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                if(listener != null){
+                    listener.onLoadFinish(resource);
+                }
+
+            }
+        });
+    }
+
+    public void fileToBitmap(String path,int w, int h,  final ImageLoaderToBitmapListener listener){
+        Glide.with(MyApplication.getAppInstance()).
+                load((Uri.fromFile(new File(path))))
+                .asBitmap()
+                .override(w, h)
+                .centerCrop()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        if(listener != null){
+                            listener.onLoadFinish(resource);
+                        }
+
+                    }
+                });
     }
 
     public static ImageLoader getInstance() {

@@ -84,6 +84,7 @@ public class CommunityListResDto {
         private int isImg;
         private int authLevel;
         private String userId;
+        private String avatarUrl;
         private int topSort;
         private String postTitle;
         private String postId;
@@ -93,6 +94,14 @@ public class CommunityListResDto {
         private boolean isAds;
 
         public PostListBean() {
+        }
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public void setAvatarUrl(String avatarUrl) {
+            this.avatarUrl = avatarUrl;
         }
 
         public PostListBean(boolean isAds) {

@@ -82,4 +82,6 @@ dependencies {
     compile 'com.lzy.widget:imagepicker:+'
     //七牛云
     compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    //图文混排
+//    compile 'com.github.sendtion:XRichText:+'
 }

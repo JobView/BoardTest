@@ -20,8 +20,11 @@ import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
+import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.EditPostActivity;
 import com.wzf.boardgame.ui.activity.LoginActivity;
 import com.wzf.boardgame.ui.activity.MenuActivity;
+import com.wzf.boardgame.ui.activity.PostDetailActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -211,6 +214,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 ImageView imPrime =holder.getView(R.id.im_prime);
                 ImageView imUp =holder.getView(R.id.im_up);
                 ImageView imV =holder.getView(R.id.im_v);
+                ImageView imAvatar =holder.getView(R.id.im_avatar);
 
                 tvTitle.setText(o.getPostTitle());
                 tvNickname.setText(o.getNickname());
@@ -221,6 +225,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 imUp.setVisibility(o.getTopSort() == 0 ? View.GONE : View.VISIBLE);
                 imPrime.setVisibility(o.getIsFine() == 0 ? View.GONE : View.VISIBLE);
                 imV.setVisibility(o.getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
+                ImageLoader.getInstance().displayOnlineRoundImage(o.getAvatarUrl(), imAvatar);
             }
 
             @Override
@@ -232,13 +237,22 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                     return R.layout.item_community_list;
                 }
             }
+
+            @Override
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
+                CommunityListResDto.PostListBean o = mDatas.get(position);
+                if(o != null){
+                    PostDetailActivity.startMethod(bActivity, o.getPostId());
+                }
+            }
         };
     }
 
 
     @OnClick(R.id.im_right1)
     public void onViewClicked() {
-
+        startActivity(new Intent(bActivity, EditPostActivity.class));
     }
 
 
