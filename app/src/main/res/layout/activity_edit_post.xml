@@ -27,19 +27,26 @@
         android:layout_below="@id/et_title"
         android:layout_height="1dp"
         android:background="@color/bgUnderLine2" />
-    <EditText
-        android:id="@+id/et_new_content"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/under1"
-        android:padding="8dp"
-        android:gravity="start"
-        android:textSize="16sp"
-        android:background="@null"
+        android:fillViewport="true"
         android:layout_marginBottom="50dp"
-        android:hint="请在此输入发帖内容"
-        android:lineSpacingExtra="2sp"
-        android:textColor="@color/black"/>
+        android:layout_below="@id/under1"
+        android:scrollbars="vertical">
+        <EditText
+            android:id="@+id/et_new_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:gravity="start"
+            android:textSize="16sp"
+            android:background="@null"
+            android:hint="请在此输入发帖内容"
+            android:lineSpacingExtra="2sp"
+            android:textColor="@color/black"/>
+    </ScrollView>
+
     
     <RelativeLayout
         android:layout_width="match_parent"

@@ -74,7 +74,68 @@
                android:layout_margin="15dp"
                android:orientation="vertical">
            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgUnderLine2" />
+            <RelativeLayout
+                android:id="@+id/ll_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
+                android:background="@color/bgUnderLine">
+                <TextView
+                    android:id="@+id/tv_total_reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="共10条回复"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"/>
 
+                <TextView
+                    android:id="@+id/tv_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="0"
+                    android:layout_alignParentRight="true"
+                    android:textSize="13sp"/>
+
+                <ImageView
+                    android:id="@+id/im_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_comment_num"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/home_icon_comment_nor"/>
+
+                <TextView
+                    android:id="@+id/tv_view_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/im_comment"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="0"
+                    android:textSize="13sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_view_num"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/home_icon_view_nor"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bgUnderLine2" />
         </LinearLayout>
 
     </ScrollView>

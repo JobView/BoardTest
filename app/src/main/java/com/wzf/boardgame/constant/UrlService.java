@@ -2,6 +2,7 @@ package com.wzf.boardgame.constant;
 
 import com.wzf.boardgame.function.http.OkHttpUtils;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
+import com.wzf.boardgame.function.http.dto.response.CommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
@@ -96,6 +97,30 @@ public interface UrlService {
     @POST("community/getPostInformation")
     @FormUrlEncoded
     Observable<BaseResponse<PostDetailResDto>> getPostInformation(@Field("params") String params);
+
+
+    //收藏帖子接口
+    @POST("community/collectPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> collectPost(@Field("params") String params);
+
+    //取消收藏帖子接口
+    @POST("community/cancelCollectPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelCollectPost(@Field("params") String params);
+
+
+    //评论主贴接口
+    @POST("community/commentPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> commentPost(@Field("params") String params);
+
+
+    //获取回帖列表（楼层列表）接口
+    @POST("community/getPostReplyList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommentListResDto>> getPostReplyList(@Field("params") String params);
+
 
 
 //

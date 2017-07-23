@@ -1,17 +1,14 @@
 package com.wzf.boardgame.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,8 +24,6 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.ChangeUserInfoReqDto;
 import com.wzf.boardgame.function.http.dto.request.CommitPostReqDto;
-import com.wzf.boardgame.function.http.dto.request.PostDetailReqDto;
-import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.function.imageloader.ImageLoaderToBitmapListener;
 import com.wzf.boardgame.function.imageloader.ImagePickerImageLoader;
