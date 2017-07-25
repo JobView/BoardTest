@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.wzf.boardgame.R;
 
@@ -22,6 +24,7 @@ import com.wzf.boardgame.R;
  */
 public class WebViewActivity extends Activity {
 
+    private View imLeft;
     private WebView webView;
     private FrameLayout video_fullView;// 全屏时视频加载view
     private View xCustomView;
@@ -40,16 +43,23 @@ public class WebViewActivity extends Activity {
         waitdialog.show();
         webView = (WebView) findViewById(R.id.webView);
         video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
+        imLeft = findViewById(R.id.im_left);imLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        imLeft.setVisibility(View.VISIBLE);
         WebSettings ws = webView.getSettings();
-        ws.setBuiltInZoomControls(true);// 隐藏缩放按钮
+//        ws.setBuiltInZoomControls(true);// 隐藏缩放按钮
         // ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
-        ws.setUseWideViewPort(true);// 可任意比例缩放
+//        ws.setUseWideViewPort(true);// 可任意比例缩放
         ws.setLoadWithOverviewMode(true);// setUseWideViewPort方法设置webview推荐使用的窗口。setLoadWithOverviewMode方法是设置webview加载的页面的模式。
-        ws.setSavePassword(true);
-        ws.setSaveFormData(true);// 保存表单数据
+//        ws.setSavePassword(true);
+//        ws.setSaveFormData(true);// 保存表单数据
         ws.setJavaScriptEnabled(true);
-        ws.setGeolocationEnabled(true);// 启用地理定位
-        ws.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");// 设置定位的数据库路径
+//        ws.setGeolocationEnabled(true);// 启用地理定位
+//        ws.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");// 设置定位的数据库路径
         ws.setDomStorageEnabled(true);
         ws.setSupportMultipleWindows(true);// 新加
         xwebchromeclient = new myWebChromeClient();
@@ -60,7 +70,9 @@ public class WebViewActivity extends Activity {
     public class myWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
+            if(!TextUtils.isEmpty(url) && url.startsWith("http")){
+                view.loadUrl(url);
+            }
             return false;
         }
         @Override
@@ -164,23 +176,31 @@ public class WebViewActivity extends Activity {
 
     /**
      * 判断是否是全屏，如果是就隐藏，否则就退出当前的页面
-     * @param keyCode
-     * @param event
      * @return
      */
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            if (inCustomView()) {
+//                // webViewDetails.loadUrl("about:blank");
+//                hideCustomView();
+//                return true;
+//            } else {
+//                webView.loadUrl("about:blank");
+//                WebViewActivity.this.finish();
+//            }
+//        }
+//        return false;
+//    }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (inCustomView()) {
-                // webViewDetails.loadUrl("about:blank");
-                hideCustomView();
-                return true;
-            } else {
-                webView.loadUrl("about:blank");
-                WebViewActivity.this.finish();
-            }
+    public void onBackPressed() {
+        // 优先后退网页
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            finish();
         }
-        return false;
     }
 
     public static void startMethod(Context context, String url){

@@ -106,6 +106,7 @@ public class PostDetailActivity extends BaseActivity {
     }
 
     private void setView(PostDetailResDto responseDto) {
+        llContent.removeAllViews();
         this.responseDto = responseDto;
         tvNickname.setText(responseDto.getNickname());
         tvTitle.setText(responseDto.getPostTitle());

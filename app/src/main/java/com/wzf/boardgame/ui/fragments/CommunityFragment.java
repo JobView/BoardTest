@@ -34,6 +34,7 @@ import com.wzf.boardgame.ui.views.banner.AdImagePagerAdapter;
 import com.wzf.boardgame.ui.views.banner.AutoScrollViewPager;
 import com.wzf.boardgame.ui.views.banner.PageIndicatorView;
 import com.wzf.boardgame.utils.StringUtils;
+import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -95,6 +96,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
         imRight1.setImageResource(R.mipmap.home_btn_write_nor);
         imRight1.setVisibility(View.VISIBLE);
         srl.setOnRefreshListener(this);
+        ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         LinearLayoutManager llManager = new LinearLayoutManager(bActivity);
         rv.setLayoutManager(llManager);
         adapter = getAdapter();

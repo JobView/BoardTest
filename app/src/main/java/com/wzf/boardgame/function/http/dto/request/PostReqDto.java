@@ -9,7 +9,15 @@ public class PostReqDto extends BaseRequestDto{
     private String postId;
     private String replyContent;
     private String replyId;
+    private int pageNum;
 
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
 
     public String getReplyId() {
         return replyId;

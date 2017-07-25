@@ -24,6 +24,7 @@ import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.utils.ScreenUtils;
+import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -77,6 +78,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         imRight1.setVisibility(View.VISIBLE);
 
         srl.setOnRefreshListener(this);
+        ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(sManager);

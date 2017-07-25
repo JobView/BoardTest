@@ -91,6 +91,23 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
     }
 
     /**
+     * 加载更多
+     *
+     * @param datas
+     */
+    public void loadMore(List<T> datas, boolean loadFinish) {
+        if (loadMore && !loadFinish) {
+            if (datas == null || datas.size() == 0) { // 结束标志
+                loadFinish = true;
+            } else {
+                mDatas.addAll(datas);
+            }
+            this.loadFinish = loadFinish;
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
      * 加载更多,并且没有后续
      *
      */
@@ -109,6 +126,22 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
 
         } else {
             loadFinish = false;
+            mDatas = new ArrayList<T>();
+            mDatas.addAll(datas);
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 刷新数据
+     *
+     * @param datas
+     */
+    public void refresh(List<T> datas, boolean loadFinish) {
+        if (datas == null) { // 错误处理
+
+        } else {
+            this.loadFinish = loadFinish;
             mDatas = new ArrayList<T>();
             mDatas.addAll(datas);
             notifyDataSetChanged();
