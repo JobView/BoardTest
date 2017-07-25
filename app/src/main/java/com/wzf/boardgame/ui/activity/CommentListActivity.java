@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wzf.boardgame.R;
@@ -15,6 +19,7 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.PostReqDto;
 import com.wzf.boardgame.function.http.dto.response.CommentListResDto;
+import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -126,7 +131,54 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
         return new RcyCommonAdapter<CommentListResDto.ReplyListBean>(this, new ArrayList<CommentListResDto.ReplyListBean>(), true, rv) {
             @Override
             public void convert(RcyViewHolder holder, CommentListResDto.ReplyListBean replyListBean) {
+                ImageView imAvatar = holder.getView(R.id.im_avatar);
+                TextView tvName = holder.getView(R.id.tv_name);
+                TextView tvFloor = holder.getView(R.id.tv_floor);
+                TextView tvTime = holder.getView(R.id.tv_time);
+                TextView tvCommentContent = holder.getView(R.id.tv_comment_content);
+                final LinearLayout llComment = holder.getView(R.id.ll_comment);
+                ImageLoader.getInstance().displayOnlineRoundImage(replyListBean.getAvatarUrl(), imAvatar);
+                tvName.setText(replyListBean.getNickname());
+                tvFloor.setText(replyListBean.getStorey() + "楼");
+                tvTime.setText(replyListBean.getReplyTime());
+                tvCommentContent.setText(replyListBean.getReplyContent());
 
+                llComment.removeAllViews();
+                for (int i = 0 ; i < 2; i ++){
+                    TextView tv  = getTextView();
+                    String str = "<font color='#5677fc'>"+ "王德荣誉" +"</font>"+ " : " + "你这个逗比"+ i * 13;
+                    tv.setText(Html.fromHtml(str));
+                    llComment.addView(tv);
+                }
+                TextView tv = getTextView();
+                tv.setGravity(Gravity.CENTER);
+                tv.setPadding(10, 5, 10, 5);
+                tv.setText(Html.fromHtml("更多3条回复"));
+                llComment.addView(tv);
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for (int i = 0 ; i < 5; i ++){
+                            TextView tv = getTextView();
+                            String str = "<font color='#5677fc'>"+ "王德荣誉" +"</font>"+ " : " + "你这个逗比"+ i * 13;
+                            tv.setText(Html.fromHtml(str));
+                            llComment.addView(tv);
+                            view.setVisibility(View.GONE);
+                        }
+                    }
+                });
+                llComment.setVisibility(View.VISIBLE);
+            }
+
+            public TextView getTextView(){
+                TextView tv = new TextView(CommentListActivity.this);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                tv.setLayoutParams(params);
+                params.setMargins(0,5,0,5);
+                tv.setTextColor(getResources().getColor(R.color.textHint));
+                tv.setTextSize(14);
+                return tv;
             }
 
             @Override

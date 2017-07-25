@@ -57,10 +57,13 @@
             android:textSize="14sp" />
 
         <LinearLayout
+            android:id="@+id/ll_comment"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
             android:layout_below="@id/tv_comment_content"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:background="@color/bgUnderLine"
             android:visibility="gone"></LinearLayout>
     </RelativeLayout>
