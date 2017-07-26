@@ -3,6 +3,7 @@ package com.wzf.boardgame.ui.base;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zhenfei.wang on 2016/8/8.
  */
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private NetRequestWaitDialog dialog;
     protected boolean hasShow;
