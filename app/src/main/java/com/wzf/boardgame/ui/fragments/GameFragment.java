@@ -27,6 +27,8 @@ import com.wzf.boardgame.utils.ScreenUtils;
 import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -151,9 +153,21 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
+            Map<Integer, ViewGroup.LayoutParams> map = new HashMap<>();
             @Override
             public void convert(RcyViewHolder holder, GameListResDto.WaterfallListBean o) {
                 ImageView im = holder.getView(R.id.im);
+                Integer index = mDatas.indexOf(o);
+                ViewGroup.LayoutParams params = map.get(index);
+                if(params == null){
+                    params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
+                    //设置图片的相对于屏幕的宽高比
+                    params.width = width/3;
+                    params.height =  (int) (200 + Math.random() * 400) ;
+                    map.put(index, params);
+                }
+                im.setLayoutParams(params);
                 ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), im, 0, 0);
             }
 
