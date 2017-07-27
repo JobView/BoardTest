@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wzf.boardgame.MyApplication;
@@ -153,14 +154,15 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
-            Map<Integer, ViewGroup.LayoutParams> map = new HashMap<>();
+            Map<Integer, LinearLayout.LayoutParams> map = new HashMap<>();
             @Override
             public void convert(RcyViewHolder holder, GameListResDto.WaterfallListBean o) {
                 ImageView im = holder.getView(R.id.im);
+                im.setImageResource(R.mipmap.image_loading);
                 Integer index = mDatas.indexOf(o);
-                ViewGroup.LayoutParams params = map.get(index);
+                LinearLayout.LayoutParams params = map.get(index);
                 if(params == null){
-                    params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
                     //设置图片的相对于屏幕的宽高比
                     params.width = width/3;
@@ -170,8 +172,6 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 im.setLayoutParams(params);
                 ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), im, 0, 0);
             }
-
-
 
             @Override
             public int getLayoutId(int position) {

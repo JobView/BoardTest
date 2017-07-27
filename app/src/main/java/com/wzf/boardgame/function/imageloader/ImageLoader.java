@@ -44,7 +44,7 @@ public class ImageLoader {
                  DiskCacheStrategy.ALL 缓存所有版本的图像（默认行为）
                  */
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                            .centerCrop()
+                  .centerCrop()
                 .into(imageView);
     }
 
