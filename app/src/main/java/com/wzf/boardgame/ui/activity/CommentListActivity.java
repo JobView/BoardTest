@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseActivity;
+import com.wzf.boardgame.ui.dialog.CommentDialog;
+import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -130,8 +133,9 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
     private RcyCommonAdapter<CommentListResDto.ReplyListBean> getAdapter() {
         return new RcyCommonAdapter<CommentListResDto.ReplyListBean>(this, new ArrayList<CommentListResDto.ReplyListBean>(), true, rv) {
             @Override
-            public void convert(RcyViewHolder holder, CommentListResDto.ReplyListBean replyListBean) {
+            public void convert(RcyViewHolder holder, final CommentListResDto.ReplyListBean replyListBean) {
                 ImageView imAvatar = holder.getView(R.id.im_avatar);
+                ImageView imReplyMain = holder.getView(R.id.im_reply_main);
                 TextView tvName = holder.getView(R.id.tv_name);
                 TextView tvFloor = holder.getView(R.id.tv_floor);
                 TextView tvTime = holder.getView(R.id.tv_time);
@@ -142,12 +146,42 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 tvFloor.setText(replyListBean.getStorey() + "楼");
                 tvTime.setText(replyListBean.getReplyTime());
                 tvCommentContent.setText(replyListBean.getReplyContent());
+                imReplyMain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                    }
+                });
                 llComment.removeAllViews();
+                View.OnClickListener clickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //对楼层回复
+                        new CommentDialog(CommentListActivity.this, "", "请输入回复内容", 200) {
+                            @Override
+                            public void sendText(String text) {
+                                if(!TextUtils.isEmpty(text)){
+                                    //模拟一份数据
+                                    int index = mDatas.indexOf(replyListBean);
+                                    CommentListResDto.ReplyListBean.ReplyAnswerListBean bean = new CommentListResDto.ReplyListBean.ReplyAnswerListBean();
+                                    bean.setAnswerContent(text);
+                                    bean.setAnswerNickname(UserInfo.getInstance().getNickname());
+                                    bean.setAnswerUserId(UserInfo.getInstance().getUid());
+                                    bean.setBeAnswerNickname(replyListBean.getNickname());
+                                    bean.setBeAnswerUserId(replyListBean.getUserId());
+                                    replyListBean.getReplyAnswerList().add(bean);
+                                    notifyItemChanged(index);
+                                    commentFloor(replyListBean.getReplyId(), replyListBean.getUserId(),replyListBean.getNickname(), text);
+                                }
+                            }
+                        }.show();
+                    }
+                };
                 for (int i = 0 ; i < 2; i ++){
                     TextView tv  = getTextView();
                     String str = "<font color='#5677fc'>"+ "王德荣誉" +"</font>"+ " : " + "你这个逗比"+ i * 13;
                     tv.setText(Html.fromHtml(str));
+                    tv.setOnClickListener(clickListener);
                     llComment.addView(tv);
                 }
                 TextView tv = getTextView();
@@ -168,6 +202,10 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                     }
                 });
                 llComment.setVisibility(View.VISIBLE);
+            }
+
+            private void commentFloor(String replyId, String userId, String nickname, String text) {
+
             }
 
             public TextView getTextView(){

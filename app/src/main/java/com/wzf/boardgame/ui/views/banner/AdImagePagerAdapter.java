@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.PostDetailActivity;
 import com.wzf.boardgame.ui.activity.WebViewActivity;
 import com.wzf.boardgame.utils.ScreenUtils;
 
@@ -55,8 +56,9 @@ public class AdImagePagerAdapter extends RecyclingPagerAdapter {
 
 			@Override
 			public void onClick(View v) {
-				String path = vItem.getPageUrl();
-				if(!TextUtils.isEmpty(path)){
+				if(vItem.getBannerType() == 1){
+					PostDetailActivity.startMethod(context, vItem.getPageUrl());
+				}else if(vItem.getBannerType() == 2){
 					WebViewActivity.startMethod(context, vItem.getPageUrl());
 				}
 			}

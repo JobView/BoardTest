@@ -45,6 +45,7 @@
             android:textColor="@color/textHint"
             android:textSize="12sp" />
 
+
         <TextView
             android:id="@+id/tv_comment_content"
             android:layout_width="match_parent"
@@ -55,6 +56,14 @@
             android:text="使用 JavaScript 实现机器实现机器学习实现机器学习实现机器学习学习"
             android:textColor="@color/black"
             android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/im_reply_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/forum_btn_reply_nor"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_comment_content"/>
 
         <LinearLayout
             android:id="@+id/ll_comment"

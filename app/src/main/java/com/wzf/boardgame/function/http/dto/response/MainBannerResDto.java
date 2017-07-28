@@ -26,6 +26,15 @@ public class MainBannerResDto {
 
         private String imgUrl;
         private String pageUrl;
+        private int bannerType; // 0不跳转，1跳转到帖子，2跳转到webview
+
+        public int getBannerType() {
+            return bannerType;
+        }
+
+        public void setBannerType(int bannerType) {
+            this.bannerType = bannerType;
+        }
 
         public String getImgUrl() {
             return imgUrl;

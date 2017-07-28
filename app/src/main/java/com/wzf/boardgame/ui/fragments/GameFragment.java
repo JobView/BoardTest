@@ -132,6 +132,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onSuccess(GameListResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
+                        page ++;
                         if(refresh){
                             adapter.refresh(responseDto.getWaterfallList());
                             srl.setRefreshing(false);
@@ -166,7 +167,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
                     //设置图片的相对于屏幕的宽高比
                     params.width = width/3;
-                    params.height =  (int) (200 + Math.random() * 400) ;
+                    params.height =  (int)  (200 + Math.random() * 200) ;
                     map.put(index, params);
                 }
                 im.setLayoutParams(params);
