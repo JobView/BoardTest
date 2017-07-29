@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.autolink.AutoLinkUtils;
@@ -18,6 +20,8 @@ import com.wzf.boardgame.function.http.dto.request.PostReqDto;
 import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.ui.base.BaseActivity;
+import com.wzf.boardgame.utils.ScreenUtils;
+import com.wzf.boardgame.utils.ViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -105,7 +109,7 @@ public class PostDetailActivity extends BaseActivity {
                 });
     }
 
-    private void setView(PostDetailResDto responseDto) {
+    private void setView(final PostDetailResDto responseDto) {
         llContent.removeAllViews();
         this.responseDto = responseDto;
         tvNickname.setText(responseDto.getNickname());
@@ -131,8 +135,18 @@ public class PostDetailActivity extends BaseActivity {
             if (responseDto.getPostImgsUrls().size() > i) {
                 im = new ImageView(this);
                 im.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                int w = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(w, w * 2 / 3);
+                im.setLayoutParams(params);
                 ImageLoader.getInstance().displayOnlineImage(responseDto.getPostImgsUrls().get(i), im, 0, 0);
                 llContent.addView(im);
+                final int position = i;
+                im.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ViewUtils.previewPicture(PostDetailActivity.this, position, responseDto.getPostImgsUrls());
+                    }
+                });
             }
         }
 

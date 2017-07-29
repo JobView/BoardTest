@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
+import com.wzf.boardgame.function.autolink.AutoLinkUtils;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.PostReqDto;
 import com.wzf.boardgame.function.http.dto.request.ReplyCommentReqDto;
@@ -28,6 +31,7 @@ import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.dialog.CommentDialog;
 import com.wzf.boardgame.ui.model.UserInfo;
+import com.wzf.boardgame.utils.ScreenUtils;
 import com.wzf.boardgame.utils.StringUtils;
 import com.wzf.boardgame.utils.ViewUtils;
 
@@ -142,13 +146,42 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 TextView tvName = holder.getView(R.id.tv_name);
                 TextView tvFloor = holder.getView(R.id.tv_floor);
                 TextView tvTime = holder.getView(R.id.tv_time);
-                TextView tvCommentContent = holder.getView(R.id.tv_comment_content);
+                LinearLayout llCommentContent = holder.getView(R.id.ll_comment_content);
                 final LinearLayout llComment = holder.getView(R.id.ll_comment);
                 ImageLoader.getInstance().displayOnlineRoundImage(replyListBean.getAvatarUrl(), imAvatar);
                 tvName.setText(replyListBean.getNickname());
                 tvFloor.setText(replyListBean.getStorey() + "楼");
                 tvTime.setText(replyListBean.getReplyTime());
-                tvCommentContent.setText(replyListBean.getReplyContent());
+                //内容填充
+                llCommentContent.removeAllViews();
+                String content = replyListBean.getReplyContent();
+                String[] cs = content.split("\\{\\$img\\$\\}");
+                TextView tvContent;
+                ImageView im;
+                for (int i = 0; i < cs.length; i++) {
+                    tvContent = new TextView(CommentListActivity.this);
+                    tvContent.setTextSize(13);
+                    tvContent.setText(cs[i].replace("\n", ""));
+                    tvContent.setAutoLinkMask(Linkify.WEB_URLS);
+                    AutoLinkUtils.interceptHyperLink(tvContent);
+                    llCommentContent.addView(tvContent);
+                    if (replyListBean.getReplyImgsUrl().size() > i) {
+                        im = new ImageView(CommentListActivity.this);
+                        im.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        int w = ScreenUtils.getScreenWidth(MyApplication.getAppInstance())/ 2;
+                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(w, w);
+                        im.setLayoutParams(params);
+                        ImageLoader.getInstance().displayOnlineImage(replyListBean.getReplyImgsUrl().get(i), im, 0, 0);
+                        llCommentContent.addView(im);
+                        final int position = i;
+                        im.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ViewUtils.previewPicture(CommentListActivity.this,position, replyListBean.getReplyImgsUrl());
+                            }
+                        });
+                    }
+                }
                 imReplyMain.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

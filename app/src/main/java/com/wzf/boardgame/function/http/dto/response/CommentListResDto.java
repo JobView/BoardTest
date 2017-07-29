@@ -1,5 +1,6 @@
 package com.wzf.boardgame.function.http.dto.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,9 +82,18 @@ public class CommentListResDto {
         private String avatarUrl;
         private String userId;
         private String replyContent;
+        private List<String> replyImgsUrl;
         private String replyTime;
         private String replyId;
         private List<ReplyAnswerListBean> replyAnswerList;
+
+        public List<String> getReplyImgsUrl() {
+            return replyImgsUrl == null ? new ArrayList<String>() : replyImgsUrl;
+        }
+
+        public void setReplyImgsUrl(List<String> replyImgsUrl) {
+            this.replyImgsUrl = replyImgsUrl;
+        }
 
         public String getNickname() {
             return nickname;
@@ -150,7 +160,7 @@ public class CommentListResDto {
         }
 
         public List<ReplyAnswerListBean> getReplyAnswerList() {
-            return replyAnswerList;
+            return replyAnswerList == null ? new ArrayList<ReplyAnswerListBean>() : replyAnswerList;
         }
 
         public void setReplyAnswerList(List<ReplyAnswerListBean> replyAnswerList) {

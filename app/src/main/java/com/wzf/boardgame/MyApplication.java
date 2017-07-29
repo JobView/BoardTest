@@ -2,8 +2,10 @@ package com.wzf.boardgame;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.lzy.imagepicker.ImagePicker;
 import com.tencent.bugly.Bugly;
 import com.wzf.boardgame.constant.UrlService;
+import com.wzf.boardgame.function.imageloader.ImagePickerImageLoader;
 import com.wzf.boardgame.function.map.BaiDuMapManager;
 
 /**
@@ -21,6 +23,7 @@ public class MyApplication extends MultiDexApplication {
         application = this;
         // bug捕获
         intBugly();
+        initImagePicker();
     }
     //家里修改的的  对对对
     private void intBugly() {
@@ -42,6 +45,11 @@ public class MyApplication extends MultiDexApplication {
         BaiDuMapManager.getInstance().getLocationMessage(null);
 //        String ui = null;
 //        ui.toString();
+    }
+
+    private void initImagePicker() {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new ImagePickerImageLoader()); //图片加载器
     }
 
     public  static  MyApplication getAppInstance(){

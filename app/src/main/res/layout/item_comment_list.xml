@@ -46,16 +46,14 @@
             android:textSize="12sp" />
 
 
-        <TextView
-            android:id="@+id/tv_comment_content"
+        <LinearLayout
+            android:id="@+id/ll_comment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_below="@id/tv_time"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
-            android:text="使用 JavaScript 实现机器实现机器学习实现机器学习实现机器学习学习"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:layout_marginTop="10dp" ></LinearLayout>
 
         <ImageView
             android:id="@+id/im_reply_main"
@@ -63,14 +61,14 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/forum_btn_reply_nor"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/tv_comment_content"/>
+            android:layout_alignTop="@id/ll_comment_content"/>
 
         <LinearLayout
             android:id="@+id/ll_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:layout_below="@id/tv_comment_content"
+            android:layout_below="@id/ll_comment_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:background="@color/bgUnderLine"
