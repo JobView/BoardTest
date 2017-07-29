@@ -41,6 +41,7 @@ public class NetRequestWaitDialog extends Dialog {
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = (int)(Utils.getScreenWidth(mContext) * 3.0 / 4);
         setCancelable(false);
+        tv = (TextView) findViewById(R.id.tv);
         setMessage();
     }
 

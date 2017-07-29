@@ -121,7 +121,7 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<CommentListResDto>> getPostReplyList(@Field("params") String params);
 
-    //获取回帖列表（楼层列表）接口
+    //回复楼层接口
     @POST("community/replyComment")
     @FormUrlEncoded
     Observable<BaseResponse<Object>> replyComment(@Field("params") String params);
