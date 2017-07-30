@@ -18,18 +18,14 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
-import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.ui.activity.EditPostActivity;
-import com.wzf.boardgame.ui.activity.LoginActivity;
-import com.wzf.boardgame.ui.activity.MenuActivity;
 import com.wzf.boardgame.ui.activity.PostDetailActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
-import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.ui.views.banner.AdImagePagerAdapter;
 import com.wzf.boardgame.ui.views.banner.AutoScrollViewPager;
 import com.wzf.boardgame.ui.views.banner.PageIndicatorView;
@@ -180,7 +176,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 if(o.isAds()){
                     fetchHeader(holder);
                 }else {
-                    fetchCotent(holder, o);
+                    fetchContent(holder, o);
                 }
             }
 
@@ -206,7 +202,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 page.setCurrentItem(times / 2 * banner.getCarouselList().size());
             }
 
-            private void fetchCotent(RcyViewHolder holder, CommunityListResDto.PostListBean o) {
+            private void fetchContent(RcyViewHolder holder, CommunityListResDto.PostListBean o) {
                 TextView tvTitle =holder.getView(R.id.tv_title);
                 TextView tvNickname =holder.getView(R.id.tv_nickname);
                 TextView tvTime =holder.getView(R.id.tv_time);

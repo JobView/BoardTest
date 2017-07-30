@@ -160,7 +160,7 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 ImageView im;
                 for (int i = 0; i < cs.length; i++) {
                     tvContent = new TextView(CommentListActivity.this);
-                    tvContent.setTextSize(13);
+                    tvContent.setTextSize(16);
                     tvContent.setText(cs[i].replace("\n", ""));
                     tvContent.setAutoLinkMask(Linkify.WEB_URLS);
                     AutoLinkUtils.interceptHyperLink(tvContent);

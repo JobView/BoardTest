@@ -1,5 +1,6 @@
 package com.wzf.boardgame.ui.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.function.imageloader.ImageLoaderToBitmapListener;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -29,6 +31,7 @@ import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -83,12 +86,13 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         srl.setOnRefreshListener(this);
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(sManager);
         adapter = getAdapter();
         //设置item之间的间隔
         rv.addItemDecoration(new RecyclerView.ItemDecoration(){
-            int lr  = ScreenUtils.dip2px(MyApplication.getAppInstance(), 7);
+            int lr  = ScreenUtils.dip2px(MyApplication.getAppInstance(), 5);
             int tb = ScreenUtils.dip2px(MyApplication.getAppInstance(), 10);
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -155,23 +159,43 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
-            Map<Integer, LinearLayout.LayoutParams> map = new HashMap<>();
+//            Map<Integer, LinearLayout.LayoutParams> map = new HashMap<>();
             @Override
-            public void convert(RcyViewHolder holder, GameListResDto.WaterfallListBean o) {
-                ImageView im = holder.getView(R.id.im);
+            public void convert(RcyViewHolder holder, final GameListResDto.WaterfallListBean o) {
+                final  ImageView im = holder.getView(R.id.im);
                 im.setImageResource(R.mipmap.image_loading);
-                Integer index = mDatas.indexOf(o);
-                LinearLayout.LayoutParams params = map.get(index);
-                if(params == null){
-                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
-                    //设置图片的相对于屏幕的宽高比
-                    params.width = width/3;
-                    params.height =  (int)  (200 + Math.random() * 200) ;
-                    map.put(index, params);
-                }
-                im.setLayoutParams(params);
-                ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), im, 0, 0);
+                final Integer index = mDatas.indexOf(o);
+//                final LinearLayout.LayoutParams params = map.get(index);
+//                if(params == null){
+//                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                    int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
+//                    //设置图片的相对于屏幕的宽高比
+//                    params.width = width/3;
+//                    params.height =  (int)  (200 + Math.random() * 200) ;
+//                    map.put(index, params);
+//                }
+//                im.setLayoutParams(params);
+
+//                ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), im, 0, 0);
+                        ImageLoader.getInstance().urlToBitmap(o.getBoardImgUrl(), new ImageLoaderToBitmapListener() {
+                            @Override
+                            public void onLoadFinish(Bitmap bitmap) {
+//                        LinearLayout.LayoutParams params = map.get(index);
+                                LinearLayout.LayoutParams params = o.params;
+                                if(o.params == null){
+
+                                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    //设置图片的相对于屏幕的宽高比
+                                    params.width = im.getWidth();
+                                    params.height =  (int)  (bitmap.getHeight() *  params.width  * 1.0/ ( bitmap.getWidth())) ;
+
+                                }
+                                im.setLayoutParams(params);
+                                im.setImageBitmap(bitmap);
+                            }
+                        });
+
+
             }
 
             @Override
@@ -186,4 +210,6 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     public void onViewClicked() {
 
     }
+
+
 }

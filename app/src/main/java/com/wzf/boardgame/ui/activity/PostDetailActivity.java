@@ -127,7 +127,7 @@ public class PostDetailActivity extends BaseActivity {
         ImageView im;
         for (int i = 0; i < cs.length; i++) {
             tv = new TextView(this);
-            tv.setTextSize(13);
+            tv.setTextSize(16);
             tv.setText(cs[i].replace("\n", ""));
             tv.setAutoLinkMask(Linkify.WEB_URLS);
             AutoLinkUtils.interceptHyperLink(tv);

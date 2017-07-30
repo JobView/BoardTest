@@ -74,12 +74,12 @@ public class ImageLoader {
                 .into(imageView);
     }
 
-    public void urlToBitmap(String url,int w, int h,  final ImageLoaderToBitmapListener listener){
+    public void urlToBitmap(String url,  final ImageLoaderToBitmapListener listener){
         Glide.with(MyApplication.getAppInstance()).
                 load(url)
                 .asBitmap()
-                .override(w, h)
-                .centerCrop()
+//                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

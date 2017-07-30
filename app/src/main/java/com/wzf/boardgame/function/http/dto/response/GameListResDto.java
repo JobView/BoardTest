@@ -1,5 +1,7 @@
 package com.wzf.boardgame.function.http.dto.response;
 
+import android.widget.LinearLayout;
+
 import java.util.List;
 
 /**
@@ -70,6 +72,7 @@ public class GameListResDto {
 
         private String boardId;
         private String boardImgUrl;
+        public LinearLayout.LayoutParams params;
 
         public String getBoardId() {
             return boardId;
