@@ -1,5 +1,7 @@
 package com.wzf.boardgame.function.http.dto.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class GameListResDto {
         this.waterfallList = waterfallList;
     }
 
-    public static class WaterfallListBean {
+    public static class WaterfallListBean implements Parcelable {
         /**
          * boardId : 9
          * boardImgUrl : http://os7i4k6w5.bkt.clouddn.com/image/wskj/1498636083546.jpg
@@ -72,7 +74,24 @@ public class GameListResDto {
 
         private String boardId;
         private String boardImgUrl;
-        public LinearLayout.LayoutParams params;
+        private int width;
+        private int height;
+
+        public int getWidth() {
+            return width;
+        }
+
+        public void setWidth(int width) {
+            this.width = width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
 
         public String getBoardId() {
             return boardId;
@@ -89,5 +108,40 @@ public class GameListResDto {
         public void setBoardImgUrl(String boardImgUrl) {
             this.boardImgUrl = boardImgUrl;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.boardId);
+            dest.writeString(this.boardImgUrl);
+            dest.writeInt(this.width);
+            dest.writeInt(this.height);
+        }
+
+        public WaterfallListBean() {
+        }
+
+        protected WaterfallListBean(Parcel in) {
+            this.boardId = in.readString();
+            this.boardImgUrl = in.readString();
+            this.width = in.readInt();
+            this.height = in.readInt();
+        }
+
+        public static final Parcelable.Creator<WaterfallListBean> CREATOR = new Parcelable.Creator<WaterfallListBean>() {
+            @Override
+            public WaterfallListBean createFromParcel(Parcel source) {
+                return new WaterfallListBean(source);
+            }
+
+            @Override
+            public WaterfallListBean[] newArray(int size) {
+                return new WaterfallListBean[size];
+            }
+        };
     }
 }

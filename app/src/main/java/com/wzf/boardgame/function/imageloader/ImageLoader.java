@@ -1,5 +1,6 @@
 package com.wzf.boardgame.function.imageloader;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.utils.StringUtils;
@@ -106,6 +108,28 @@ public class ImageLoader {
 
                     }
                 });
+    }
+
+
+    /**
+     * 需要在子线程执行
+     *
+     * @param context
+     * @param url
+     * @return
+     */
+    public static Bitmap load(Context context, String url) {
+        try {
+            return Glide.with(context)
+                    .load(url)
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static ImageLoader getInstance() {
