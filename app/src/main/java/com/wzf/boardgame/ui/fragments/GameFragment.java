@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wzf.boardgame.MyApplication;
@@ -23,10 +22,9 @@ import com.wzf.boardgame.function.eventbus.Subscribe;
 import com.wzf.boardgame.function.eventbus.ThreadMode;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
+import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
-import com.wzf.boardgame.function.imageloader.ImageLoaderToBitmapListener;
-import com.wzf.boardgame.function.server.DataService;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -36,14 +34,13 @@ import com.wzf.boardgame.utils.ScreenUtils;
 import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -71,7 +68,6 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             ButterKnife.bind(this, mRootView);
             initData();
         }
-        EventBus.getDefault().register(this);
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
             parent.removeView(mRootView);
@@ -91,9 +87,15 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         imRight1.setVisibility(View.VISIBLE);
 
         srl.setOnRefreshListener(this);
+        //实现首次自动显示加载提示
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(true);
+            }
+        });
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(sManager);
         adapter = getAdapter();
@@ -137,23 +139,38 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         reqDto.setPageSize(30);
         reqDto.setPageNum(page);
         UrlService.SERVICE.getWaterfallList(reqDto.toEncodeString())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<GameListResDto>(bActivity, refresh) {
+                .observeOn(Schedulers.newThread())
+                .map(new Func1<BaseResponse<GameListResDto>,BaseResponse<GameListResDto>>() {
+                    @Override
+                    public BaseResponse<GameListResDto> call(BaseResponse<GameListResDto> game) {
+                        //加载异步线程获取图片的宽高
+                        List<GameListResDto.WaterfallListBean> gameLists = game.getResponse().getWaterfallList();
+                        for (GameListResDto.WaterfallListBean data : gameLists) {
+                            Bitmap bitmap = ImageLoader.getInstance().load(bActivity, data.getBoardImgUrl());
+                            if (bitmap != null) {
+                                data.setWidth(bitmap.getWidth());
+                                data.setHeight(bitmap.getHeight());
+                            }
+                        }
+                        return game;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ResponseSubscriber<GameListResDto>(bActivity, false) {
                     @Override
                     public void onSuccess(GameListResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
                         page ++;
-                        DataService.startService(bActivity, responseDto.getWaterfallList(), refresh);
-//                        if(refresh){
-//                            adapter.refresh(responseDto.getWaterfallList());
-//                            srl.setRefreshing(false);
-//                        }else {
-//                            adapter.loadMore(responseDto.getWaterfallList());
-//                        }
-//                        if(responseDto.getIsLastPage() == 1){
-//                            adapter.loadMoreFinish();
-//                        }
+                        if(refresh){
+                            adapter.refresh(responseDto.getWaterfallList());
+                            srl.setRefreshing(false);
+                        }else {
+                            adapter.loadMore(responseDto.getWaterfallList());
+                        }
+                        if(responseDto.getIsLastPage() == 1){
+                            adapter.loadMoreFinish();
+                        }
 
                     }
                     @Override
@@ -165,60 +182,13 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getDealItem(EventBusForGameList gameList){
-        if(gameList.isFresh()){
-            adapter.refresh(gameList.getDatas());
-            srl.setRefreshing(false);
-        }else {
-            adapter.loadMore(gameList.getDatas());
-        }
-    }
-
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
-//            Map<Integer, LinearLayout.LayoutParams> map = new HashMap<>();
             @Override
             public void convert(RcyViewHolder holder, final GameListResDto.WaterfallListBean o) {
                 ScaleImageView imageView = holder.getView(R.id.im);
                 imageView.setInitSize(o.getWidth(), o.getHeight());
-//                ImageLoader.load(NiceReadApplication.getContext(),
-//                        girlItemData.getUrl(), imageView);
                 ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), imageView, 0, 0);
-//                final  ImageView im = holder.getView(R.id.im);
-//                im.setImageResource(R.mipmap.image_loading);
-//                final Integer index = mDatas.indexOf(o);
-////                final LinearLayout.LayoutParams params = map.get(index);
-////                if(params == null){
-////                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-////                    int width = ScreenUtils.getScreenWidth(MyApplication.getAppInstance());
-////                    //设置图片的相对于屏幕的宽高比
-////                    params.width = width/3;
-////                    params.height =  (int)  (200 + Math.random() * 200) ;
-////                    map.put(index, params);
-////                }
-////                im.setLayoutParams(params);
-//
-////                ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), im, 0, 0);
-//                        ImageLoader.getInstance().urlToBitmap(o.getBoardImgUrl(), new ImageLoaderToBitmapListener() {
-//                            @Override
-//                            public void onLoadFinish(Bitmap bitmap) {
-////                        LinearLayout.LayoutParams params = map.get(index);
-//                                LinearLayout.LayoutParams params = o.params;
-//                                if(o.params == null){
-//
-//                                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                                    //设置图片的相对于屏幕的宽高比
-//                                    params.width = im.getWidth();
-//                                    params.height =  (int)  (bitmap.getHeight() *  params.width  * 1.0/ ( bitmap.getWidth())) ;
-//
-//                                }
-//                                im.setLayoutParams(params);
-//                                im.setImageBitmap(bitmap);
-//                            }
-//                        });
-
-
             }
 
             @Override
@@ -226,12 +196,6 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 return R.layout.item_game_list;
             }
         };
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().unRegister(this);
     }
 
     @OnClick(R.id.im_right1)
