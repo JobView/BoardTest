@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mob.MobSDK;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.RegisterRequestDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
+import com.wzf.boardgame.function.share.PlatformAuthorizeUserInfoManager;
+import com.wzf.boardgame.function.share.ResourcesManager;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.REGX;
@@ -20,6 +23,9 @@ import com.wzf.boardgame.utils.REGX;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -50,14 +56,14 @@ public class LoginActivity extends BaseActivity {
         tvCenter.setText("登录");
         tvCenter.setVisibility(View.VISIBLE);
         etPhone.setFilters(REGX.getFilters(REGX.REGX_MOBILE_INPUT));
-        forgetPsd.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG ); //中划线
+        forgetPsd.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //中划线
         etPhone.setText(UserInfo.getInstance().getPhone());
         etPhone.setSelection(UserInfo.getInstance().getPhone().length());
         etPsw.setText(UserInfo.getInstance().getPsw());
         etPsw.setSelection(UserInfo.getInstance().getPsw().length());
     }
 
-    @OnClick({R.id.forget_psd, R.id.to_register, R.id.btn_login})
+    @OnClick({R.id.forget_psd, R.id.to_register, R.id.btn_login, R.id.qq, R.id.wx, R.id.sina})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forget_psd:
@@ -68,17 +74,33 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_login:
                 login();
                 break;
+            case R.id.qq:
+//                Platform platform = ShareSDK.getPlatform(QQ.NAME);
+//                Platform.ShareParams shareParams = new  Platform.ShareParams();
+//                shareParams.setText(ResourcesManager.getInstace(MobSDK.getContext()).getText());
+//                shareParams.setTitle(ResourcesManager.getInstace(MobSDK.getContext()).getTitle());
+//                shareParams.setTitleUrl(ResourcesManager.getInstace(MobSDK.getContext()).getTitleUrl());
+//                shareParams.setShareType(Platform.SHARE_WEBPAGE);
+////                platform.setPlatformActionListener(platformActionListener);
+//                platform.share(shareParams);
+                PlatformAuthorizeUserInfoManager platAuth = new PlatformAuthorizeUserInfoManager(this);
+                platAuth.qqShareAuthorize();
+                break;
+            case R.id.wx:
+                break;
+            case R.id.sina:
+                break;
         }
     }
 
     private void login() {
         final String phone = etPhone.getText().toString();
-        if(TextUtils.isEmpty(phone) || phone.length() != 11){
+        if (TextUtils.isEmpty(phone) || phone.length() != 11) {
             showToast("手机号码不正确");
             return;
         }
         final String pwd = etPsw.getText().toString();
-        if(TextUtils.isEmpty(pwd) || pwd.length() < 6 || pwd.length() > 20){
+        if (TextUtils.isEmpty(pwd) || pwd.length() < 6 || pwd.length() > 20) {
             showToast("密码应该是6-20位");
             return;
         }
@@ -99,6 +121,7 @@ public class LoginActivity extends BaseActivity {
                         startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                         finish();
                     }
+
                     @Override
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
@@ -106,4 +129,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
     }
+
+
 }

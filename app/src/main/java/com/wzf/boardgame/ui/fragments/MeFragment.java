@@ -17,7 +17,12 @@ import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.UserInfoReqDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.FansActivity;
+import com.wzf.boardgame.ui.activity.FollowsActivity;
 import com.wzf.boardgame.ui.activity.MeInfoEditActivity;
+import com.wzf.boardgame.ui.activity.ReplyActivity;
+import com.wzf.boardgame.ui.activity.StoreActivity;
+import com.wzf.boardgame.ui.activity.SubjectsActivity;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.AppDeviceInfo;
@@ -141,7 +146,7 @@ public class MeFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.ll_message, R.id.ll_user_info, R.id.ll_store})
+    @OnClick({R.id.ll_message, R.id.ll_user_info, R.id.ll_store, R.id.tv_unlogin, R.id.ll_attention, R.id.ll_fans, R.id.ll_subject, R.id.ll_reply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_message:
@@ -150,6 +155,22 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(bActivity, MeInfoEditActivity.class));
                 break;
             case R.id.ll_store:
+                startActivity(new Intent(bActivity, StoreActivity.class));
+                break;
+            case R.id.tv_unlogin:
+                UserInfo.isLogin(bActivity);
+                break;
+            case R.id.ll_attention:
+                FollowsActivity.startMethod(bActivity, UserInfo.getInstance().getUid());
+                break;
+            case R.id.ll_fans:
+                FansActivity.startMethod(bActivity, UserInfo.getInstance().getUid());
+                break;
+            case R.id.ll_subject:
+                SubjectsActivity.startMethod(bActivity, UserInfo.getInstance().getUid());
+                break;
+            case R.id.ll_reply:
+                ReplyActivity.startMethod(bActivity, UserInfo.getInstance().getUid());
                 break;
         }
     }

@@ -2,10 +2,15 @@ package com.wzf.boardgame.ui.model;
 
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
+
 import com.wzf.boardgame.function.http.dto.request.BaseRequestDto;
 import com.wzf.boardgame.function.http.dto.request.HeaderParams;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
+import com.wzf.boardgame.ui.activity.LoginActivity;
 import com.wzf.boardgame.utils.PreferencesHelper;
 
 import rx.schedulers.Schedulers;
@@ -192,6 +197,15 @@ public class UserInfo {
         setPostCount(dto.getPostCount() + "");
         setReplyCount(dto.getReplyCount() + "");
         setRegTime(dto.getRegTime());
+    }
+
+    public static boolean isLogin(Context context){
+        if(TextUtils.isEmpty(UserInfo.getInstance().getToken())){
+            context.startActivity(new Intent(context, LoginActivity.class));
+            return false;
+        }else {
+            return true;
+        }
     }
 
 }

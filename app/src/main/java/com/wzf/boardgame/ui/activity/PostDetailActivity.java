@@ -157,7 +157,7 @@ public class PostDetailActivity extends BaseActivity {
         imRight2.setImageResource(responseDto.getIsCollect() == 0 ? R.mipmap.forum_btn_collect_nor : R.mipmap.forum_btn_collect_sel);
     }
 
-    @OnClick({R.id.im_left, R.id.im_right1, R.id.im_right2, R.id.ll_comment})
+    @OnClick({R.id.im_left, R.id.im_right1, R.id.im_right2, R.id.ll_comment, R.id.im_avatar})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.im_left:
@@ -176,6 +176,11 @@ public class PostDetailActivity extends BaseActivity {
             case R.id.ll_comment:
                 if(responseDto != null) {
                     CommentListActivity.startMethod(this, postId);
+                }
+                break;
+            case R.id.im_avatar:
+                if(responseDto != null){
+                    UserInfoActivity.startMethod(this, responseDto.getUserId());
                 }
                 break;
         }

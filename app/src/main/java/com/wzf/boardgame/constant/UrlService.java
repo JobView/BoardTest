@@ -4,6 +4,8 @@ import com.wzf.boardgame.function.http.OkHttpUtils;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.function.http.dto.response.CommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
+import com.wzf.boardgame.function.http.dto.response.FansLiseResDto;
+import com.wzf.boardgame.function.http.dto.response.FollowLiseResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
@@ -125,6 +127,45 @@ public interface UrlService {
     @POST("community/replyComment")
     @FormUrlEncoded
     Observable<BaseResponse<Object>> replyComment(@Field("params") String params);
+
+    //获取个人关注列表接口
+    @POST("user/getUserFollowerList")
+    @FormUrlEncoded
+    Observable<BaseResponse<FollowLiseResDto>> getUserFollowerList(@Field("params") String params);
+
+    //获取个人主题列表接口
+    @POST("user/getUserPostList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> getUserPostList(@Field("params") String params);
+
+
+    //获取个人回复列表接口
+    @POST("user/getUserReplyList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> getUserReplyList(@Field("params") String params);
+
+
+    //获取个人粉丝列表接口
+    @POST("user/getUserFansList")
+    @FormUrlEncoded
+    Observable<BaseResponse<FansLiseResDto>> getUserFansList(@Field("params") String params);
+
+
+    //关注用户接口
+    @POST("user/followUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> followUser(@Field("params") String params);
+
+
+    //取消关注用户接口
+    @POST("user/cancelFollowUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelFollowUser(@Field("params") String params);
+
+    //获取收藏的帖子列表接口
+    @POST("user/getPostCollectList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> getPostCollectList(@Field("params") String params);
 
 
 

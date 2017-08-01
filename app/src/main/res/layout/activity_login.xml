@@ -94,6 +94,33 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:background="@drawable/shape_blue_8"/>
+    
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_below="@id/btn_login"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/qq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="QQ"/>
+        <Button
+            android:id="@+id/wx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="WX"/>
+        <Button
+            android:id="@+id/sina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SINA"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/to_register"

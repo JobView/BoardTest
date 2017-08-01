@@ -90,6 +90,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_attention"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -121,6 +122,7 @@
                     android:background="@color/bgUnderLine2" />
 
                 <LinearLayout
+                    android:id="@+id/ll_fans"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -152,6 +154,7 @@
                     android:background="@color/bgUnderLine2" />
 
                 <LinearLayout
+                    android:id="@+id/ll_subject"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -183,6 +186,7 @@
                     android:background="@color/bgUnderLine2" />
 
                 <LinearLayout
+                    android:id="@+id/ll_reply"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

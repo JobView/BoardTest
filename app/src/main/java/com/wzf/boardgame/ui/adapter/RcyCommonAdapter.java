@@ -96,7 +96,7 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
      * @param datas
      */
     public void loadMore(List<T> datas, boolean loadFinish) {
-        if (loadMore && !loadFinish) {
+        if (loadMore) {
             if (datas == null || datas.size() == 0) { // 结束标志
                 loadFinish = true;
             } else {

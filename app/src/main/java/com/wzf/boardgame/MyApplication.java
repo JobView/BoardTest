@@ -3,6 +3,7 @@ package com.wzf.boardgame;
 import android.support.multidex.MultiDexApplication;
 
 import com.lzy.imagepicker.ImagePicker;
+import com.mob.MobApplication;
 import com.tencent.bugly.Bugly;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.imageloader.ImagePickerImageLoader;
@@ -14,7 +15,7 @@ import com.wzf.boardgame.function.map.BaiDuMapManager;
  * @date: 2017-06-19 09:15
  */
 
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends MobApplication {
     private final String TAG = getClass().getSimpleName();
     private static MyApplication application;
     @Override
