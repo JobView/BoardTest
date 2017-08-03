@@ -7,17 +7,17 @@ package com.wzf.boardgame.function.http.dto.request;
  */
 
 public class GetUserRelationReqDto extends BaseRequestDto {
-    private String uid;
+    private String userId;
     private int pageNum;
 //    private int pageSize;
 
 
     public String getUid() {
-        return uid;
+        return userId;
     }
 
     public void setUid(String uid) {
-        this.uid = uid;
+        this.userId = uid;
     }
 
     public int getPageNum() {

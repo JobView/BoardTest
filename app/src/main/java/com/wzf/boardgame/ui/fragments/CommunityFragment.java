@@ -146,6 +146,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                     @Override
                     public void onSuccess(CommunityListResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
+                        page ++;
                         if(refresh){
                             if(banner != null && banner.getCarouselList().size() > 0){
                                 responseDto.getPostList().add(0, new CommunityListResDto.PostListBean(true)); // 为广告留位置

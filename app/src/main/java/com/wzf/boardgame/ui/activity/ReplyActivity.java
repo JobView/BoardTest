@@ -14,11 +14,13 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.UserSubjectReqDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
+import com.wzf.boardgame.function.http.dto.response.ReplyListReqDto;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.model.UserInfo;
+import com.wzf.boardgame.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -79,14 +81,14 @@ public class ReplyActivity extends BaseActivity {
     }
 
     private RcyCommonAdapter getAdapter() {
-        return new RcyCommonAdapter<CommunityListResDto.PostListBean>(this, new ArrayList<CommunityListResDto.PostListBean>(), true, rv){
+        return new RcyCommonAdapter<ReplyListReqDto.ReplyListBean>(this, new ArrayList<ReplyListReqDto.ReplyListBean>(), true, rv){
             @Override
-            public void convert(RcyViewHolder holder, CommunityListResDto.PostListBean o) {
+            public void convert(RcyViewHolder holder, ReplyListReqDto.ReplyListBean o) {
                 TextView tvTime = holder.getView(R.id.tv_time);
                 TextView tvContent = holder.getView(R.id.tv_content);
-                tvTime.setText(o.getPostTime());
-                tvContent.setText(o.getNickname() + "发不了帖子:" + o.getPostTitle());
-
+                tvTime.setText(o.getReplyTime());
+                tvContent.setText(StringUtils.concat(o.getNickname(), "回复了", o.getBeAnswerNickname(),
+                        "的帖子：", o.getReplyContent()));
             }
 
             @Override
@@ -97,7 +99,7 @@ public class ReplyActivity extends BaseActivity {
             @Override
             public void clickPosition(int position) {
                 super.clickPosition(position);
-                UserInfoActivity.startMethod(ReplyActivity.this, mDatas.get(position).getUserId());
+                PostDetailActivity.startMethod(ReplyActivity.this, mDatas.get(position).getPostId());
             }
         };
     }
@@ -109,12 +111,12 @@ public class ReplyActivity extends BaseActivity {
         UrlService.SERVICE.getUserReplyList(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<CommunityListResDto>(this, true) {
+                .subscribe(new ResponseSubscriber<ReplyListReqDto>(this, true) {
                     @Override
-                    public void onSuccess(CommunityListResDto responseDto) throws Exception {
+                    public void onSuccess(ReplyListReqDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
                         page ++;
-                        adapter.loadMore(responseDto.getPostList(), responseDto.getIsLastPage() == 1);
+                        adapter.loadMore(responseDto.getReplyList(), responseDto.getIsLastPage() == 1);
                     }
                     @Override
                     public void onFailure(int code, String message) throws Exception {

@@ -90,7 +90,7 @@ public class SubjectsActivity extends BaseActivity {
                 TextView tvTime = holder.getView(R.id.tv_time);
                 TextView tvContent = holder.getView(R.id.tv_content);
                 tvTime.setText(o.getPostTime());
-                tvContent.setText(o.getNickname() + "发不了帖子:" + o.getPostTitle());
+                tvContent.setText(o.getNickname() + "发布了帖子:" + o.getPostTitle());
 
             }
 

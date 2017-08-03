@@ -128,7 +128,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.im_left, R.id.im_right1,R.id.ll_attention, R.id.ll_fans})
+    @OnClick({R.id.im_left, R.id.im_right1,R.id.ll_attention, R.id.ll_fans, R.id.ll_subject, R.id.ll_reply})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.im_left:
@@ -148,6 +148,18 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.ll_fans:
                 if(resDto != null){
                     FansActivity.startMethod(this, uid);
+                }
+                break;
+
+            case R.id.ll_subject:
+                if(resDto != null){
+                    SubjectsActivity.startMethod(this, uid);
+                }
+
+                break;
+            case R.id.ll_reply:
+                if(resDto != null){
+                    ReplyActivity.startMethod(this, uid);
                 }
                 break;
         }

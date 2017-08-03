@@ -160,7 +160,7 @@
             android:background="@color/bgUnderLine2" />
 
         <LinearLayout
-            android:id="@+id/ll_replay"
+            android:id="@+id/ll_reply"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -62,7 +62,7 @@ public class FansActivity extends BaseActivity {
 
     private void initView() {
         imLeft.setVisibility(View.VISIBLE);
-        tvCenter.setText(UserInfo.getInstance().getUid().endsWith(uid)? "我的分丝" : "TA的分丝");
+        tvCenter.setText(UserInfo.getInstance().getUid().endsWith(uid)? "我的粉丝" : "TA的粉丝");
         tvCenter.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);

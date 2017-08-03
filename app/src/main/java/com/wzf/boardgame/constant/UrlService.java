@@ -11,6 +11,7 @@ import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.QiNiuTokenResDto;
+import com.wzf.boardgame.function.http.dto.response.ReplyListReqDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 
 import okhttp3.ResponseBody;
@@ -142,7 +143,7 @@ public interface UrlService {
     //获取个人回复列表接口
     @POST("user/getUserReplyList")
     @FormUrlEncoded
-    Observable<BaseResponse<CommunityListResDto>> getUserReplyList(@Field("params") String params);
+    Observable<BaseResponse<ReplyListReqDto>> getUserReplyList(@Field("params") String params);
 
 
     //获取个人粉丝列表接口

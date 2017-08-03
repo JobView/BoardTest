@@ -21,7 +21,6 @@ import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
-import com.wzf.boardgame.utils.StringUtils;
 
 import java.util.ArrayList;
 
