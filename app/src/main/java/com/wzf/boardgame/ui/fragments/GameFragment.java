@@ -25,6 +25,7 @@ import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.GameDetailActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -194,6 +195,12 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             @Override
             public int getLayoutId(int position) {
                 return R.layout.item_game_list;
+            }
+
+            @Override
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
+                GameDetailActivity.startMethod(bActivity, mDatas.get(position).getBoardId());
             }
         };
     }

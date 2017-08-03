@@ -6,6 +6,8 @@ import com.wzf.boardgame.function.http.dto.response.CommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
 import com.wzf.boardgame.function.http.dto.response.FansLiseResDto;
 import com.wzf.boardgame.function.http.dto.response.FollowLiseResDto;
+import com.wzf.boardgame.function.http.dto.response.GameCommentListResDto;
+import com.wzf.boardgame.function.http.dto.response.GameDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
@@ -71,10 +73,35 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<CommunityListResDto>> communityList(@Field("params") String params);
 
-    //获取瀑布流信息
+    //获取桌游瀑布流信息
     @POST("boardGame/getWaterfallList")
     @FormUrlEncoded
     Observable<BaseResponse<GameListResDto>> getWaterfallList(@Field("params") String params);
+
+    //获取桌游信息接口
+    @POST("boardGame/getInfomation")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameDetailResDto>> getInformation(@Field("params") String params);
+
+    //推荐/不推荐接口
+    @POST("boardGame/thumbsUp")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> thumbsUp(@Field("params") String params);
+
+    //取消推荐/不推荐接
+    @POST("boardGame/cancelThumbsUp")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelThumbsUp(@Field("params") String params);
+
+    //评论桌游接口
+    @POST("boardGame/commentBoardGame")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> commentBoardGame(@Field("params") String params);
+
+    //获取桌游评论列表接口
+    @POST("boardGame/getCommentList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameCommentListResDto>> getCommentList(@Field("params") String params);
 
     //获取用户信息
     @POST("user/getUserInformation")

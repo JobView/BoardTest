@@ -77,8 +77,8 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
         imLeft.setVisibility(View.VISIBLE);
         tvCenter.setText("评论列表");
         tvCenter.setVisibility(View.VISIBLE);
-        imRight1.setImageResource(R.mipmap.tabbar_btn_game_nor);
-//        imRight1.setVisibility(View.VISIBLE);
+        imRight1.setImageResource(R.mipmap.forum_btn_comment_nor);
+        imRight1.setVisibility(View.VISIBLE);
     }
 
 
@@ -344,6 +344,9 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 finish();
                 break;
             case R.id.im_right1:
+                if(postId != null){
+                    EditCommentActivity.startMethod(this, postId);
+                }
                 break;
         }
     }

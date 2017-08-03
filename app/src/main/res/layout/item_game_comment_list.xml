@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ImageView
+        android:id="@+id/im_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/icon_default_boy_circle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/im_avatar"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="wang"
+                android:textColor="#5C5D5E"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_nickname"
+                android:gravity="center_vertical"
+                android:layout_marginTop="6dp"
+                android:maxLines="1"
+                android:text="2017年6月5日"
+                android:textColor="#5C5D5E"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/im_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@mipmap/gamedata_btn_like_nor"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/tv_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/im_like"
+                android:layout_centerVertical="true"
+                android:maxLines="1"
+                android:text="16"
+                android:textColor="#5C5D5E"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:text="件发生后，印方为其侵入我方领土行径炮制各种站不住脚的理由，拒不纠正错误。然而，谎言终究无法自圆其说，印方有关说法在事实和法律面前毫无根据，根本不能成立。印方的恶劣行为，不能不让爱好和平的人们保持高度警惕。印方以所谓的“安全关切”为“借口”，非法越界侵入中国领土，并以此要挟中方。这种做法，不仅构成对地区和平稳定的重大挑战，更是被《联合国宪章》、国际法基本原则和国际关系基本准则所明确禁止的；不仅不会为任何一个主权国家所容忍，更不是中印两个邻国正常的相处之道。"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bgUnderLine2"
+        />
+</RelativeLayout>
