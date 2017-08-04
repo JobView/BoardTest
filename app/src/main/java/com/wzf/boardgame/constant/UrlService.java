@@ -8,6 +8,7 @@ import com.wzf.boardgame.function.http.dto.response.FansLiseResDto;
 import com.wzf.boardgame.function.http.dto.response.FollowLiseResDto;
 import com.wzf.boardgame.function.http.dto.response.GameCommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameDetailResDto;
+import com.wzf.boardgame.function.http.dto.response.GameFeedBackTypeListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
@@ -82,6 +83,26 @@ public interface UrlService {
     @POST("boardGame/getInfomation")
     @FormUrlEncoded
     Observable<BaseResponse<GameDetailResDto>> getInformation(@Field("params") String params);
+
+    //收藏桌游接口
+    @POST("boardGame/collectBoardGame")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> collectBoardGame(@Field("params") String params);
+
+    //获取桌游意见反馈类型列表接口
+    @POST("boardGame/getFeedbackTypeList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameFeedBackTypeListResDto>> getFeedbackTypeList(@Field("params") String params);
+
+    //桌游意见反馈接口
+    @POST("boardGame/sendFeedback")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> sendFeedback(@Field("params") String params);
+
+    //取消收藏桌游接口
+    @POST("boardGame/cancelCollectBoardGame")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelCollectBoardGame(@Field("params") String params);
 
     //推荐/不推荐接口
     @POST("boardGame/thumbsUp")

@@ -16,6 +16,7 @@ import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommentGameListReqDto;
 import com.wzf.boardgame.function.http.dto.request.GameCommentRecommendReqDto;
 import com.wzf.boardgame.function.http.dto.request.GameReqDto;
+import com.wzf.boardgame.function.http.dto.request.PostReqDto;
 import com.wzf.boardgame.function.http.dto.response.GameCommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameDetailResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
@@ -97,6 +98,11 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void initData() {
         getHeader();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         onRefresh();
     }
 
@@ -109,7 +115,7 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                     public void onSuccess(GameDetailResDto dto) throws Exception {
                         super.onSuccess(dto);
                         headerDto = dto;
-                        tvCenter.setText(headerDto.getBoardTitle());
+                        updateTitleBar();
                         if (headerDto != null) {
                             if (!(adapter.getmDatas().size() > 0 && adapter.getmDatas().get(0).isHeader)) { //第一条不是广告
                                 adapter.getmDatas().add(0, new GameCommentListResDto.CommentListBean(true)); // 为广告留位置
@@ -124,6 +130,11 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                         showToast(message);
                     }
                 });
+    }
+
+    private void updateTitleBar() {
+        tvCenter.setText(headerDto.getBoardTitle());
+        imRight2.setImageResource(headerDto.getIsCollect() == 0? R.mipmap.forum_btn_collect_nor : R.mipmap.forum_btn_collect_sel);
     }
 
 
@@ -294,10 +305,7 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                 });
     }
 
-    public static void startMethod(Context context, String gameId) {
-        context.startActivity(new Intent(context, GameDetailActivity.class).
-                putExtra("gameId", gameId));
-    }
+
 
     @OnClick({R.id.im_left, R.id.im_right1, R.id.im_right2})
     public void onClick(View view) {
@@ -306,9 +314,61 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                 finish();
                 break;
             case R.id.im_right1:
+                if(headerDto != null){
+                    GameCommentActivity.startMethod(this, gameId);
+                }
                 break;
             case R.id.im_right2:
+                if(headerDto != null){
+                    changeCollectStatus();
+                }
                 break;
         }
+    }
+
+    private void changeCollectStatus() {
+        if(headerDto.getIsCollect() == 0){
+            UrlService.SERVICE.collectBoardGame(new GameReqDto(gameId).toEncodeString())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new ResponseSubscriber<Object>() {
+                        @Override
+                        public void onSuccess(Object dto) throws Exception {
+                            super.onSuccess(dto);
+                            headerDto.setIsCollect(1);
+                            updateTitleBar();
+                        }
+
+                        @Override
+                        public void onFailure(int code, String message) throws Exception {
+                            super.onFailure(code, message);
+                            showToast(message);
+                        }
+                    });
+        }else {
+            UrlService.SERVICE.cancelCollectBoardGame(new GameReqDto(gameId).toEncodeString())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new ResponseSubscriber<Object>() {
+                        @Override
+                        public void onSuccess(Object dto) throws Exception {
+                            super.onSuccess(dto);
+                            headerDto.setIsCollect(0);
+                            updateTitleBar();
+                        }
+
+                        @Override
+                        public void onFailure(int code, String message) throws Exception {
+                            super.onFailure(code, message);
+                            showToast(message);
+                        }
+                    });
+        }
+
+    }
+
+    public static void startMethod(Context context, String gameId) {
+        context.startActivity(new Intent(context, GameDetailActivity.class).
+                putExtra("gameId", gameId));
     }
 }

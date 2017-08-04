@@ -113,7 +113,7 @@ public class UpLoadQiNiuManager {
                     @Override
                     public void progress(String key, double percent) {
                         if(upLoadListener != null){
-                            upLoadListener.progress(percent);
+                            upLoadListener.progress(percent * 100);
                         }
                     }
                 }, null));

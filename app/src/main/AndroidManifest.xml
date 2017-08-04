@@ -163,6 +163,18 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
+            android:name=".ui.activity.GameCommentActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity
+            android:name=".ui.activity.GameFeedBackActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateVisible"></activity>
+        <activity
             android:name=".ui.activity.EditPostActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>

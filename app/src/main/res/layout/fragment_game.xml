@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         layout="@layout/layout_top"/>
     <RelativeLayout
+        android:id="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:background="#e0e0e0">

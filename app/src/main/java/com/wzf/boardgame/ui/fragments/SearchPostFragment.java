@@ -1,15 +1,17 @@
 package com.wzf.boardgame.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,18 +20,13 @@ import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.CommunityListResDto;
-import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
-import com.wzf.boardgame.ui.activity.EditPostActivity;
 import com.wzf.boardgame.ui.activity.PostDetailActivity;
-import com.wzf.boardgame.ui.activity.SearchActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
-import com.wzf.boardgame.ui.views.banner.AdImagePagerAdapter;
-import com.wzf.boardgame.ui.views.banner.AutoScrollViewPager;
-import com.wzf.boardgame.ui.views.banner.PageIndicatorView;
+import com.wzf.boardgame.utils.SoftInputUtil;
 import com.wzf.boardgame.utils.StringUtils;
 import com.wzf.boardgame.utils.ViewUtils;
 
@@ -37,7 +34,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -45,27 +41,27 @@ import rx.schedulers.Schedulers;
  * Created by wzf on 2017/7/5.
  */
 
-public class CommunityFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class SearchPostFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     View mRootView;
-    @Bind(R.id.tv_center)
-    TextView tvCenter;
-    @Bind(R.id.im_right1)
-    ImageView imRight1;
     @Bind(R.id.srl)
     SwipeRefreshLayout srl;
     @Bind(R.id.rv)
     RecyclerView rv;
+    @Bind(R.id.et_search)
+    EditText etSearch;
+    @Bind(R.id.tv_empty)
+    TextView tvEmpty;
 
     private RcyCommonAdapter<CommunityListResDto.PostListBean> adapter;
     int page = 1;
-    private MainBannerResDto banner;
+    private String key = "";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = bActivity.getLayoutInflater().inflate(R.layout.fragment_community, null);
+            mRootView = bActivity.getLayoutInflater().inflate(R.layout.fragment_search_community, null);
             ButterKnife.bind(this, mRootView);
             initData();
         }
@@ -78,8 +74,6 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
 
     private void initData() {
         initView();
-        getBanner();
-        onRefresh();
     }
 
     @Override
@@ -88,10 +82,20 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
     }
 
     private void initView() {
-        tvCenter.setText("首页");
-        tvCenter.setVisibility(View.VISIBLE);
-        imRight1.setImageResource(R.mipmap.home_btn_write_nor);
-        imRight1.setVisibility(View.VISIBLE);
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    page = 1;
+                    key = etSearch.getText().toString().trim();
+                    SoftInputUtil.closeSoftInput(bActivity);
+                    getData(true);
+                    return true;
+                }
+                return false;
+            }
+
+        });
         srl.setOnRefreshListener(this);
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         LinearLayoutManager llManager = new LinearLayoutManager(bActivity);
@@ -108,38 +112,17 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
         });
 
     }
-
-    private void getBanner() {
-        UrlService.SERVICE.getBanner("")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<MainBannerResDto>(bActivity, true) {
-                    @Override
-                    public void onSuccess(MainBannerResDto responseDto) throws Exception {
-                        super.onSuccess(responseDto);
-                        banner = responseDto;
-                        if(banner != null && banner.getCarouselList().size() > 0){
-                            if(!(adapter.getmDatas().size() > 0 && adapter.getmDatas().get(0).isAds())){ //第一条不是广告
-                                adapter.getmDatas().add(0, new CommunityListResDto.PostListBean(true)); // 为广告留位置
-                            }
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-                    @Override
-                    public void onFailure(int code, String message) throws Exception {
-                        super.onFailure(code, message);
-                        bActivity.showToast(message);
-                    }
-                });
-
-    }
     private void getData(final boolean refresh) {
+        if(TextUtils.isEmpty(key)){
+           return;
+        }
         if(refresh){
             page = 1;
         }
         CommunityListReqDto reqDto = new CommunityListReqDto();
         reqDto.setPageSize(30);
         reqDto.setPageNum(page);
+        reqDto.setSearch(key);
         UrlService.SERVICE.communityList(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -149,8 +132,12 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                         super.onSuccess(responseDto);
                         page ++;
                         if(refresh){
-                            if(banner != null && banner.getCarouselList().size() > 0){
-                                responseDto.getPostList().add(0, new CommunityListResDto.PostListBean(true)); // 为广告留位置
+                            if(responseDto.getPostList().size() == 0){
+                                tvEmpty.setVisibility(View.VISIBLE);
+                                srl.setVisibility(View.GONE);
+                            }else {
+                                tvEmpty.setVisibility(View.GONE);
+                                srl.setVisibility(View.VISIBLE);
                             }
                             adapter.refresh(responseDto.getPostList());
                             srl.setRefreshing(false);
@@ -175,33 +162,7 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
         return new RcyCommonAdapter<CommunityListResDto.PostListBean>(bActivity, new ArrayList<CommunityListResDto.PostListBean>(), true, rv) {
             @Override
             public void convert(RcyViewHolder holder, CommunityListResDto.PostListBean o) {
-                if(o.isAds()){
-                    fetchHeader(holder);
-                }else {
-                    fetchContent(holder, o);
-                }
-            }
-
-            private void fetchHeader(RcyViewHolder holder) {
-                AutoScrollViewPager page =  holder.getView(R.id.view_pager);
-                final PageIndicatorView indicator =  holder.getView(R.id.pageview);
-                page.setAdapter(new AdImagePagerAdapter(bActivity, banner.getCarouselList()));
-                indicator.setTotalPage(banner.getCarouselList().size());
-                indicator.settype(1);
-                page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-                    public void onPageScrollStateChanged(int arg0) {}
-
-                    public void onPageScrolled(int arg0, float arg1, int arg2) {}
-
-                    public void onPageSelected(int arg0) {
-                        indicator.setCurrentPage(arg0 % banner.getCarouselList().size());
-                    }
-                });
-                page.setInterval(3000);
-                page.startAutoScroll();
-                int times = Integer.MAX_VALUE / banner.getCarouselList().size();
-                page.setCurrentItem(times / 2 * banner.getCarouselList().size());
+                fetchContent(holder, o);
             }
 
             private void fetchContent(RcyViewHolder holder, CommunityListResDto.PostListBean o) {
@@ -247,19 +208,6 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 }
             }
         };
-    }
-
-
-    @OnClick({R.id.im_right1, R.id.rl_search})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.im_right1:
-                startActivity(new Intent(bActivity, EditPostActivity.class));
-                break;
-            case R.id.rl_search:
-                SearchActivity.startMethod(bActivity, SearchActivity.SEARCH_POST);
-                break;
-        }
     }
 
 }

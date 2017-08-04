@@ -8,19 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wzf.boardgame.MyApplication;
 import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
-import com.wzf.boardgame.function.eventbus.EventBus;
-import com.wzf.boardgame.function.eventbus.EventBusForGameList;
-import com.wzf.boardgame.function.eventbus.Subscribe;
-import com.wzf.boardgame.function.eventbus.ThreadMode;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
@@ -28,13 +28,13 @@ import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.ui.activity.GameDetailActivity;
 import com.wzf.boardgame.ui.activity.GameFeedBackActivity;
-import com.wzf.boardgame.ui.activity.SearchActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.ui.views.ScaleImageView;
 import com.wzf.boardgame.utils.ScreenUtils;
+import com.wzf.boardgame.utils.SoftInputUtil;
 import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -51,24 +51,25 @@ import rx.schedulers.Schedulers;
  * Created by wzf on 2017/7/5.
  */
 
-public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class SearchGameFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     View mRootView;
-    @Bind(R.id.tv_center)
-    TextView tvCenter;
-    @Bind(R.id.im_right1)
-    ImageView imRight1;
     @Bind(R.id.srl)
     SwipeRefreshLayout srl;
     @Bind(R.id.rv)
     RecyclerView rv;
+    @Bind(R.id.et_search)
+    EditText etSearch;
+    @Bind(R.id.tv_empty)
+    TextView tvEmpty;
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> adapter;
     int page = 1;
+    private String key = "";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = bActivity.getLayoutInflater().inflate(R.layout.fragment_game, null);
+            mRootView = bActivity.getLayoutInflater().inflate(R.layout.fragment_search_game, null);
             ButterKnife.bind(this, mRootView);
             initData();
         }
@@ -81,23 +82,31 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void initData() {
         initView();
-        onRefresh();
     }
 
     private void initView() {
-        tvCenter.setText("桌游百科");
-        tvCenter.setVisibility(View.VISIBLE);
-        imRight1.setImageResource(R.mipmap.game_btn_mali_nor);
-        imRight1.setVisibility(View.VISIBLE);
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    page = 1;
+                    key = etSearch.getText().toString().trim();
+                    SoftInputUtil.closeSoftInput(bActivity);
+                    getData(true);
+                    return true;
+                }
+                return false;
+            }
 
+        });
         srl.setOnRefreshListener(this);
         //实现首次自动显示加载提示
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(true);
-            }
-        });
+//        srl.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                srl.setRefreshing(true);
+//            }
+//        });
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -136,12 +145,16 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getData(final boolean refresh) {
+        if(TextUtils.isEmpty(key)){
+            return;
+        }
         if(refresh){
             page = 1;
         }
         CommunityListReqDto reqDto = new CommunityListReqDto();
         reqDto.setPageSize(30);
         reqDto.setPageNum(page);
+        reqDto.setSearch(key);
         UrlService.SERVICE.getWaterfallList(reqDto.toEncodeString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
@@ -167,6 +180,13 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                         super.onSuccess(responseDto);
                         page ++;
                         if(refresh){
+                            if(responseDto.getWaterfallList().size() == 0){
+                                tvEmpty.setVisibility(View.VISIBLE);
+                                srl.setVisibility(View.GONE);
+                            }else {
+                                tvEmpty.setVisibility(View.GONE);
+                                srl.setVisibility(View.VISIBLE);
+                            }
                             adapter.refresh(responseDto.getWaterfallList());
                             srl.setRefreshing(false);
                         }else {
@@ -206,18 +226,6 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 GameDetailActivity.startMethod(bActivity, mDatas.get(position).getBoardId());
             }
         };
-    }
-
-    @OnClick({R.id.im_right1, R.id.rl_search})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.im_right1:
-                startActivity(new Intent(bActivity, GameFeedBackActivity.class));
-                break;
-            case R.id.rl_search:
-                SearchActivity.startMethod(bActivity, SearchActivity.SEARCH_GAME);
-                break;
-        }
     }
 
 }
