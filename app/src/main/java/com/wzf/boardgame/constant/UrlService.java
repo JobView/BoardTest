@@ -60,10 +60,21 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<Object>> register(@Field("params") String params);
 
+
+    //修改密码接口
+    @POST("user/changePwd")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> changePwd(@Field("params") String params);
+
     //登录
     @POST("user/login")
     @FormUrlEncoded
     Observable<BaseResponse<LoginResDto>> login(@Field("params") String params);
+
+    //退出登录接口
+    @POST("user/exit")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> exit(@Field("params") String params);
 
     //获取首页的banner
     @POST("community/getHomeCarousel")
@@ -78,6 +89,11 @@ public interface UrlService {
     @POST("boardGame/getWaterfallList")
     @FormUrlEncoded
     Observable<BaseResponse<GameListResDto>> getWaterfallList(@Field("params") String params);
+
+    //获取收藏的桌游列表接口
+    @POST("user/getBoardCollectList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameListResDto>> getBoardCollectList(@Field("params") String params);
 
     //获取桌游信息接口
     @POST("boardGame/getInfomation")

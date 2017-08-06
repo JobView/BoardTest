@@ -29,6 +29,7 @@ import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.dialog.AlertCommonDialog;
 import com.wzf.boardgame.ui.dialog.CommentDialog;
 import com.wzf.boardgame.ui.model.UserInfo;
+import com.wzf.boardgame.utils.ActivityCollector;
 import com.wzf.boardgame.utils.ScreenUtils;
 import com.wzf.boardgame.utils.StringUtils;
 
@@ -163,7 +164,7 @@ public class MeInfoEditActivity extends BaseActivity {
         imagePicker.setMultiMode(false);                          //单选
     }
 
-    @OnClick({R.id.im_left, R.id.ll_nickname, R.id.ll_sine, R.id.ll_gender, R.id.ll_birthday, R.id.ll_change_pwd, R.id.im_avatar})
+    @OnClick({R.id.im_left, R.id.ll_nickname, R.id.ll_sine, R.id.ll_gender, R.id.ll_birthday, R.id.ll_change_pwd, R.id.im_avatar, R.id.tv_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.im_avatar:
@@ -232,8 +233,37 @@ public class MeInfoEditActivity extends BaseActivity {
                 datePickerDialog.show();
                 break;
             case R.id.ll_change_pwd:
+                startActivity(new Intent(this, ForgetPwdActivity.class));
+                break;
+            case R.id.tv_logout:
+                new AlertCommonDialog(this, "确定退出此账户？","确定","取消"){
+                    @Override
+                    public void onPositiveClick() {
+                        loginOut();
+                    }
+                }.show();
+
                 break;
         }
+    }
+
+    private void loginOut() {
+        UrlService.SERVICE.exit("")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new ResponseSubscriber<Object>(this, true) {
+                    @Override
+                    public void onSuccess(Object responseDto) throws Exception {
+                        super.onSuccess(responseDto);
+                        ActivityCollector.removeAllActivity();
+                        MeInfoEditActivity.this.startActivity(new Intent(MeInfoEditActivity.this, LoginActivity.class));
+                    }
+                    @Override
+                    public void onFailure(int code, String message) throws Exception {
+                        super.onFailure(code, message);
+                        showToast(message);
+                    }
+                });
     }
 
 

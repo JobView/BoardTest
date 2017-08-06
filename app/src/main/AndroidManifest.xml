@@ -46,6 +46,9 @@
         <activity android:name=".ui.activity.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.activity.ForgetPwdActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait"></activity>
 
         <activity android:name=".ui.activity.UserInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"

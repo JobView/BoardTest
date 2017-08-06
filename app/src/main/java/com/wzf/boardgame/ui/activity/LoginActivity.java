@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forget_psd:
+                startActivity(new Intent(this, ForgetPwdActivity.class));
                 break;
             case R.id.to_register:
                 startActivity(new Intent(this, RegisterActivity.class));

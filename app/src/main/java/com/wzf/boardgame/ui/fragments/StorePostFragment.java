@@ -75,6 +75,12 @@ public class StorePostFragment extends BaseFragment{
         getData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
     private RcyCommonAdapter<CommunityListResDto.PostListBean> getAdapter() {
         return new RcyCommonAdapter<CommunityListResDto.PostListBean>(bActivity, new ArrayList<CommunityListResDto.PostListBean>(), true, rv) {
             @Override

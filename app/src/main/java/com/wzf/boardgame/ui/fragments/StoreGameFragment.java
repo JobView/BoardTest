@@ -21,6 +21,7 @@ import com.wzf.boardgame.function.http.dto.request.CommunityListReqDto;
 import com.wzf.boardgame.function.http.dto.response.BaseResponse;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
 import com.wzf.boardgame.function.imageloader.ImageLoader;
+import com.wzf.boardgame.ui.activity.GameDetailActivity;
 import com.wzf.boardgame.ui.adapter.OnRecyclerScrollListener;
 import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
@@ -45,14 +46,10 @@ import rx.schedulers.Schedulers;
 
 public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     View mRootView;
-    @Bind(R.id.tv_center)
-    TextView tvCenter;
-    @Bind(R.id.im_right1)
-    ImageView imRight1;
-    @Bind(R.id.srl)
-    SwipeRefreshLayout srl;
     @Bind(R.id.rv)
     RecyclerView rv;
+    @Bind(R.id.top)
+    View top;
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> adapter;
     int page = 1;
 
@@ -60,7 +57,7 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = bActivity.getLayoutInflater().inflate(R.layout.fragment_game, null);
+            mRootView = bActivity.getLayoutInflater().inflate(R.layout.layout_recycle, null);
             ButterKnife.bind(this, mRootView);
             initData();
         }
@@ -71,26 +68,18 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
         return mRootView;
     }
 
-    private void initData() {
-        initView();
+    @Override
+    public void onResume() {
+        super.onResume();
         onRefresh();
     }
 
-    private void initView() {
-        tvCenter.setText("桌游百科");
-        tvCenter.setVisibility(View.VISIBLE);
-        imRight1.setImageResource(R.mipmap.game_btn_mali_nor);
-        imRight1.setVisibility(View.VISIBLE);
+    private void initData() {
+        initView();
+    }
 
-        srl.setOnRefreshListener(this);
-        //实现首次自动显示加载提示
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(true);
-            }
-        });
-        ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
+    private void initView() {
+        top.setVisibility(View.GONE);
         StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(sManager);
@@ -112,7 +101,7 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
 
         });
         rv.setAdapter(adapter);
-        rv.addOnScrollListener(new OnRecyclerScrollListener(adapter, srl, sManager) {
+        rv.addOnScrollListener(new OnRecyclerScrollListener(adapter, null, sManager) {
             @Override
             public void loadMore() {
                 if (!adapter.isLoadFinish()) {
@@ -134,7 +123,7 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
         CommunityListReqDto reqDto = new CommunityListReqDto();
         reqDto.setPageSize(30);
         reqDto.setPageNum(page);
-        UrlService.SERVICE.getWaterfallList(reqDto.toEncodeString())
+        UrlService.SERVICE.getBoardCollectList(reqDto.toEncodeString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
                 .map(new Func1<BaseResponse<GameListResDto>,BaseResponse<GameListResDto>>() {
@@ -160,7 +149,6 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
                         page ++;
                         if(refresh){
                             adapter.refresh(responseDto.getWaterfallList());
-                            srl.setRefreshing(false);
                         }else {
                             adapter.loadMore(responseDto.getWaterfallList());
                         }
@@ -173,7 +161,6 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
                         bActivity.showToast(message);
-                        srl.setRefreshing(false);
                     }
                 });
     }
@@ -191,13 +178,15 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
             public int getLayoutId(int position) {
                 return R.layout.item_game_list;
             }
+
+            @Override
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
+                GameDetailActivity.startMethod(bActivity, mDatas.get(position).getBoardId());
+            }
         };
     }
 
-    @OnClick(R.id.im_right1)
-    public void onViewClicked() {
-
-    }
 
 
 }
