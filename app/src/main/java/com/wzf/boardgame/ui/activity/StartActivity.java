@@ -70,7 +70,7 @@ public class StartActivity extends BaseActivity {
         UrlService.SERVICE.login(dto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<LoginResDto>(this, true) {
+                .subscribe(new ResponseSubscriber<LoginResDto>() {
                     @Override
                     public void onSuccess(LoginResDto loginResponseDto) throws Exception {
                         super.onSuccess(loginResponseDto);

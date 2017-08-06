@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:src="@mipmap/image_loading"/>
+            android:src="@mipmap/image_loading_old"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

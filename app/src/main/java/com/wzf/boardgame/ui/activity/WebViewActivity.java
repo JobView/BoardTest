@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,16 +26,19 @@ import com.wzf.boardgame.R;
 public class WebViewActivity extends Activity {
 
     private View imLeft;
+    private ImageView imRight;
     private WebView webView;
     private FrameLayout video_fullView;// 全屏时视频加载view
     private View xCustomView;
     private ProgressDialog waitdialog = null;
     private WebChromeClient.CustomViewCallback xCustomViewCallback;
     private myWebChromeClient xwebchromeclient;
+    private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+        url = getIntent().getStringExtra("url");
         waitdialog = new ProgressDialog(this);
         waitdialog.setTitle("提示");
         waitdialog.setMessage("页面加载中...");
@@ -43,6 +47,20 @@ public class WebViewActivity extends Activity {
         waitdialog.show();
         webView = (WebView) findViewById(R.id.webView);
         video_fullView = (FrameLayout) findViewById(R.id.video_fullView);
+        imRight = (ImageView) findViewById(R.id.im_right1);
+        imRight.setImageResource(R.mipmap.browser_btn_out_nor);
+        imRight.setVisibility(View.VISIBLE);
+        imRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(url);
+                intent.setData(content_url);
+                startActivity(intent);
+
+            }
+        });
         imLeft = findViewById(R.id.im_left);imLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +83,7 @@ public class WebViewActivity extends Activity {
         xwebchromeclient = new myWebChromeClient();
         webView.setWebChromeClient(xwebchromeclient);
         webView.setWebViewClient(new myWebViewClient());
-        webView.loadUrl(getIntent().getStringExtra("url"));
+        webView.loadUrl(url);
     }
     public class myWebViewClient extends WebViewClient {
         @Override
