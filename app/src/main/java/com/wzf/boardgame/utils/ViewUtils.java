@@ -19,9 +19,15 @@ import java.util.List;
  */
 
 public class ViewUtils {
-    public static void setSwipeRefreshLayoutSchemeResources(SwipeRefreshLayout refreshLayout){
+    public static void setSwipeRefreshLayoutSchemeResources(final SwipeRefreshLayout refreshLayout){
         if(refreshLayout != null){
             refreshLayout.setColorSchemeResources(R.color.random5, R.color.random3, R.color.random4, R.color.random1);
+            refreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.setRefreshing(true);
+                }
+            });
         }
     }
 
