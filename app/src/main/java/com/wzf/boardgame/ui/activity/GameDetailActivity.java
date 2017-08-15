@@ -187,6 +187,12 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                 tvTime.setText(o.getCommentTime());
                 tvComment.setText(o.getCommentContent());
                 tvLikeCount.setText(o.getCommentCount() + "");
+                imAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UserInfoActivity.startMethod(GameDetailActivity.this, o.getUserId());
+                    }
+                });
                 int rid = 0;
                 if(o.getIsRecommend() == 1){// 推荐
                     if(o.getIsClick() == 1){ // 点击过

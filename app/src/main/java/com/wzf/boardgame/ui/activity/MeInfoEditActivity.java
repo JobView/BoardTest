@@ -103,6 +103,7 @@ public class MeInfoEditActivity extends BaseActivity {
         tvPhone.setText(UserInfo.getInstance().getPhone());
         tvRegisterTime.setText(UserInfo.getInstance().getRegTime());
         tvCity.setText(BaiDuMapManager.getInstance().getCityName());
+        tvIntegral.setText(UserInfo.getInstance().getIntegral());
     }
 
 

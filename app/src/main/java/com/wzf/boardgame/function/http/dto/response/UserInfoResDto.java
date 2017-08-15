@@ -33,6 +33,15 @@ public class UserInfoResDto {
     private String userMobile;
     private int postCount;
     private int fansCount;
+    private int integral;
+
+    public int getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(int integral) {
+        this.integral = integral;
+    }
 
     public String getAvatarUrl() {
         return avatarUrl;

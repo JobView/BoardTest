@@ -63,10 +63,11 @@ public class FollowsActivity extends BaseActivity {
 
     private void initView() {
         imLeft.setVisibility(View.VISIBLE);
-        tvCenter.setText(UserInfo.getInstance().getUid().endsWith(uid)? "我的关注" : "TA的关注");
+        boolean isMe = UserInfo.getInstance().getUid().equals(uid);
+        tvCenter.setText(isMe ? "我的关注" : "TA的关注");
         tvCenter.setVisibility(View.VISIBLE);
-        imRight1.setImageResource(R.mipmap.fans_btn_follow_nor);
-        imRight1.setVisibility(View.VISIBLE);
+        imRight1.setImageResource(R.mipmap.following_btn_addfriend_nor);
+        imRight1.setVisibility(isMe ? View.VISIBLE : View.GONE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rv.setLayoutManager(layoutManager);
         adapter = getAdapter();
@@ -138,6 +139,7 @@ public class FollowsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.im_right1:
+
                 break;
         }
     }

@@ -221,10 +221,10 @@ public class CommunityFragment extends BaseFragment implements SwipeRefreshLayou
                 tvTime.setText(o.getPostTime());
                 tvViewCount.setText(StringUtils.getCountByWan(o.getReadCount() + ""));
                 tvCommentCount.setText(StringUtils.getCountByWan(o.getReplyCount() + ""));
-                imImage.setVisibility(o.getIsImg() == 0 ? View.INVISIBLE : View.VISIBLE);
-                imUp.setVisibility(o.getTopSort() == 0 ? View.INVISIBLE : View.VISIBLE);
-                imPrime.setVisibility(o.getIsFine() == 0 ? View.INVISIBLE : View.VISIBLE);
-                imV.setVisibility(o.getAuthLevel() == 0 ? View.INVISIBLE : View.VISIBLE);
+                imImage.setVisibility(o.getIsImg() == 0 ? View.GONE : View.VISIBLE);
+                imUp.setVisibility(o.getTopSort() == 0 ? View.GONE : View.VISIBLE);
+                imPrime.setVisibility(o.getIsFine() == 0 ? View.GONE : View.VISIBLE);
+                imV.setVisibility(o.getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
                 ImageLoader.getInstance().displayOnlineRoundImage(o.getAvatarUrl(), imAvatar);
             }
 

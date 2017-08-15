@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgShadow"
+    android:background="@color/white"
     android:orientation="vertical">
     <!--顶部栏-->
     <include
@@ -22,13 +22,15 @@
         android:textSize="19dp"
         android:visibility="visible"/>
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_below="@id/top"
-        android:visibility="gone">
-
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -104,12 +106,13 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textSize="17dp" />
+                        android:textStyle="bold"
+                        android:textSize="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:text="关注"
                         android:textColor="@color/textHint"
                         android:textSize="17dp" />
@@ -136,12 +139,13 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textSize="17dp" />
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:text="粉丝"
                         android:textColor="@color/textHint"
                         android:textSize="17dp" />
@@ -168,12 +172,13 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textSize="17dp" />
+                        android:textStyle="bold"
+                        android:textSize="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:text="主题"
                         android:textColor="@color/textHint"
                         android:textSize="17dp" />
@@ -200,12 +205,13 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textSize="17dp" />
+                        android:textStyle="bold"
+                        android:textSize="20dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:text="回复"
                         android:textColor="@color/textHint"
                         android:textSize="17dp" />
@@ -260,6 +266,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/tv_1"
+                    android:visibility="gone"
                     android:src="@mipmap/user_icon_reminder_nor" />
 
                 <ImageView
@@ -432,7 +439,12 @@
                 android:background="@color/bgUnderLine2" />
 
         </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    </ScrollView>
+
+
+
+
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.wzf.boardgame.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.wzf.boardgame.ui.activity.SubjectsActivity;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.AppDeviceInfo;
+import com.wzf.boardgame.utils.ViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,7 +39,7 @@ import rx.schedulers.Schedulers;
  * Created by wzf on 2017/7/5.
  */
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     View mRootView;
     @Bind(R.id.tv_center)
@@ -66,8 +68,8 @@ public class MeFragment extends BaseFragment {
     TextView tvInviteCode;
     @Bind(R.id.tv_version_code)
     TextView tvVersionCode;
-    @Bind(R.id.scrollView)
-    ScrollView scrollView;
+    @Bind(R.id.srl)
+    SwipeRefreshLayout srl;
 
     @Nullable
     @Override
@@ -93,8 +95,22 @@ public class MeFragment extends BaseFragment {
     private void initView() {
         tvCenter.setText("个人资料");
         tvCenter.setVisibility(View.VISIBLE);
-        initData();
+        srl.setOnRefreshListener(this);
+        //实现首次自动显示加载提示
+//        srl.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                srl.setRefreshing(true);
+//            }
+//        });
+        ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
+        onRefresh();
         
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
     }
 
     private void initData() {
@@ -107,6 +123,7 @@ public class MeFragment extends BaseFragment {
                     @Override
                     public void onSuccess(UserInfoResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
+                        srl.setRefreshing(false);
                         if(responseDto != null){
                             UserInfo.getInstance().setUserInfo(responseDto);
                             updateView();
@@ -115,6 +132,7 @@ public class MeFragment extends BaseFragment {
                     @Override
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
+                        srl.setRefreshing(false);
                         bActivity.showToast(message);
                     }
                 });
@@ -122,9 +140,9 @@ public class MeFragment extends BaseFragment {
 
     private void updateView() {
         if(UserInfo.getInstance().hasUpdate){
-            if(scrollView.getVisibility() != View.VISIBLE){
+            if(srl.getVisibility() != View.VISIBLE){
                 tvUnlogin.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
+                srl.setVisibility(View.VISIBLE);
             }
             ImageLoader.getInstance().displayOnlineRoundImage(UserInfo.getInstance().getAvatarUrl(), imAvatar);
             if("1".equals(UserInfo.getInstance().getSex())){

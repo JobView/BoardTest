@@ -2,7 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgUnderLine">
+    android:background="@color/bgShadow">
+    <!--顶部栏-->
+    <include
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_top"/>
+
     <LinearLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
@@ -26,38 +33,23 @@
             android:textSize="14sp"
             android:layout_marginLeft="8dp"
             android:gravity="center_vertical"
-            android:hint="输入桌游的中英文名搜索"
+            android:hint="请输入对方ID/手机号"
             android:background="@null"
             android:textColor="@color/black"
             android:singleLine="true"
             android:imeOptions="actionSearch"/>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bgUnderLine2"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl"
+    <Button
+        android:id="@+id/btn_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/top"
-        android:gravity="center"
-        android:text="没有搜索到任何桌游"
-        android:textColor="@color/black"
-        android:textSize="19dp"
-        android:visibility="visible"/>
+        android:layout_height="45dp"
+        android:layout_marginTop="16sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/ll_center"
+        android:text="查找用户"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:background="@drawable/shape_blue_8"/>
 </LinearLayout>

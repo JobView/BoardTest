@@ -149,6 +149,12 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 LinearLayout llCommentContent = holder.getView(R.id.ll_comment_content);
                 final LinearLayout llComment = holder.getView(R.id.ll_comment);
                 ImageLoader.getInstance().displayOnlineRoundImage(replyListBean.getAvatarUrl(), imAvatar);
+                imAvatar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UserInfoActivity.startMethod(CommentListActivity.this, replyListBean.getUserId());
+                    }
+                });
                 tvName.setText(replyListBean.getNickname());
                 tvFloor.setText(replyListBean.getStorey() + "楼");
                 tvTime.setText(replyListBean.getReplyTime());

@@ -35,6 +35,7 @@ public class UserInfo {
     private String birthday = "birthday";
     private String regTime = "regTime";
     private String sex = "sex"; // 性别，1：男，2：女
+    private String integral = "integral";
     private String followCount = "followCount";
     private String fansCount = "fansCount";
     private String postCount = "postCount";
@@ -132,6 +133,15 @@ public class UserInfo {
         mHelper.setValue(this.sex, sex);
     }
 
+    public String getIntegral() {
+        return mHelper.getValue(integral) == null ? "" : mHelper.getValue(integral);
+    }
+
+    public void setIntegral(String integral) {
+        hasUpdate = true;
+        mHelper.setValue(this.integral, integral);
+    }
+
     public String getFollowCount() {
         return mHelper.getValue(followCount) == null ? "" : mHelper.getValue(followCount);
     }
@@ -197,6 +207,7 @@ public class UserInfo {
         setPostCount(dto.getPostCount() + "");
         setReplyCount(dto.getReplyCount() + "");
         setRegTime(dto.getRegTime());
+        setIntegral(dto.getIntegral() + "");
     }
 
     public static boolean isLogin(Context context){

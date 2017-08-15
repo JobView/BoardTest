@@ -27,9 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/im_bg_avatar"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="-30dp"
+        android:layout_marginTop="-38dp"
         android:layout_toRightOf="@id/im_avatar"
         android:text="Nickname"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:textSize="17sp" />
 

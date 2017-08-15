@@ -72,6 +72,7 @@ public class PostDetailActivity extends BaseActivity {
         postId = getIntent().getStringExtra("postId");
     }
 
+    private boolean first = true;
     @Override
     protected void onResume() {
         super.onResume();
@@ -94,10 +95,11 @@ public class PostDetailActivity extends BaseActivity {
         UrlService.SERVICE.getPostInformation(new PostReqDto(postId).toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<PostDetailResDto>(this, true) {
+                .subscribe(new ResponseSubscriber<PostDetailResDto>(this, first) {
                     @Override
                     public void onSuccess(PostDetailResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
+                        first = false;
                         setView(responseDto);
                     }
 

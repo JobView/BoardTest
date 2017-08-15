@@ -22,7 +22,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:drawableLeft="@mipmap/gamedata_icon_clock_nor"
+            android:drawableLeft="@mipmap/icon_search_gray"
             android:paddingLeft="10dp"
             />
 
