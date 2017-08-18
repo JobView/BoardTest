@@ -26,6 +26,7 @@ public class UserInfoResDto {
     private String birthday;
     private String cityName;
     private int followCount;
+    private int authLevel;
     private int sex;
     private double distance;
     private int isFollow;
@@ -34,6 +35,14 @@ public class UserInfoResDto {
     private int postCount;
     private int fansCount;
     private int integral;
+
+    public int getAuthLevel() {
+        return authLevel;
+    }
+
+    public void setAuthLevel(int authLevel) {
+        this.authLevel = authLevel;
+    }
 
     public int getIntegral() {
         return integral;

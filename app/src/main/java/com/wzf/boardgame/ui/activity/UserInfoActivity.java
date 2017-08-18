@@ -51,6 +51,8 @@ public class UserInfoActivity extends BaseActivity {
     ImageView imGender;
     @Bind(R.id.tv_nickname)
     TextView tvNickname;
+    @Bind(R.id.im_v)
+    ImageView imV;
     @Bind(R.id.tv_description)
     TextView tvDescription;
     @Bind(R.id.tv_attention_count)
@@ -119,6 +121,7 @@ public class UserInfoActivity extends BaseActivity {
             imGender.setVisibility(View.GONE);
         }
         tvNickname.setText(resDto.getNickname());
+        imV.setVisibility(resDto.getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
         tvDescription.setText(resDto.getPersonaSign());
         tvAttentionCount.setText(resDto.getFollowCount() + "");
         tvFunCount.setText(resDto.getFansCount() + "");

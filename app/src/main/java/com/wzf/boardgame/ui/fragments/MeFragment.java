@@ -52,6 +52,8 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     ImageView imGender;
     @Bind(R.id.tv_nickname)
     TextView tvNickname;
+    @Bind(R.id.im_v)
+    ImageView imV;
     @Bind(R.id.tv_description)
     TextView tvDescription;
     @Bind(R.id.tv_attention_count)
@@ -153,6 +155,7 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
                 imGender.setVisibility(View.GONE);
             }
             tvNickname.setText(UserInfo.getInstance().getNickname());
+            imV.setVisibility(UserInfo.getInstance().getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
             tvDescription.setText(UserInfo.getInstance().getPersonaSign());
             tvAttentionCount.setText(UserInfo.getInstance().getFollowCount());
             tvFunCount.setText(UserInfo.getInstance().getFansCount());

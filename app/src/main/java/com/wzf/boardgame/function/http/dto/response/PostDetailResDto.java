@@ -37,6 +37,15 @@ public class PostDetailResDto {
     private String postId;
     private String postTime;
     private List<String> postImgsUrls;
+    private int authLevel;
+
+    public int getAuthLevel() {
+        return authLevel;
+    }
+
+    public void setAuthLevel(int authLevel) {
+        this.authLevel = authLevel;
+    }
 
     public int getReplyCount() {
         return replyCount;

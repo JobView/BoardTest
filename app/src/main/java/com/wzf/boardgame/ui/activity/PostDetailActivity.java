@@ -50,6 +50,8 @@ public class PostDetailActivity extends BaseActivity {
     ImageView imAvatar;
     @Bind(R.id.tv_nickname)
     TextView tvNickname;
+    @Bind(R.id.im_v)
+    ImageView imV;
     @Bind(R.id.tv_time)
     TextView tvTime;
     @Bind(R.id.tv_title)
@@ -115,6 +117,7 @@ public class PostDetailActivity extends BaseActivity {
         llContent.removeAllViews();
         this.responseDto = responseDto;
         tvNickname.setText(responseDto.getNickname());
+        imV.setVisibility(responseDto.getAuthLevel() == 0 ? View.GONE : View.VISIBLE );
         tvTitle.setText(responseDto.getPostTitle());
         tvTime.setText(responseDto.getPostTime());
         tvTotalReply.setText("共" + responseDto.getReplyCount() + "条回复");

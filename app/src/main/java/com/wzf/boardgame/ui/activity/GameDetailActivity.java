@@ -178,12 +178,14 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
             private void fetchContent(RcyViewHolder holder, final GameCommentListResDto.CommentListBean o) {
                 ImageView imAvatar = holder.getView(R.id.im_avatar);
                 ImageView imLike = holder.getView(R.id.im_like);
+                ImageView imV= holder.getView(R.id.im_v);
                 TextView tvNickname = holder.getView(R.id.tv_nickname);
                 TextView tvTime = holder.getView(R.id.tv_time);
                 TextView tvLikeCount = holder.getView(R.id.tv_like_count);
                 TextView tvComment = holder.getView(R.id.tv_comment);
                 ImageLoader.getInstance().displayOnlineRoundImage(o.getAvatarUrl(), imAvatar);
                 tvNickname.setText(o.getNickname());
+                imV.setVisibility(o.getAuthLevel() == 0 ?View.GONE:View.VISIBLE);
                 tvTime.setText(o.getCommentTime());
                 tvComment.setText(o.getCommentContent());
                 tvLikeCount.setText(o.getCommentCount() + "");

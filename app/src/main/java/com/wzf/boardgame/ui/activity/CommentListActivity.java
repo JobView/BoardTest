@@ -144,6 +144,7 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                 ImageView imAvatar = holder.getView(R.id.im_avatar);
                 ImageView imReplyMain = holder.getView(R.id.im_reply_main);
                 TextView tvName = holder.getView(R.id.tv_name);
+                ImageView imV= holder.getView(R.id.im_v);
                 TextView tvFloor = holder.getView(R.id.tv_floor);
                 TextView tvTime = holder.getView(R.id.tv_time);
                 LinearLayout llCommentContent = holder.getView(R.id.ll_comment_content);
@@ -156,6 +157,7 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                     }
                 });
                 tvName.setText(replyListBean.getNickname());
+                imV.setVisibility(replyListBean.getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
                 tvFloor.setText(replyListBean.getStorey() + "楼");
                 tvTime.setText(replyListBean.getReplyTime());
                 //内容填充

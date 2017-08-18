@@ -8,6 +8,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.wzf.boardgame.MyApplication;
+import com.wzf.boardgame.ui.model.UserInfo;
 import com.wzf.boardgame.utils.DebugLog;
 
 import java.text.DecimalFormat;
@@ -105,7 +106,7 @@ public class BaiDuMapManager {
             mLocationClient.stop();
             bdLocation = location;
             dealLocationMessage(location);
-//            UserInfo.getInstance().updateLbs();
+            UserInfo.getInstance().updateLbs();
         }
 
         @Override

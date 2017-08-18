@@ -41,13 +41,30 @@
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_nickname"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/im_v"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/user_icon_accreditation_nor"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:visibility="gone"
+                            android:layout_marginRight="5dp"/>
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/tv_time"

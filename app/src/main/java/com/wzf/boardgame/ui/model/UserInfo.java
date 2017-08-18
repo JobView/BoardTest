@@ -6,13 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.wzf.boardgame.constant.UrlService;
+import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.BaseRequestDto;
 import com.wzf.boardgame.function.http.dto.request.HeaderParams;
+import com.wzf.boardgame.function.http.dto.request.SearchUserReqDto;
+import com.wzf.boardgame.function.http.dto.request.UpLbsReqDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
+import com.wzf.boardgame.function.http.dto.response.SearchUserResDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
+import com.wzf.boardgame.function.map.BaiDuMapManager;
+import com.wzf.boardgame.ui.activity.AddFriendsActivity;
 import com.wzf.boardgame.ui.activity.LoginActivity;
+import com.wzf.boardgame.ui.activity.UserInfoActivity;
 import com.wzf.boardgame.utils.PreferencesHelper;
 
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -36,6 +45,7 @@ public class UserInfo {
     private String regTime = "regTime";
     private String sex = "sex"; // 性别，1：男，2：女
     private String integral = "integral";
+    private String authLevel = "authLevel";//认证等级
     private String followCount = "followCount";
     private String fansCount = "fansCount";
     private String postCount = "postCount";
@@ -113,6 +123,15 @@ public class UserInfo {
     public void setAvatarUrl(String avatarUrl) {
         hasUpdate = true;
         mHelper.setValue(this.avatarUrl, avatarUrl);
+    }
+
+    public int getAuthLevel() {
+        return mHelper.getIntValue(authLevel);
+    }
+
+    public void setAuthLevel(int authLevel) {
+        hasUpdate = true;
+        mHelper.setIntValue(this.authLevel, authLevel);
     }
 
     public String getPersonaSign() {
@@ -193,6 +212,7 @@ public class UserInfo {
         setUid(dto.getUserId());
         setToken(dto.getToken());
         HeaderParams.getInstance().setLoginTime(dto.getLoginTime());
+        updateLbs();
     }
 
     public void setUserInfo(UserInfoResDto dto){
@@ -208,6 +228,7 @@ public class UserInfo {
         setReplyCount(dto.getReplyCount() + "");
         setRegTime(dto.getRegTime());
         setIntegral(dto.getIntegral() + "");
+        setAuthLevel(dto.getAuthLevel());
     }
 
     public static boolean isLogin(Context context){
@@ -219,4 +240,14 @@ public class UserInfo {
         }
     }
 
+    public void updateLbs() {
+        UpLbsReqDto reqDto = new UpLbsReqDto();
+        reqDto.setCityName(BaiDuMapManager.getInstance().getCityName());
+        reqDto.setLat(BaiDuMapManager.getInstance().getLat() + "");
+        reqDto.setLon(BaiDuMapManager.getInstance().getLon() + "");
+        UrlService.SERVICE.syncUserLocation(reqDto.toEncodeString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new ResponseSubscriber());
+    }
 }

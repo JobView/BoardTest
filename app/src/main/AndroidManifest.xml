@@ -190,6 +190,11 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
+        <activity
+            android:name=".ui.activity.AddFriendsActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysVisible"></activity>
+
         <!-- 查看大图 -->
         <activity
             android:name=".ui.activity.MImagePreviewDelActivity"

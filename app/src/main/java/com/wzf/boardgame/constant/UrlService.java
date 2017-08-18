@@ -15,6 +15,7 @@ import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.QiNiuTokenResDto;
 import com.wzf.boardgame.function.http.dto.response.ReplyListReqDto;
+import com.wzf.boardgame.function.http.dto.response.SearchUserResDto;
 import com.wzf.boardgame.function.http.dto.response.UserInfoResDto;
 
 import okhttp3.ResponseBody;
@@ -214,6 +215,16 @@ public interface UrlService {
     @POST("user/getUserFansList")
     @FormUrlEncoded
     Observable<BaseResponse<FansLiseResDto>> getUserFansList(@Field("params") String params);
+
+    //查找用户
+    @POST("user/findUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<SearchUserResDto>> findUser(@Field("params") String params);
+
+    //同步用户位置接口
+    @POST("user/syncUserLocation")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> syncUserLocation(@Field("params") String params);
 
 
     //关注用户接口

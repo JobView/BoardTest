@@ -11,8 +11,11 @@ import com.wzf.boardgame.R;
 import com.wzf.boardgame.constant.UrlService;
 import com.wzf.boardgame.function.http.ResponseSubscriber;
 import com.wzf.boardgame.function.http.dto.request.GetUserRelationReqDto;
+import com.wzf.boardgame.function.http.dto.request.SearchUserReqDto;
 import com.wzf.boardgame.function.http.dto.response.FollowLiseResDto;
+import com.wzf.boardgame.function.http.dto.response.SearchUserResDto;
 import com.wzf.boardgame.ui.base.BaseActivity;
+import com.wzf.boardgame.utils.SoftInputUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,6 +48,7 @@ public class AddFriendsActivity extends BaseActivity {
     private void initView() {
         imLeft.setVisibility(View.VISIBLE);
         tvCenter.setText("添加好友");
+        tvCenter.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.im_left, R.id.btn_search})
@@ -66,17 +70,22 @@ public class AddFriendsActivity extends BaseActivity {
             return;
         }
 
-        GetUserRelationReqDto reqDto = new GetUserRelationReqDto();
+        SearchUserReqDto reqDto = new SearchUserReqDto();
 //        reqDto.setPageNum(page);
 //        reqDto.setUid(uid);
-        UrlService.SERVICE.getUserFollowerList(reqDto.toEncodeString())
+        reqDto.setSearchContent(key);
+        UrlService.SERVICE.findUser(reqDto.toEncodeString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<FollowLiseResDto>(this, true) {
+                .subscribe(new ResponseSubscriber<SearchUserResDto>(this, true) {
                     @Override
-                    public void onSuccess(FollowLiseResDto responseDto) throws Exception {
+                    public void onSuccess(SearchUserResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
-
+                        if(TextUtils.isEmpty(responseDto.getTargetUserId())){
+                            showToast("没有找到匹配的用户");
+                        }else {
+                            UserInfoActivity.startMethod(AddFriendsActivity.this, responseDto.getTargetUserId());
+                        }
                     }
                     @Override
                     public void onFailure(int code, String message) throws Exception {
@@ -84,5 +93,11 @@ public class AddFriendsActivity extends BaseActivity {
                         showToast(message);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        SoftInputUtil.closeSoftInput(this);
+        super.onDestroy();
     }
 }

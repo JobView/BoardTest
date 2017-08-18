@@ -77,6 +77,7 @@ public class GameCommentListResDto {
         private int isRecommend;
         private String commentId;
         public boolean isHeader;
+        private int authLevel;
 
         public CommentListBean() {
         }
@@ -85,6 +86,13 @@ public class GameCommentListResDto {
             this.isHeader = isHeader;
         }
 
+        public int getAuthLevel() {
+            return authLevel;
+        }
+
+        public void setAuthLevel(int authLevel) {
+            this.authLevel = authLevel;
+        }
 
         public String getCommentTime() {
             return commentTime;

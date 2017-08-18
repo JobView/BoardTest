@@ -139,7 +139,7 @@ public class FollowsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.im_right1:
-
+                startActivity(new Intent(this, AddFriendsActivity.class));
                 break;
         }
     }
