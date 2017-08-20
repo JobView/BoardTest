@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--顶部栏-->
+    <include
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_top"/>
+
+    <FrameLayout
+        android:id="@+id/fm_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_below="@id/top"
+        android:background="@color/bgShadow"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="bottom">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgUnderLine2" />
+
+        <com.wzf.boardgame.ui.views.NestRadioGroup
+            android:id="@+id/main_radio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/radio_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableTop="@drawable/selector_game_video"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="视频"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_rule"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/selector_game_rule"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="规则"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_extent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:drawableTop="@drawable/selector_game_extent"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="扩展"
+                    android:textColor="@drawable/selector_text_menu"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+        </com.wzf.boardgame.ui.views.NestRadioGroup>
+    </RelativeLayout>
+</RelativeLayout>

@@ -26,7 +26,7 @@
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_below="@id/top"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
@@ -120,7 +120,6 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="20dp" />
 
                     <TextView
@@ -129,7 +128,7 @@
                         android:layout_marginTop="3dp"
                         android:text="关注"
                         android:textColor="@color/textHint"
-                        android:textSize="17dp" />
+                        android:textSize="14dp" />
 
                 </LinearLayout>
 
@@ -153,7 +152,6 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="20dp"/>
 
                     <TextView
@@ -162,7 +160,7 @@
                         android:layout_marginTop="3dp"
                         android:text="粉丝"
                         android:textColor="@color/textHint"
-                        android:textSize="17dp" />
+                        android:textSize="14dp" />
 
                 </LinearLayout>
 
@@ -186,7 +184,6 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="20dp" />
 
                     <TextView
@@ -195,7 +192,7 @@
                         android:layout_marginTop="3dp"
                         android:text="主题"
                         android:textColor="@color/textHint"
-                        android:textSize="17dp" />
+                        android:textSize="14dp" />
 
                 </LinearLayout>
 
@@ -219,7 +216,6 @@
                         android:layout_height="wrap_content"
                         android:text="15"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="20dp" />
 
                     <TextView
@@ -228,7 +224,7 @@
                         android:layout_marginTop="3dp"
                         android:text="回复"
                         android:textColor="@color/textHint"
-                        android:textSize="17dp" />
+                        android:textSize="14dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -246,14 +242,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/bgUnderLine2" />
+                android:background="@color/bgUnderLine2"
+                android:visibility="visible"/>
 
             <RelativeLayout
                 android:id="@+id/ll_message"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/im_1"

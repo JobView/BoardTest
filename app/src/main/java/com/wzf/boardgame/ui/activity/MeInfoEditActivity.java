@@ -152,7 +152,7 @@ public class MeInfoEditActivity extends BaseActivity {
     private void initImagePicker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setCrop(true);                            //是否需要剪切
-        imagePicker.setStyle(CropImageView.Style.CIRCLE);  //矩形剪切
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //矩形剪切
         // 宽高默认280
         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.getScreenWidth(MyApplication.getAppInstance()), getResources().getDisplayMetrics());
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, ScreenUtils.dpToPix(400, MyApplication.getAppInstance()), getResources().getDisplayMetrics());

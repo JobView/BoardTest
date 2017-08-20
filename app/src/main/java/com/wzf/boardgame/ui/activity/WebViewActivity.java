@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -36,6 +38,12 @@ public class WebViewActivity extends Activity {
     private String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //定义全屏参数
+        int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        //获得当前窗体对象
+        Window window = getWindow();
+        //设置当前窗体为全屏显示
+        window.setFlags(flag, flag);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         url = getIntent().getStringExtra("url");
@@ -90,8 +98,9 @@ public class WebViewActivity extends Activity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if(!TextUtils.isEmpty(url) && url.startsWith("http")){
                 view.loadUrl(url);
+                return false;
             }
-            return false;
+            return true;
         }
         @Override
         public void onPageFinished(WebView view, String url) {

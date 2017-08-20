@@ -86,7 +86,7 @@ public abstract class RcyCommonAdapter<T> extends RecyclerView.Adapter<RcyViewHo
             } else {
                 mDatas.addAll(datas);
             }
-            notifyDataSetChanged();
+            notifyItemInserted(getItemCount());
         }
     }
 

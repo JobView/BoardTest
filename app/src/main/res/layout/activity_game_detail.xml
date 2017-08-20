@@ -14,7 +14,8 @@
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top">
+        android:layout_below="@id/top"
+        android:layout_marginBottom="50dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
@@ -22,4 +23,46 @@
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-   </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F8F8F8"
+            android:gravity="center"
+            android:drawableTop="@mipmap/gamedata_btn_video_dis"
+            android:text="视频" />
+        <TextView
+            android:id="@+id/tv_rule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F8F8F8"
+            android:gravity="center"
+            android:drawableTop="@mipmap/gamedata_btn_book_dis"
+            android:text="规则" />
+        <TextView
+            android:id="@+id/tv_extent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F8F8F8"
+            android:gravity="center"
+            android:drawableTop="@mipmap/gamedata_btn_extend_dis"
+            android:text="扩展" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bgUnderLine2"
+        android:layout_above="@+id/ll_bottom"/>
+
+</RelativeLayout>

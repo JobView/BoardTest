@@ -315,7 +315,7 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
 
 
 
-    @OnClick({R.id.im_left, R.id.im_right1, R.id.im_right2})
+    @OnClick({R.id.im_left, R.id.im_right1, R.id.im_right2, R.id.tv_video, R.id.tv_rule, R.id.tv_extent})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.im_left:
@@ -329,6 +329,21 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
             case R.id.im_right2:
                 if(headerDto != null){
                     changeCollectStatus();
+                }
+                break;
+            case R.id.tv_video:
+                if(headerDto != null){
+                   VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 0);
+                }
+                break;
+            case R.id.tv_rule:
+                if(headerDto != null){
+                    VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 1);
+                }
+                break;
+            case R.id.tv_extent:
+                if(headerDto != null){
+                    VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 2);
                 }
                 break;
         }

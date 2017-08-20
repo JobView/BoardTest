@@ -22,8 +22,10 @@ import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseActivity;
 import com.wzf.boardgame.ui.model.UserInfo;
+import com.wzf.boardgame.utils.ViewUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -131,7 +133,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.im_left, R.id.im_right1,R.id.ll_attention, R.id.ll_fans, R.id.ll_subject, R.id.ll_reply})
+    @OnClick({R.id.im_left, R.id.im_right1,R.id.ll_attention, R.id.ll_fans, R.id.ll_subject, R.id.ll_reply, R.id.im_avatar})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.im_left:
@@ -165,6 +167,14 @@ public class UserInfoActivity extends BaseActivity {
                     ReplyActivity.startMethod(this, uid);
                 }
                 break;
+            case R.id.im_avatar:
+                if(resDto != null){
+                    List<String> list = new ArrayList<>();
+                    list.add(resDto.getAvatarUrl());
+                    ViewUtils.previewPicture(this, 0, list);
+                }
+                break;
+
         }
     }
 

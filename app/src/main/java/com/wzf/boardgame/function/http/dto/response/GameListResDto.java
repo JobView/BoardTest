@@ -66,7 +66,7 @@ public class GameListResDto {
         this.waterfallList = waterfallList;
     }
 
-    public static class WaterfallListBean implements Parcelable {
+    public static class WaterfallListBean {
         /**
          * boardId : 9
          * boardImgUrl : http://os7i4k6w5.bkt.clouddn.com/image/wskj/1498636083546.jpg
@@ -74,23 +74,23 @@ public class GameListResDto {
 
         private String boardId;
         private String boardImgUrl;
-        private int width;
-        private int height;
+        private int imgWidth;
+        private int imgHeight;
 
-        public int getWidth() {
-            return width;
+        public int getImgWidth() {
+            return imgWidth;
         }
 
-        public void setWidth(int width) {
-            this.width = width;
+        public void setImgWidth(int imgWidth) {
+            this.imgWidth = imgWidth;
         }
 
-        public int getHeight() {
-            return height;
+        public int getImgHeight() {
+            return imgHeight;
         }
 
-        public void setHeight(int height) {
-            this.height = height;
+        public void setImgHeight(int imgHeight) {
+            this.imgHeight = imgHeight;
         }
 
         public String getBoardId() {
@@ -110,38 +110,13 @@ public class GameListResDto {
         }
 
         @Override
-        public int describeContents() {
-            return 0;
+        public String toString() {
+            return "WaterfallListBean{" +
+                    "boardId='" + boardId + '\'' +
+                    ", boardImgUrl='" + boardImgUrl + '\'' +
+                    ", imgWidth=" + imgWidth +
+                    ", imgHeight=" + imgHeight +
+                    '}';
         }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.boardId);
-            dest.writeString(this.boardImgUrl);
-            dest.writeInt(this.width);
-            dest.writeInt(this.height);
-        }
-
-        public WaterfallListBean() {
-        }
-
-        protected WaterfallListBean(Parcel in) {
-            this.boardId = in.readString();
-            this.boardImgUrl = in.readString();
-            this.width = in.readInt();
-            this.height = in.readInt();
-        }
-
-        public static final Parcelable.Creator<WaterfallListBean> CREATOR = new Parcelable.Creator<WaterfallListBean>() {
-            @Override
-            public WaterfallListBean createFromParcel(Parcel source) {
-                return new WaterfallListBean(source);
-            }
-
-            @Override
-            public WaterfallListBean[] newArray(int size) {
-                return new WaterfallListBean[size];
-            }
-        };
     }
 }

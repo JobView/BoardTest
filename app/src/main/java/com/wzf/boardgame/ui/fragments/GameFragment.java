@@ -34,6 +34,7 @@ import com.wzf.boardgame.ui.adapter.RcyCommonAdapter;
 import com.wzf.boardgame.ui.adapter.RcyViewHolder;
 import com.wzf.boardgame.ui.base.BaseFragment;
 import com.wzf.boardgame.ui.views.ScaleImageView;
+import com.wzf.boardgame.utils.DebugLog;
 import com.wzf.boardgame.utils.ScreenUtils;
 import com.wzf.boardgame.utils.ViewUtils;
 
@@ -51,7 +52,7 @@ import rx.schedulers.Schedulers;
  * Created by wzf on 2017/7/5.
  */
 
-public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     View mRootView;
     @Bind(R.id.tv_center)
     TextView tvCenter;
@@ -88,7 +89,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         tvCenter.setText("桌游百科");
         tvCenter.setVisibility(View.VISIBLE);
         imRight1.setImageResource(R.mipmap.game_btn_mali_nor);
-        imRight1.setVisibility(View.VISIBLE);
+//        imRight1.setVisibility(View.VISIBLE);
 
         srl.setOnRefreshListener(this);
         //实现首次自动显示加载提示
@@ -99,27 +100,35 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         });
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
-        StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager sManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         sManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(sManager);
         adapter = getAdapter();
         //设置item之间的间隔
-        rv.addItemDecoration(new RecyclerView.ItemDecoration(){
-            int lr  = ScreenUtils.dip2px(MyApplication.getAppInstance(), 5);
+        rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+            int lr = ScreenUtils.dip2px(MyApplication.getAppInstance(), 5);
             int tb = ScreenUtils.dip2px(MyApplication.getAppInstance(), 10);
+
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                if(parent.getChildAdapterPosition(view)==0){
+                if (parent.getChildAdapterPosition(view) == 0) {
                     outRect.top = ScreenUtils.dip2px(MyApplication.getAppInstance(), 13);
-                }else {
+                } else {
                     outRect.top = tb;
                 }
-                outRect.left=lr;
-                outRect.right=lr;
+                outRect.left = lr;
+                outRect.right = lr;
             }
 
         });
         rv.setAdapter(adapter);
+//        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                sManager.invalidateSpanAssignments();
+//            }
+//        });
         rv.addOnScrollListener(new OnRecyclerScrollListener(adapter, srl, sManager) {
             @Override
             public void loadMore() {
@@ -128,6 +137,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 }
             }
         });
+
     }
 
     @Override
@@ -136,7 +146,7 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void getData(final boolean refresh) {
-        if(refresh){
+        if (refresh) {
             page = 1;
         }
         CommunityListReqDto reqDto = new CommunityListReqDto();
@@ -145,17 +155,20 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         UrlService.SERVICE.getWaterfallList(reqDto.toEncodeString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.newThread())
-                .map(new Func1<BaseResponse<GameListResDto>,BaseResponse<GameListResDto>>() {
+                .map(new Func1<BaseResponse<GameListResDto>, BaseResponse<GameListResDto>>() {
                     @Override
                     public BaseResponse<GameListResDto> call(BaseResponse<GameListResDto> game) {
                         //加载异步线程获取图片的宽高
                         List<GameListResDto.WaterfallListBean> gameLists = game.getResponse().getWaterfallList();
                         for (GameListResDto.WaterfallListBean data : gameLists) {
-                            Bitmap bitmap = ImageLoader.getInstance().load(bActivity, data.getBoardImgUrl());
-                            if (bitmap != null) {
-                                data.setWidth(bitmap.getWidth());
-                                data.setHeight(bitmap.getHeight());
+                            if (data.getImgWidth() == 0 || data.getImgHeight() == 0) {
+                                Bitmap bitmap = ImageLoader.getInstance().load(bActivity, data.getBoardImgUrl());
+                                if (bitmap != null) {
+                                    data.setImgWidth(bitmap.getWidth());
+                                    data.setImgHeight(bitmap.getHeight());
+                                }
                             }
+
                         }
                         return game;
                     }
@@ -165,18 +178,19 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     @Override
                     public void onSuccess(GameListResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);
-                        page ++;
-                        if(refresh){
+                        page++;
+                        if (refresh) {
                             adapter.refresh(responseDto.getWaterfallList());
                             srl.setRefreshing(false);
-                        }else {
+                        } else {
                             adapter.loadMore(responseDto.getWaterfallList());
                         }
-                        if(responseDto.getIsLastPage() == 1){
+                        if (responseDto.getIsLastPage() == 1) {
                             adapter.loadMoreFinish();
                         }
 
                     }
+
                     @Override
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
@@ -188,11 +202,16 @@ public class GameFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
+            int w = ScreenUtils.getScreenWidth(MyApplication.getAppInstance()) / 2;
+
             @Override
             public void convert(RcyViewHolder holder, final GameListResDto.WaterfallListBean o) {
+                DebugLog.i("GameFragment index :" + mDatas.indexOf(o) + ", w:"+ o.getImgWidth() + ", h:" + o.getImgHeight());
                 ScaleImageView imageView = holder.getView(R.id.im);
-                imageView.setInitSize(o.getWidth(), o.getHeight());
-                ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), imageView, 0, 0);
+                imageView.setInitSize(o.getImgWidth(), o.getImgHeight());
+                float scale = (float) o.getImgHeight() / (float) o.getImgWidth();
+                int h = (int) (scale * w);
+                ImageLoader.getInstance().displayTargeSizeImage(o.getBoardImgUrl(), imageView, w, h);
             }
 
             @Override

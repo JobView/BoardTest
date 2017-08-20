@@ -50,6 +50,23 @@ public class ImageLoader {
                 .into(imageView);
     }
 
+    public void displayTargeSizeImage(String path, ImageView imageView, int w, int h){
+        path = StringUtils.getResourcePath(path);
+        Glide.with(MyApplication.getAppInstance())
+                .load(path)
+                .override(w, h)
+                .placeholder( R.mipmap.image_loading)
+                /**
+                 * DiskCacheStrategy.NONE 什么都不缓存
+                 DiskCacheStrategy.SOURCE 仅仅只缓存原来的全分辨率的图像
+                 DiskCacheStrategy.RESULT 仅仅缓存最终的图像，即降低分辨率后的（或者是转换后的）
+                 DiskCacheStrategy.ALL 缓存所有版本的图像（默认行为）
+                 */
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                  .centerCrop()
+                .into(imageView);
+    }
+
     public void displayLocalRoundImage(String path, ImageView imageView){
         Glide.with(MyApplication.getAppInstance())
                 .load((Uri.fromFile(new File(path))))

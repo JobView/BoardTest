@@ -132,11 +132,14 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
                         //加载异步线程获取图片的宽高
                         List<GameListResDto.WaterfallListBean> gameLists = game.getResponse().getWaterfallList();
                         for (GameListResDto.WaterfallListBean data : gameLists) {
-                            Bitmap bitmap = ImageLoader.getInstance().load(bActivity, data.getBoardImgUrl());
-                            if (bitmap != null) {
-                                data.setWidth(bitmap.getWidth());
-                                data.setHeight(bitmap.getHeight());
+                            if(data.getImgWidth() == 0 || data.getImgHeight() == 0){
+                                Bitmap bitmap = ImageLoader.getInstance().load(bActivity, data.getBoardImgUrl());
+                                if (bitmap != null) {
+                                    data.setImgWidth(bitmap.getWidth());
+                                    data.setImgHeight(bitmap.getHeight());
+                                }
                             }
+
                         }
                         return game;
                     }
@@ -167,11 +170,13 @@ public class StoreGameFragment extends BaseFragment implements SwipeRefreshLayou
 
     private RcyCommonAdapter<GameListResDto.WaterfallListBean> getAdapter() {
         return new RcyCommonAdapter<GameListResDto.WaterfallListBean>(bActivity, new ArrayList<GameListResDto.WaterfallListBean>(), true, rv) {
+            int w = ScreenUtils.getScreenWidth(MyApplication.getAppInstance()) / 3;
             @Override
             public void convert(RcyViewHolder holder, final GameListResDto.WaterfallListBean o) {
                 ScaleImageView imageView = holder.getView(R.id.im);
-                imageView.setInitSize(o.getWidth(), o.getHeight());
-                ImageLoader.getInstance().displayOnlineImage(o.getBoardImgUrl(), imageView, 0, 0);
+                float scale = (float) o.getImgHeight() / (float) o.getImgWidth();
+                int h  = (int) (scale * w);
+                ImageLoader.getInstance().displayTargeSizeImage(o.getBoardImgUrl(), imageView, w, h);
             }
 
             @Override

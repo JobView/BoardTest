@@ -133,6 +133,7 @@ public class CommentListActivity extends BaseActivity implements SwipeRefreshLay
                     public void onFailure(int code, String message) throws Exception {
                         super.onFailure(code, message);
                         showToast(message);
+                        srl.setRefreshing(false);
                     }
                 });
     }

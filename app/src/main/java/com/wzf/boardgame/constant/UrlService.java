@@ -10,6 +10,8 @@ import com.wzf.boardgame.function.http.dto.response.GameCommentListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.GameFeedBackTypeListResDto;
 import com.wzf.boardgame.function.http.dto.response.GameListResDto;
+import com.wzf.boardgame.function.http.dto.response.GameRuleResDto;
+import com.wzf.boardgame.function.http.dto.response.GameVideoListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
 import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
@@ -140,6 +142,17 @@ public interface UrlService {
     @POST("boardGame/getCommentList")
     @FormUrlEncoded
     Observable<BaseResponse<GameCommentListResDto>> getCommentList(@Field("params") String params);
+
+
+    //获获取桌游视频列表接口
+    @POST("boardGame/getVideoList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameVideoListResDto>> getVideoList(@Field("params") String params);
+
+    //获取桌游规则/扩展接口【前端要做h5支持】
+    @POST("boardGame/getBoardGameContent")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameRuleResDto>> getBoardGameContent(@Field("params") String params);
 
     //获取用户信息
     @POST("user/getUserInformation")

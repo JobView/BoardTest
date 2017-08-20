@@ -98,6 +98,7 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         tvCenter.setText("个人资料");
         tvCenter.setVisibility(View.VISIBLE);
         srl.setOnRefreshListener(this);
+        srl.setVisibility(View.GONE);
         //实现首次自动显示加载提示
 //        srl.post(new Runnable() {
 //            @Override
