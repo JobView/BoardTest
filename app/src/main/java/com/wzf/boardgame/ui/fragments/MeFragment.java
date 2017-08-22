@@ -100,16 +100,15 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         tvCenter.setVisibility(View.VISIBLE);
         srl.setOnRefreshListener(this);
         srl.setVisibility(View.GONE);
-        //实现首次自动显示加载提示
-//        srl.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                srl.setRefreshing(true);
-//            }
-//        });
+//        实现首次自动显示加载提示
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(true);
+            }
+        });
         ViewUtils.setSwipeRefreshLayoutSchemeResources(srl);
         onRefresh();
-        
     }
 
     @Override
@@ -123,7 +122,7 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         UrlService.SERVICE.getUserInformation("")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ResponseSubscriber<UserInfoResDto>(bActivity, true) {
+                .subscribe(new ResponseSubscriber<UserInfoResDto>(bActivity, false) {
                     @Override
                     public void onSuccess(UserInfoResDto responseDto) throws Exception {
                         super.onSuccess(responseDto);

@@ -53,6 +53,10 @@ public class UserInfoActivity extends BaseActivity {
     ImageView imGender;
     @Bind(R.id.tv_nickname)
     TextView tvNickname;
+    @Bind(R.id.tv_city)
+    TextView tvCity;
+    @Bind(R.id.tv_distance)
+    TextView tvDistance;
     @Bind(R.id.im_v)
     ImageView imV;
     @Bind(R.id.tv_description)
@@ -122,6 +126,8 @@ public class UserInfoActivity extends BaseActivity {
         }else {
             imGender.setVisibility(View.GONE);
         }
+        tvCity.setText(resDto.getCityName());
+        tvDistance.setText(resDto.getDistance() == 0 ? "" : resDto.getDistance() + "km");
         tvNickname.setText(resDto.getNickname());
         imV.setVisibility(resDto.getAuthLevel() == 0 ? View.GONE : View.VISIBLE);
         tvDescription.setText(resDto.getPersonaSign());

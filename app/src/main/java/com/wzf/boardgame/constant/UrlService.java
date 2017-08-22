@@ -38,22 +38,11 @@ import rx.Observable;
 public interface UrlService {
     boolean DEBUG = true;
     String BASE_RESOURCE = "http://192.168.2.202:8081/boxingmanager/";
-    String BASE_URL = "http://106.14.215.117/BRPG/";
+    String BASE_URL = "http://server.mvoicer.com/BRPG/";
 
     UrlService SERVICE = OkHttpUtils.getInstance().getUrlService(UrlService.class);
 
-    //1.get查询参数的设置@Query
-    @GET("ServerInfo_2.1.3")
-    Call<ResponseBody> testDouqu(@Query("name") String name);
-
-    //2.POST请求体的方式向服务器传入json字符串@Body
-    @POST("add")
-    Call<ResponseBody> addUser(@Body String user);
-
-    //3.表单的方式传递键值对@FormUrlEncoded
-    //os,deviceModel,deviceId,ip,mobile,pass
-
-
+    //==================================user=============================================
     //获取验证码
     @POST("user/getSmsCode")
     @FormUrlEncoded
@@ -80,6 +69,77 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<Object>> exit(@Field("params") String params);
 
+    //获取收藏的桌游列表接口
+    @POST("user/getBoardCollectList")
+    @FormUrlEncoded
+    Observable<BaseResponse<GameListResDto>> getBoardCollectList(@Field("params") String params);
+
+    //获取用户信息
+    @POST("user/getUserInformation")
+    @FormUrlEncoded
+    Observable<BaseResponse<UserInfoResDto>> getUserInformation(@Field("params") String params);
+
+    //获取用户信息
+    @POST("user/changeUserInformation")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> changeUserInformation(@Field("params") String params);
+
+    //获取个人关注列表接口
+    @POST("user/getUserFollowerList")
+    @FormUrlEncoded
+    Observable<BaseResponse<FollowLiseResDto>> getUserFollowerList(@Field("params") String params);
+
+    //获取个人主题列表接口
+    @POST("user/getUserPostList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> getUserPostList(@Field("params") String params);
+
+
+    //获取个人回复列表接口
+    @POST("user/getUserReplyList")
+    @FormUrlEncoded
+    Observable<BaseResponse<ReplyListReqDto>> getUserReplyList(@Field("params") String params);
+
+
+    //获取个人粉丝列表接口
+    @POST("user/getUserFansList")
+    @FormUrlEncoded
+    Observable<BaseResponse<FansLiseResDto>> getUserFansList(@Field("params") String params);
+
+    //获取消息提醒列表接口
+    @POST("user/getPostMsgList")
+    @FormUrlEncoded
+    Observable<BaseResponse<MessageRemindResDto>> getPostMsgList(@Field("params") String params);
+
+    //查找用户
+    @POST("user/findUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<SearchUserResDto>> findUser(@Field("params") String params);
+
+    //同步用户位置接口
+    @POST("user/syncUserLocation")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> syncUserLocation(@Field("params") String params);
+
+
+    //关注用户接口
+    @POST("user/followUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> followUser(@Field("params") String params);
+
+
+    //取消关注用户接口
+    @POST("user/cancelFollowUser")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelFollowUser(@Field("params") String params);
+
+    //获取收藏的帖子列表接口
+    @POST("user/getPostCollectList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommunityListResDto>> getPostCollectList(@Field("params") String params);
+
+
+    //==================================community=============================================
     //获取首页的banner
     @POST("community/getHomeCarousel")
     @FormUrlEncoded
@@ -89,15 +149,50 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<CommunityListResDto>> communityList(@Field("params") String params);
 
+    //发帖接口
+    @POST("community/sendPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> sendPost(@Field("params") String params);
+
+    //获取帖子详情接口
+    @POST("community/getPostInformation")
+    @FormUrlEncoded
+    Observable<BaseResponse<PostDetailResDto>> getPostInformation(@Field("params") String params);
+
+
+    //收藏帖子接口
+    @POST("community/collectPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> collectPost(@Field("params") String params);
+
+    //取消收藏帖子接口
+    @POST("community/cancelCollectPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> cancelCollectPost(@Field("params") String params);
+
+
+    //评论主贴接口
+    @POST("community/commentPost")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> commentPost(@Field("params") String params);
+
+
+    //获取回帖列表（楼层列表）接口
+    @POST("community/getPostReplyList")
+    @FormUrlEncoded
+    Observable<BaseResponse<CommentListResDto>> getPostReplyList(@Field("params") String params);
+
+    //回复楼层接口
+    @POST("community/replyComment")
+    @FormUrlEncoded
+    Observable<BaseResponse<Object>> replyComment(@Field("params") String params);
+
+    //==================================boardGame=============================================
     //获取桌游瀑布流信息
     @POST("boardGame/getWaterfallList")
     @FormUrlEncoded
     Observable<BaseResponse<GameListResDto>> getWaterfallList(@Field("params") String params);
 
-    //获取收藏的桌游列表接口
-    @POST("user/getBoardCollectList")
-    @FormUrlEncoded
-    Observable<BaseResponse<GameListResDto>> getBoardCollectList(@Field("params") String params);
 
     //获取桌游信息接口
     @POST("boardGame/getInfomation")
@@ -155,112 +250,14 @@ public interface UrlService {
     @FormUrlEncoded
     Observable<BaseResponse<GameRuleResDto>> getBoardGameContent(@Field("params") String params);
 
-    //获取用户信息
-    @POST("user/getUserInformation")
-    @FormUrlEncoded
-    Observable<BaseResponse<UserInfoResDto>> getUserInformation(@Field("params") String params);
 
-    //获取用户信息
-    @POST("user/changeUserInformation")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> changeUserInformation(@Field("params") String params);
-
+    //==================================system=============================================
     //获取七牛云的token
     @POST("system/getQiniuToken")
     @FormUrlEncoded
     Observable<BaseResponse<QiNiuTokenResDto>> getQiniuToken(@Field("params") String params);
 
-    //发帖接口
-    @POST("community/sendPost")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> sendPost(@Field("params") String params);
 
-    //获取帖子详情接口
-    @POST("community/getPostInformation")
-    @FormUrlEncoded
-    Observable<BaseResponse<PostDetailResDto>> getPostInformation(@Field("params") String params);
-
-
-    //收藏帖子接口
-    @POST("community/collectPost")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> collectPost(@Field("params") String params);
-
-    //取消收藏帖子接口
-    @POST("community/cancelCollectPost")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> cancelCollectPost(@Field("params") String params);
-
-
-    //评论主贴接口
-    @POST("community/commentPost")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> commentPost(@Field("params") String params);
-
-
-    //获取回帖列表（楼层列表）接口
-    @POST("community/getPostReplyList")
-    @FormUrlEncoded
-    Observable<BaseResponse<CommentListResDto>> getPostReplyList(@Field("params") String params);
-
-    //回复楼层接口
-    @POST("community/replyComment")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> replyComment(@Field("params") String params);
-
-    //获取个人关注列表接口
-    @POST("user/getUserFollowerList")
-    @FormUrlEncoded
-    Observable<BaseResponse<FollowLiseResDto>> getUserFollowerList(@Field("params") String params);
-
-    //获取个人主题列表接口
-    @POST("user/getUserPostList")
-    @FormUrlEncoded
-    Observable<BaseResponse<CommunityListResDto>> getUserPostList(@Field("params") String params);
-
-
-    //获取个人回复列表接口
-    @POST("user/getUserReplyList")
-    @FormUrlEncoded
-    Observable<BaseResponse<ReplyListReqDto>> getUserReplyList(@Field("params") String params);
-
-
-    //获取个人粉丝列表接口
-    @POST("user/getUserFansList")
-    @FormUrlEncoded
-    Observable<BaseResponse<FansLiseResDto>> getUserFansList(@Field("params") String params);
-
-    //获取消息提醒列表接口
-    @POST("user/getPostMsgList")
-    @FormUrlEncoded
-    Observable<BaseResponse<MessageRemindResDto>> getPostMsgList(@Field("params") String params);
-
-    //查找用户
-    @POST("user/findUser")
-    @FormUrlEncoded
-    Observable<BaseResponse<SearchUserResDto>> findUser(@Field("params") String params);
-
-    //同步用户位置接口
-    @POST("user/syncUserLocation")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> syncUserLocation(@Field("params") String params);
-
-
-    //关注用户接口
-    @POST("user/followUser")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> followUser(@Field("params") String params);
-
-
-    //取消关注用户接口
-    @POST("user/cancelFollowUser")
-    @FormUrlEncoded
-    Observable<BaseResponse<Object>> cancelFollowUser(@Field("params") String params);
-
-    //获取收藏的帖子列表接口
-    @POST("user/getPostCollectList")
-    @FormUrlEncoded
-    Observable<BaseResponse<CommunityListResDto>> getPostCollectList(@Field("params") String params);
 
 
 
