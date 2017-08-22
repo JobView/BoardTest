@@ -100,8 +100,8 @@ public class SubjectsActivity extends BaseActivity {
             }
 
             @Override
-            public void clickPosition(int position) {
-                super.clickPosition(position);
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
                 PostDetailActivity.startMethod(SubjectsActivity.this, mDatas.get(position).getPostId());
             }
         };

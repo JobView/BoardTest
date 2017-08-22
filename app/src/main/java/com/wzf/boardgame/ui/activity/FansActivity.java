@@ -98,8 +98,8 @@ public class FansActivity extends BaseActivity {
             }
 
             @Override
-            public void clickPosition(int position) {
-                super.clickPosition(position);
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
                 UserInfoActivity.startMethod(FansActivity.this, mDatas.get(position).getUserId());
             }
         };

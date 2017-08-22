@@ -54,7 +54,7 @@ public class ImageLoader {
         path = StringUtils.getResourcePath(path);
         Glide.with(MyApplication.getAppInstance())
                 .load(path)
-                .override(w, h)
+                .override(w == 0 ? 100 : w, h == 0 ? 100 : w)
                 .placeholder( R.mipmap.image_loading)
                 /**
                  * DiskCacheStrategy.NONE 什么都不缓存

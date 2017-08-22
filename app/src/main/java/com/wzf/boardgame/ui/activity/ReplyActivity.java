@@ -97,8 +97,8 @@ public class ReplyActivity extends BaseActivity {
             }
 
             @Override
-            public void clickPosition(int position) {
-                super.clickPosition(position);
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
                 PostDetailActivity.startMethod(ReplyActivity.this, mDatas.get(position).getPostId());
             }
         };

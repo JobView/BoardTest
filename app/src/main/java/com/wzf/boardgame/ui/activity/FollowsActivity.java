@@ -102,8 +102,8 @@ public class FollowsActivity extends BaseActivity {
             }
 
             @Override
-            public void clickPosition(int position) {
-                super.clickPosition(position);
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
                 UserInfoActivity.startMethod(FollowsActivity.this, mDatas.get(position).getUserId());
             }
         };

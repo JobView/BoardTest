@@ -95,8 +95,8 @@ public class MessageRemindActivity extends BaseActivity {
             }
 
             @Override
-            public void clickPosition(int position) {
-                super.clickPosition(position);
+            public void onItemClickListener(int position) {
+                super.onItemClickListener(position);
                 PostDetailActivity.startMethod(MessageRemindActivity.this, mDatas.get(position).getPostId());
             }
         };
