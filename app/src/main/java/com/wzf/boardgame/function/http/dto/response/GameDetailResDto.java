@@ -38,6 +38,33 @@ public class GameDetailResDto {
     private double difficultyDegree;
     private String issueYear;
     private String issuePlace;
+    private int isVideo;
+    private int isExtend;
+    private int isRule;
+
+    public int getIsVideo() {
+        return isVideo;
+    }
+
+    public void setIsVideo(int isVideo) {
+        this.isVideo = isVideo;
+    }
+
+    public int getIsExtend() {
+        return isExtend;
+    }
+
+    public void setIsExtend(int isExtend) {
+        this.isExtend = isExtend;
+    }
+
+    public int getIsRule() {
+        return isRule;
+    }
+
+    public void setIsRule(int isRule) {
+        this.isRule = isRule;
+    }
 
     public String getBoardId() {
         return boardId;

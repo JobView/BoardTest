@@ -14,6 +14,7 @@ import com.wzf.boardgame.function.http.dto.response.GameRuleResDto;
 import com.wzf.boardgame.function.http.dto.response.GameVideoListResDto;
 import com.wzf.boardgame.function.http.dto.response.LoginResDto;
 import com.wzf.boardgame.function.http.dto.response.MainBannerResDto;
+import com.wzf.boardgame.function.http.dto.response.MessageRemindResDto;
 import com.wzf.boardgame.function.http.dto.response.PostDetailResDto;
 import com.wzf.boardgame.function.http.dto.response.QiNiuTokenResDto;
 import com.wzf.boardgame.function.http.dto.response.ReplyListReqDto;
@@ -228,6 +229,11 @@ public interface UrlService {
     @POST("user/getUserFansList")
     @FormUrlEncoded
     Observable<BaseResponse<FansLiseResDto>> getUserFansList(@Field("params") String params);
+
+    //获取消息提醒列表接口
+    @POST("user/getPostMsgList")
+    @FormUrlEncoded
+    Observable<BaseResponse<MessageRemindResDto>> getPostMsgList(@Field("params") String params);
 
     //查找用户
     @POST("user/findUser")

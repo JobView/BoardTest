@@ -21,6 +21,7 @@ import com.wzf.boardgame.function.imageloader.ImageLoader;
 import com.wzf.boardgame.ui.activity.FansActivity;
 import com.wzf.boardgame.ui.activity.FollowsActivity;
 import com.wzf.boardgame.ui.activity.MeInfoEditActivity;
+import com.wzf.boardgame.ui.activity.MessageRemindActivity;
 import com.wzf.boardgame.ui.activity.ReplyActivity;
 import com.wzf.boardgame.ui.activity.StoreActivity;
 import com.wzf.boardgame.ui.activity.SubjectsActivity;
@@ -172,6 +173,7 @@ public class MeFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_message:
+                startActivity(new Intent(bActivity, MessageRemindActivity.class));
                 break;
             case R.id.ll_user_info:
                 startActivity(new Intent(bActivity, MeInfoEditActivity.class));

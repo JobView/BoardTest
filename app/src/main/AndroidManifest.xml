@@ -198,6 +198,10 @@
             android:name=".ui.activity.AddFriendsActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysVisible"></activity>
+        <activity
+            android:name=".ui.activity.MessageRemindActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <!-- 查看大图 -->
         <activity

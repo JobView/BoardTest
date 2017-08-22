@@ -2,6 +2,7 @@ package com.wzf.boardgame.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +50,13 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
     ImageView imRight1;
     @Bind(R.id.im_right2)
     ImageView imRight2;
+
+    @Bind(R.id.tv_video)
+    TextView tvVideo;
+    @Bind(R.id.tv_rule)
+    TextView tvRule;
+    @Bind(R.id.tv_extent)
+    TextView tvExtent;
 
     @Bind(R.id.srl)
     SwipeRefreshLayout srl;
@@ -135,6 +143,17 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
     private void updateTitleBar() {
         tvCenter.setText(headerDto.getBoardTitle());
         imRight2.setImageResource(headerDto.getIsCollect() == 0? R.mipmap.forum_btn_collect_nor : R.mipmap.forum_btn_collect_sel);
+        Drawable drawable = getResources().getDrawable(headerDto.getIsVideo() == 0 ? R.mipmap.gamedata_btn_video_dis : R.mipmap.gamedata_btn_video_nor);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+        tvVideo.setCompoundDrawables(null, drawable, null, null);//画在右边
+
+        drawable = getResources().getDrawable(headerDto.getIsVideo() == 0 ? R.mipmap.gamedata_btn_book_dis : R.mipmap.gamedata_btn_book_nor);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+        tvRule.setCompoundDrawables(null, drawable, null, null);//画在右边
+
+        drawable = getResources().getDrawable(headerDto.getIsVideo() == 0 ? R.mipmap.gamedata_btn_extend_dis : R.mipmap.gamedata_btn_extend_nor);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight()); //设置边界
+        tvExtent.setCompoundDrawables(null, drawable, null, null);//画在右边
     }
 
 
@@ -332,18 +351,24 @@ public class GameDetailActivity extends BaseActivity implements SwipeRefreshLayo
                 }
                 break;
             case R.id.tv_video:
-                if(headerDto != null){
+                if(headerDto != null && headerDto.getIsVideo() != 0){
                    VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 0);
+                }else {
+                    showToast("暂无视频");
                 }
                 break;
             case R.id.tv_rule:
-                if(headerDto != null){
+                if(headerDto != null && headerDto.getIsRule() != 0){
                     VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 1);
+                }else {
+                    showToast("暂无规则");
                 }
                 break;
             case R.id.tv_extent:
-                if(headerDto != null){
+                if(headerDto != null && headerDto.getIsExtend() != 0){
                     VideoDetailSubActivity.startMethod(this, headerDto.getBoardId(), headerDto.getBoardTitle(), 2);
+                }else {
+                    showToast("暂无扩展");
                 }
                 break;
         }

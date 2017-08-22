@@ -38,6 +38,8 @@
             android:layout_weight="1"
             android:background="#F8F8F8"
             android:gravity="center"
+            android:textSize="12sp"
+            android:drawablePadding="3dp"
             android:drawableTop="@mipmap/gamedata_btn_video_dis"
             android:text="视频" />
         <TextView
@@ -46,7 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#F8F8F8"
+            android:textSize="12sp"
             android:gravity="center"
+            android:drawablePadding="3dp"
             android:drawableTop="@mipmap/gamedata_btn_book_dis"
             android:text="规则" />
         <TextView
@@ -56,6 +60,8 @@
             android:layout_weight="1"
             android:background="#F8F8F8"
             android:gravity="center"
+            android:textSize="12sp"
+            android:drawablePadding="3dp"
             android:drawableTop="@mipmap/gamedata_btn_extend_dis"
             android:text="扩展" />
     </LinearLayout>
